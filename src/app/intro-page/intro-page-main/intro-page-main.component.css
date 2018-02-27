@@ -1,0 +1,13 @@
+.intro-item-container{text-align:center;}
+.cp{cursor:pointer;}
+.intro-item{margin: 0 auto;display:inline-table;}
+.intro-item p{display:table-cell; text-align:center; vertical-align:middle;}
+.font{font-family:fantasy;font-size:3em;}
+.btn{height:5em;width:5em;color:#404040;background:white;border:0.2em solid #404040;-webkit-border-radius:10em;-moz-border-radius:10em;border-radius:10em;transition:all .5s ease;}
+.btn:hover{color:white;background:#404040;border:0.4em solid black;box-shadow:rgba(30, 22, 54, 0.7) 0 0px 0px 0px inset}
+
+@media(max-width:40em){
+.font{font-size:2em;}
+.btn{height:4em;width:4em;color:#404040;background:white;border:0.1em solid #404040;-webkit-border-radius:10em;-moz-border-radius:10em;border-radius:10em;transition:all .5s ease;}
+.btn:hover{color:white;background:#404040;border:0.2em solid black;box-shadow:rgba(30, 22, 54, 0.7) 0px 10px 10px 100px inset}
+}
