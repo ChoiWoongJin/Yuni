@@ -10,12 +10,14 @@ import { DataService } from './data.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // MatTableModule import 구문 추가
 import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms'; // html 파일에서 ngModel을 사용하기 위해 사용
+import { CommonModule } from '@angular/common'; // ngSwitch를 사용하기 위한 것
 // Routing Module import
 import { AppRoutingModule } from "./app-routing/app-routing.module";
 import { IntroPageMainComponent } from './intro-page/intro-page-main/intro-page-main.component';
 import { StudyPageMainComponent } from './study-page/study-page-main/study-page-main.component';
-import { DesignPageMainComponent } from './design-page/design-page-main/design-page;
-import { PortfolioPageMainComponent } from './portfolio-page/portfolio-page-main/portfolio-page-main.component'-main.component';
+import { DesignPageMainComponent } from './design-page/design-page-main/design-page-main.component';
+import { PortfolioPageMainComponent } from './portfolio-page/portfolio-page-main/portfolio-page-main.component';
 // Feature Module import
 
 @NgModule({
@@ -23,14 +25,16 @@ import { PortfolioPageMainComponent } from './portfolio-page/portfolio-page-main
     AppComponent,
     IntroPageMainComponent,
     StudyPageMainComponent,
-    DesignP,
-    PortfolioPageMainComponentageMainComponent
+    DesignPageMainComponent,
+    PortfolioPageMainComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,              // <-Add HttpModule
     BrowserAnimationsModule,
     MatTableModule,
+    FormsModule,
+    CommonModule,
     AppRoutingModule
   ],
   providers: [DataService], // <-Add DataService

@@ -58,4 +58,20 @@ router.get('/content_board', (req, res) => {
     });
 })
 
+// Get 'userInfo' Collection From 'blogData' Database
+router.get('/userInfo', (req, res) => {
+    connection((db) => {
+        db.collection('userInfo')
+            .find()
+            .toArray()
+            .then((userInfo) => {
+                response.data = userInfo;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+            });
+    });
+})
+
 module.exports = router;

@@ -1,3 +1,198 @@
+<div class="top-element">
+
+  <h2>개인 도구</h2>
+  <div class="header_personallabel">
+      <h3>계정 정보</h3>
+      <ul [(ngModel)]="is_login" [ngSwitch]="is_login" ngDefaultControl >
+      <li class="pl_login user_info_btn pl_pad" [(ngModel)]="user_id" *ngSwitchCase="'true'" ngDefaultControl>{{user_id}}</li>
+      <li class="pl_masterLogin user_info_btn pl_pad" *ngSwitchCase="'master'" ngDefaultControl>운영자</li>
+      <li class="pl_unLogin user_info_btn pl_pad" *ngSwitchDefault>로그인하지 않음</li>
+      <!--  아래는 기능 추가 필요      -->
+      <!-- <h3>방명록 버튼</h3>
+      <li class="pl_guestbook cp btn pl_pad" title="방명록"  ng-model="vm.gbButton" role="button" aria-expanded="vm.guestbookButton" tabindex="0" ng-keypress="vm.gbMenu()" ng-click="vm.gbMenu()">방명록</li>
+          <div class="guestbook_menu" role="menu" aria-hidden="!vm.gbButton" ng-show="vm.gbButton == true">
+              <h5>방명록 메뉴</h5>
+              <legend style="font-size:1.5em;font-weight:bold;color:black;">방명록</legend>
+              <table id="guestbook_table" class="guestbook_table" summary="블로그에 작성한 코멘트(인삿말)을 확인 및 추가할 수 있는 테이블" >
+              <colgroup>
+                  <col style="width:14%">
+                  <col style="width:42%">
+                  <col style="width:26%">
+                  <col style="width:20%">
+              </colgroup>
+              <tr>
+                  <th><div>닉네임</div></th>
+                  <th><div>코멘트</div></th>
+                  <th><div>작성일자</div></th>
+                  <th><div>삭제</div></th>
+              </tr>
+              <tr ng-repeat="comment_info in guestbook" ng-show="!comment_info.isDeleted">
+                  <td>{{comment_info.nickname}}</td>
+                  <td>{{comment_info.comment}}</td>
+                  <td>{{comment_info.date}}</td>
+                  <td><div ng-show="comment_info.canDelete || vm.isLogin == 'master'" style="width:5em;margin:auto;" class="cp btn" role="button" type="submit" ng-click="vm.rowDelete($index)">삭제</div></td> -->
+                  <!-- 안씀!! ng-bind-html="comment_info.canDelete|trustAsHtml"-->
+              <!-- </tr>
+              </table>
+              <div class="guestbook_comment" ng-show="vm.isLogin == 'true' || vm.isLogin == 'master'">
+                  <input id="guestbook_comment" class="guestbook_input" title="코멘트 입력" style="width:90%;font-size:1em;" type="text" placeholder="코멘트 입력" name="comment" ng-model="vm.comment" ng-required="false" aria-label="코멘트 입력" aria-describedby="편집창 코멘트 입력" aria-required="false">
+                  <div class="guestbook_submit cp btn" title="코멘트 입력 버튼" style="width:10%;display:inline;" label="코멘트 입력 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-model="vm.userNickname" ng-keypress="vm.guestbookInput()" ng-click="vm.guestbookInput()">입력</div>
+              </div>
+          </div> -->
+      <!--  아래는 기능 DB연동 필요      -->
+      <!-- <h3>회원가입 버튼</h3>
+      <li class="pl_createaccount cp btn pl_pad" title="회원가입" ng-show="!(vm.isLogin == 'true' || vm.isLogin == 'master')" ng-model="vm.caButton" role="button" aria-expanded="vm.loginButton" tabindex="0" ng-keypress="vm.caMenu()" ng-click="vm.caMenu()">회원가입</li>
+          <div class="createaccount_menu" role="menu" aria-hidden="!vm.caButton" ng-show="vm.caButton == true">
+              <h4>회원가입 메뉴</h4>
+              <form name="caForm" class="caForm" role="form">
+              <table class="createaccount_table" summary="아이디, 비밀번호, 닉네임, 이메일을 입력 및 검사하여 최종적으로 회원등록을 하는 테이블">
+              <legend>회원가입</legend>
+              <tr class="createaccount_list">
+                  <td>
+                      <div class="createaccount_id">
+                          <input id="ca_id_input" class="createaccount_input no" ng-class="{'ok': caForm.ca_id.$valid && vm.ca_id_check == 'true'}" title="아이디 입력" type="text" placeholder="아이디 입력" name="ca_id" ng-model="vm.ca_id" ng-required="true" ng-minlength="5" ng-maxlength="15" ng-pattern="/^\w{5,15}$/" aria-label="아이디 입력" aria-describedby="5~15자의 알파벳과 숫자만 사용하여 입력해 주세요. 편집창 아이디 입력" aria-required="true">
+                      </div>
+                  </td>
+                  <td class="td_checkbox">
+                      <div class="createaccount_idCheck cp btn checkbtn" title="아이디 중복검사" label="아이디 중복검사 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-model="vm.ca_id_check" ng-keypress="vm.inputCheck('id')" ng-click="vm.inputCheck('id')">중복검사</div>
+                  </td>
+                  <td>
+                      <div class="createaccount_info" ng-class="{'ok_font': caForm.ca_id.$valid && vm.ca_id_check == 'true'}">
+                          <p>알파벳, 숫자 조합 5~15글자</p>
+                      </div>
+                  </td>
+              </tr>
+              <tr class="createaccount_error">
+                  <td colspan="3" align="center">
+                      <div ng-show="caForm.ca_id.$error.maxlength" role="alert">아이디는 최대 15글자까지 입력 가능 합니다.</div>
+                      <div ng-show="caForm.ca_id.$error.minlength" role="alert">아이디는 최소 5글자 이상 입력 해야 합니다.</div>
+                      <div ng-show="caForm.ca_id.$error.pattern && !caForm.ca_id.$error.minlength && !caForm.ca_id.$error.maxlength" role="alert">알파벳과 숫자만 입력가능합니다.</div>
+                      <div ng-show="caForm.ca_id.$valid && vm.ca_id_check == 'nocheck'" role="alert">id 중복 검사를 해주시길 바랍니다.</div>
+                      <div ng-show="caForm.ca_id.$valid && vm.ca_id_check == 'exist'" role="alert">이미 등록 된 id 입니다.</div>
+                  </td>
+              </tr>
+              <tr class="createaccount_list">
+                  <td>
+                      <div class="createaccount_pwd">
+                          <input id="ca_pwd_input" class="createaccount_input no" ng-class="{'ok': caForm.ca_pwd.$valid}" title="비밀번호 입력" type="password" placeholder="비밀번호 입력" name="ca_pwd" ng-model="vm.ca_pwd" ng-required="true" ng-minlength="8" ng-maxlength="16" ng-pattern="/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,16}$/" aria-label="비밀번호 입력" aria-describedby="8~16자의 비밀번호를 하나 이상의 특수문자를 포함하여 입력해 주세요. 편집창 비밀번호 입력" aria-required="true">
+                      </div>
+                  </td>
+                  <td class="td_checkbox">
+                  </td>
+                  <td>
+                      <div class="createaccount_info" ng-class="{'ok_font': caForm.ca_pwd.$valid}">
+                          <p>알파벳, 숫자, 특수문자 조합 8~16글자</p>
+                      </div>
+                  </td>
+              </tr>
+              <tr class="createaccount_error">
+                  <td colspan="3" align="center">
+                      <div ng-show="caForm.ca_pwd.$error.maxlength" role="alert">비밀번호는 최대 16글자까지 입력 가능 합니다.</div>
+                      <div ng-show="caForm.ca_pwd.$error.minlength" role="alert">비밀번호는 최소 8글자 이상 입력 해야 합니다.</div>
+                      <div ng-show="caForm.ca_pwd.$error.pattern && !caForm.ca_pwd.$error.minlength && !caForm.ca_pwd.$error.maxlength" role="alert">특수문자, 알파벳, 숫자가 각각 하나 이상 포함되어야 합니다.</div>
+                  </td>
+              </tr>
+              <tr class="createaccount_list">
+                  <td>
+                      <div class="createaccount_pwd">
+                          <input id="ca_pwd2_input" class="createaccount_input no" ng-class="{'ok': caForm.ca_pwd.$viewValue == caForm.ca_pwd2.$viewValue && caForm.ca_pwd.$valid}" title="비밀번호 확인" type="password" placeholder="비밀번호 확인" name="ca_pwd2" ng-model="vm.ca_pwdCheck" ng-required="true" ng-minlength="8" ng-maxlength="16" aria-label="비밀번호 확인" aria-describedby="앞서 입력한 비밀번호와 동일하게 입력해 주세요. 편집창 패스워드 확인" aria-required="true">
+                      </div>
+                  </td>
+                  <td class="td_checkbox">
+                  </td>
+                  <td>
+                      <div class="createaccount_info" ng-class="{'ok_font': caForm.ca_pwd.$viewValue == caForm.ca_pwd2.$viewValue && caForm.ca_pwd.$valid}">
+                          <p>비밀번호를 한번 더 입력해 주세요</p>
+                      </div>
+                  </td>
+              </tr>
+              <tr class="createaccount_error">
+                  <td colspan="3" align="center">
+                      <div ng-show="caForm.ca_pwd.$viewValue != caForm.ca_pwd2.$viewValue" role="alert">앞서 입력한 비밀번호와 일치하지 않습니다.</div>
+                  </td>
+              </tr>
+              <tr class="createaccount_list">
+                  <td>
+                      <div class="createaccount_nickname">
+                          <input id="ca_nickname_input" class="createaccount_input no" ng-class="{'ok': caForm.ca_nickname.$valid && vm.ca_nickname_check == 'true'}" title="닉네임 입력" type="text" placeholder="닉네임 입력" name="ca_nickname" ng-model="vm.ca_nickname" ng-required="true" ng-minlength="2" ng-maxlength="10" aria-label="닉네임 입력" aria-describedby="이 사이트에서 사용할 닉네임을 입력해 주세요. 편집창 닉네임 입력" aria-required="true">
+                      </div>
+                  </td>
+                  <td class="td_checkbox">
+                      <div class="createaccount_nicknameCheck cp btn checkbtn" title="닉네임 중복검사" label="닉네임 중복검사 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-model="vm.ca_nickname_check" ng-keypress="vm.inputCheck('nickname')" ng-click="vm.inputCheck('nickname')">중복검사</div>
+                  </td>
+                  <td>
+                      <div class="createaccount_info" ng-class="{'ok_font': caForm.ca_nickname.$valid && vm.ca_nickname_check == 'true'}">
+                          <p>2~10글자의 닉네임을 입력해 주세요</p>
+                      </div>
+                  </td>
+              </tr>
+              <tr class="createaccount_error">
+                  <td colspan="3" align="center">
+                      <div ng-show="caForm.ca_nickname.$error.maxlength" role="alert">닉네임은 최대 10글자까지 입력 가능 합니다.</div>
+                      <div ng-show="caForm.ca_nickname.$error.minlength" role="alert">닉네임은 최소 2글자 이상 입력 해야 합니다.</div>
+                      <div ng-show="caForm.ca_nickname.$valid && vm.ca_nickname_check == 'nocheck'" role="alert">닉네임 중복 검사를 해주시길 바랍니다.</div>
+                      <div ng-show="caForm.ca_nickname.$valid && vm.ca_nickname_check == 'exist'" role="alert">이미 등록 된 닉네임 입니다.</div>
+                  </td>
+              </tr> -->
+              <!--  E-mail 인증 기능 추가 구현 필요 : 동일인으로 인한 다중 ID 과다생성 방지  -->
+              <!-- <tr class="createaccount_list">
+                  <td>
+                      <div class="createaccount_email">
+                          <input id="ca_email_input" class="createaccount_input no" ng-class="{'ok': caForm.ca_email.$valid && vm.ca_email_check == 'true'}" title="이메일 입력" type="text" placeholder="이메일 입력" name="ca_email" ng-model="vm.ca_email" ng-required="true" ng-pattern="/^[a-z0-9_+.-]+@([a-z0-9-]+\.)+[a-z0-9]{2,4}$/" aria-label="이메일 입력" aria-describedby="보유하고 있는 이메일 주소를 입력해 주세요. 편집창 이메일 입력" aria-required="true">
+                      </div>
+                  </td>
+                  <td class="td_checkbox">
+                      <div class="createaccount_emailCheck cp btn checkbtn" title="이메일 중복검사" label="이메일 중복검사 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-model="vm.ca_email_check" ng-keypress="vm.inputCheck('email')" ng-click="vm.inputCheck('email')">중복검사</div>
+                  </td>
+                  <td>
+                      <div class="createaccount_info" ng-class="{'ok_font': caForm.ca_email.$valid && vm.ca_email_check == 'true'}">
+                          <p>이메일 주소를 직접 입력해 주세요</p>
+                      </div>
+                  </td>
+              </tr>
+              <tr class="createaccount_error">
+                  <td colspan="3" align="center">
+                      <div ng-show="caForm.ca_email.$error.pattern" role="alert">이메일 주소가 정상적이지 않습니다.</div>
+                      <div ng-show="caForm.ca_email.$valid && vm.ca_email_check == 'nocheck'" role="alert">이메일 중복 검사를 해주시길 바랍니다.</div>
+                      <div ng-show="caForm.ca_email.$valid && vm.ca_email_check == 'exist'" role="alert">이미 등록 된 이메일 주소입니다.</div>
+                  </td>
+              </tr>
+              <tr class="createaccount_list">
+                  <td colspan="3" align="center">
+                      <div class="createaccount_submit cp btn" title="가입신청" label="회원가입 신청 버튼" role="button" ng-show="caForm.$valid && vm.ca_id_check=='true' && vm.ca_nickname_check=='true' && vm.ca_email_check=='true'" aria-disabled="false" type="submit" tabindex="0" ng-keypress="vm.createaccount()" ng-click="vm.createaccount()">가입신청</div>
+                  </td>
+              </tr>
+              </table>
+              </form>
+          </div> -->
+      <h3>로그인 버튼</h3>
+      <li class="pl_loginButton cp btn pl_pad" title="로그인" [(ngModel)]="lg_button" *ngIf="!(is_login == 'true' || is_login == 'master')" role="button" aria-expanded="lg_button" tabindex="0" (keypress)="login_menu()" (click)="login_menu()" ngDefaultControl>로그인</li>
+          <div class="login_menu" role="menu" aria-hidden="!lg_button" *ngIf="lg_button == true">
+              <h4>로그인 메뉴</h4>
+              <table class="login_table" summary="ID, Password input and Submit button">
+              <tr class="login_list">
+                  <td>
+                      <div class="login_id">
+                          <input id="login_id" title="아이디" type="text" placeholder="아이디" [(ngModel)]="lg_input_id" aria-label="아이디" aria-describedby="5~20자의 영문 소문자, 숫자와 특수기호 (_), (-)만 사용하여 입력해 주세요. 편집창 아이디" aria-required="true">
+                      </div>
+                      <div class="login_pwd">
+                          <input id="login_pwd" title="패스워드" type="password" placeholder="패스워드" [(ngModel)]="lg_input_pwd" aria-label="패스워드" aria-describedby="6~16자 영문 대 소문자, 숫자, 특수문자를 사용하여 입력해 주세요. 편집창 패스워드" aria-required="true">
+                      </div>
+                  </td>
+                  <td>
+                      <div class="login_submit cp btn" title="로그인" label="로그인 제출 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" (keypress)="login()" (click)="login()"><div style="display:table-cell;vertical-align:middle;">로그인</div></div>
+                  </td>
+              </tr>
+              </table>
+          </div>
+      <h3>로그아웃 버튼</h3>
+      <li class="pl_logoutButton cp btn pl_pad" title="로그아웃" *ngIf="is_login == 'true' || is_login == 'master'" tabindex="0" (keypress)="logout()" (click)="logout()">로그아웃</li>
+      </ul>
+  </div>
+
+</div>
+
+<div class="main-body">
 <h1>Our MongoDB is Working! Good</h1>
 <button mat-raised-button color="primary"
             (click)="getContent_board()">getContent_board</button>
@@ -10,3 +205,4 @@
 </ul>
 <div class="intro-"><a routerLink="/">intro</a></div>
 <router-outlet name='intro'></router-outlet>
+</div>
