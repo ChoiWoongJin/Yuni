@@ -20,11 +20,10 @@ export class AppComponent {
   user_id: string;
   user_nickname: string;
   user_email: string;
-  lg_input_id: string; // 로그인 시 입력 아이디 값
-  lg_input_pwd: string; // 로그인 시 입력 패스워드 값
 
-  // DB에서 데이터를 가지고 왔는지 체크
-  db_userInfo_success: boolean;
+  // ++++++++++++ 회원가입 Argument +++++++++++++
+  ca_id: string;
+  // -------------------------------------------
 
 
   // Define properties to hold our user data From Database
@@ -56,6 +55,10 @@ export class AppComponent {
     this.user_id = '';
     this.user_nickname = '';
     this.user_email = '';
+
+    // ++++++++++++ 회원가입 Argument +++++++++++++
+    this.ca_id = 'true  ';
+    // -------------------------------------------
 
     // session 유지되고 있을 때의 상태에 대한 처리
     if (sessionStorage.is_login == "true") {
@@ -100,7 +103,7 @@ export class AppComponent {
   // -------------------------------------------------------------------------
 
   // +++++++++++++++++++++ Login/out 관련 함수 +++++++++++++++++++++
-  login_menu() {
+  lg_menu() {
     this.lg_button = !this.lg_button;
     if (this.ca_button) {
         this.ca_button = !this.ca_button;
@@ -109,54 +112,52 @@ export class AppComponent {
         this.gb_button = !this.gb_button;
     }
   }
-  async login() {
-    this.db_userInfo_success = false;
-    // DB에 필요한 데이터는 최초 1번만 읽어들이고 이후 변경이 있을 때에만 DB관련 변수의 값을 변경한다
-    if (this.userInfo == null) {
-      await this.getUserInfo();
-    }
-
-    for (var infoNum = 0; infoNum < this.userInfo.length; infoNum++) {
-        if (this.lg_input_id == this.userInfo[infoNum].id) {
-          if (this.lg_input_pwd == this.userInfo[infoNum].pwd) {
-            // 세션이 유지되는 동안 user의 타입(*권한)을 설정
-            sessionStorage.setItem("user_id", this.userInfo[infoNum].id);
-            sessionStorage.setItem("user_nickname", this.userInfo[infoNum].nickname);
-            sessionStorage.setItem("user_type", this.userInfo[infoNum].type);
-            sessionStorage.setItem("user_email", this.userInfo[infoNum].email);
-            sessionStorage.setItem("is_login", "true");
-            break;
-          }
-        }
-    }
-    if (sessionStorage.is_login == "true") {
-      this.user_id = sessionStorage.user_id;
-      this.user_nickname = sessionStorage.user_nickname;
-      this.is_login = "true";
-      if (sessionStorage.user_type == "master") {
-          this.is_login = "master";
-      }
-      this.lg_button = false;
-      console.log('[success] Login');
-      alert(this.user_id + "님, 접속을 환영합니다!");
-      this.login_submit_clear();
+  async login(lg_input_id: string, lg_input_pwd: string) {
+    if (lg_input_id == "") {
+      alert("ID를 입력해주세요.");
+    } else if (lg_input_pwd == "") {
+      alert("Password를 입력해주세요.");
     } else {
-      this.is_login = "";
-      this.user_id = "";
-      sessionStorage.clear();
-      if (this.lg_input_id == "") {
-          alert("ID를 입력해주세요.");
-      } else if (this.lg_input_pwd == "") {
-          alert("Password를 입력해주세요.");
-      } else {
-          alert("로그인에 실패하였습니다.");
+      // DB에 필요한 데이터는 최초 1번만 읽어들이고 이후 변경이 있을 때에만 DB관련 변수의 값을 변경한다
+      if (this.userInfo == null) {
+        await this.getUserInfo();
       }
-      console.log('[error] Login Fail');
+
+      for (var infoNum = 0; infoNum < this.userInfo.length; infoNum++) {
+          if (lg_input_id == this.userInfo[infoNum].id) {
+            if (lg_input_pwd == this.userInfo[infoNum].pwd) {
+              // 세션이 유지되는 동안 user의 타입(*권한)을 설정
+              sessionStorage.setItem("user_id", this.userInfo[infoNum].id);
+              sessionStorage.setItem("user_nickname", this.userInfo[infoNum].nickname);
+              sessionStorage.setItem("user_type", this.userInfo[infoNum].type);
+              sessionStorage.setItem("user_email", this.userInfo[infoNum].email);
+              sessionStorage.setItem("is_login", "true");
+              break;
+            }
+          }
+      }
+      if (sessionStorage.is_login == "true") {
+        this.user_id = sessionStorage.user_id;
+        this.user_nickname = sessionStorage.user_nickname;
+        this.is_login = "true";
+        if (sessionStorage.user_type == "master") {
+            this.is_login = "master";
+        }
+        this.lg_button = false;
+        console.log('[success] Login');
+        alert(this.user_id + "님, 접속을 환영합니다!");
+        this.login_submit_clear();
+      } else {
+        this.is_login = "";
+        this.user_id = "";
+        sessionStorage.clear();
+        alert("로그인에 실패하였습니다.");
+        console.log('[error] Login Fail');
+      }
     }
   }
   login_submit_clear() {
-      (<HTMLInputElement>document.getElementById('login_pwd')).value = "";
-      this.lg_input_pwd = '';
+      (<HTMLInputElement>document.getElementById('lg_input_pwd')).value = "";
   }
   logout() {
     this.is_login = "false";
@@ -167,6 +168,18 @@ export class AppComponent {
         this.gb_button = !this.gb_button;
     }
     sessionStorage.clear();
+  }
+  // --------------------------------------------------------------
+
+  // +++++++++++++++++++++ 회원가입 관련 함수 +++++++++++++++++++++
+  ca_menu() {
+    this.ca_button = !this.ca_button;
+    if (this.lg_button) {
+        this.lg_button = !this.lg_button;
+    }
+    if (this.gb_button) {
+        this.gb_button = !this.gb_button;
+    }
   }
   // --------------------------------------------------------------
 }

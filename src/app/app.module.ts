@@ -12,6 +12,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import { FormsModule } from '@angular/forms'; // html 파일에서 ngModel을 사용하기 위해 사용
 import { CommonModule } from '@angular/common'; // ngSwitch를 사용하기 위한 것
+// 한글의 양방향 바인딩을 매끄럽게 하기 위해 COMPOSITION_BUFFER_MODE를 변경
+// COMPOSITION_BUFFER_MODE import
+import { COMPOSITION_BUFFER_MODE } from '@angular/forms';
 // Routing Module import
 import { AppRoutingModule } from "./app-routing/app-routing.module";
 import { IntroPageMainComponent } from './intro-page/intro-page-main/intro-page-main.component';
@@ -37,7 +40,13 @@ import { PortfolioPageMainComponent } from './portfolio-page/portfolio-page-main
     CommonModule,
     AppRoutingModule
   ],
-  providers: [DataService], // <-Add DataService
+  providers: [
+    DataService, // <-Add DataService
+    {
+      provide: COMPOSITION_BUFFER_MODE,
+      useValue: false
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
