@@ -18,18 +18,18 @@ h1,h2,h3,h4,h5,h6{display:none;}
 .guestbook_table th:first-child,.guestbook_table td:first-child{border-left:0;}
 .guestbook_table th:last-child,.guestbook_table td:last-child{border-right:0;}
 .guestbook_comment{background-color:#404040;padding:0.2em;vertical-align:bottom;}
-.createaccount_menu{position:absolute;top:2em;right:0;background-color:white;color:#404040;border:0.2em solid black;-webkit-border-radius:2px;border-radius:2px;}
-.createaccount_submit{font-weight:bold;margin-top:0.3em;text-align:center;}
-.createaccount_input{width:12em;}
-.createaccount_info{font-size:0.7em;width:18em;}
-.createaccount_error{color:red;font-size:0.4em;}
+.ca_menu{position:absolute;top:2em;right:0;background-color:white;color:#404040;border:0.2em solid black;-webkit-border-radius:2px;border-radius:2px;}
+.ca_submit{font-weight:bold;margin-top:0.3em;text-align:center;}
+.ca_input{width:12em;}
+.ca_info{font-size:0.7em;width:18em;}
+.ca_error{color:red;font-size:0.4em;}
 .lg_menu{position:absolute;top:2em;right:0;background-color:silver;-webkit-border-radius:2px;border-radius:2px;}
 .lg_menu input{height:2.5em;}
 .lg_submit{font-weight:bold;padding:0.5em 1em;width:4em;height:4em;display:table;}
 
 /*필수 입력값 제약조건 표시*/
 /* .no{border:2px solid red;} */
-.ca_form input.ng-invalid{border:2px solid red;}
+.form-group input.ng-invalid{border:2px solid red;}
 .ok{border:2px solid lawngreen;}
 .ok_font{color:lawngreen;}
 
@@ -40,7 +40,7 @@ h1,h2,h3,h4,h5,h6{display:none;}
 .btn{color:#404040;background:white;border:0.1em solid black;-webkit-border-radius:3px;border-radius:3px;transition:all .5s ease;}/*공통 버튼 속성*/
 .btn:focus{color:white;box-shadow:rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;}
 .btn:hover{color:white;box-shadow:rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;}
-.checkbtn{height:1.5em; width:5em;font-size:0.7em;}
+.checkBtn{height:1.5em; width:5em;font-size:0.7em;}
 .bwgColor{color:#268cde;}/*bwg 색상 속성*/
 .pl_pad{padding:0.3em 0.3em;}/*personallabel 메뉴들에 대한 패딩 속성*/
 .td_checkbox{width:6em};

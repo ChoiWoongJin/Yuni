@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgForm } from "@angular/forms";
 
 // Import the DataService
 import { DataService } from './data.service';
@@ -13,9 +14,7 @@ export class AppComponent {
   lg_button: boolean;
   ca_button: boolean;
   gb_button: boolean;
-  ca_id_check: string;
-  ca_nickname_check: string;
-  ca_email_check: string;
+
   is_login: string;
   user_id: string;
   user_nickname: string;
@@ -25,17 +24,20 @@ export class AppComponent {
   ca_id: string;
   ca = {
     id: '',
+    id_check: "nocheck",
     pwd: '',
     pwdCheck: '',
     nickname: '',
+    nickname_check: "nocheck",
     email: '',
+    email_check: "nochkeck"
   }
   // -------------------------------------------
 
-
-  // Define properties to hold our user data From Database
+  // ++++++++++++  Define properties to hold our user data From Database ++++++++++++
   nav_menu: Array<any>;
   userInfo: Array<any>;
+  // -------------------------------------------------------------------------------
 
 
   // Create an instance of the DataService through dependency injection
@@ -51,12 +53,6 @@ export class AppComponent {
     this.ca_button = false;
     // 방명록 버튼
     this.gb_button = false;
-    // 아이디 중복검사
-    this.ca_id_check = "nocheck";
-    // 닉네임 중복검사
-    this.ca_nickname_check = "nocheck";
-    // 이메일 중복검사
-    this.ca_email_check = "nocheck";
     // 유저 정보 초기화
     this.is_login = "false";
     this.user_id = '';
@@ -64,7 +60,7 @@ export class AppComponent {
     this.user_email = '';
 
     // ++++++++++++ 회원가입 Argument +++++++++++++
-    this.ca_id = 'true  ';
+    this.ca_id = '';
     // -------------------------------------------
 
     // session 유지되고 있을 때의 상태에 대한 처리
@@ -188,8 +184,29 @@ export class AppComponent {
         this.gb_button = !this.gb_button;
     }
   }
-  createAccount(form:NgForm) {
+  createAccount(form: NgForm) {
     console.log(form);
+  }
+  // 회원가입 Input값 체크
+  async inputCheck(inputType, inputValue, checkValue) {
+    // DB에 필요한 데이터는 최초 1번만 읽어들이고 이후 변경이 있을 때에만 DB관련 변수의 값을 변경한다
+    console.log(this.ca[inputValue]);
+    console.log(this.ca[checkValue]);
+    this.ca[checkValue] = "nocheck";
+    if (this.userInfo == null) {
+      await this.getUserInfo();
+    }
+    for (var infoNum = 0; infoNum < this.userInfo.length; infoNum++) {
+      if (this.ca[inputValue] == this.userInfo[infoNum][inputType]) {
+        this.ca[checkValue] = "false"; // 동일한 아이디가 존재하는 경우
+        console.log("[error] Exist ID");
+      }
+    }
+
+    if (this.ca[checkValue] != "false") {
+      this.ca[checkValue] = "true"; // 동일한 아이디가 존재하지 않는 경우
+      console.log("[succes] This ID can use");
+    }
   }
   // --------------------------------------------------------------
 }
