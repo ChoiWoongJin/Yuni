@@ -28,7 +28,8 @@ h1,h2,h3,h4,h5,h6{display:none;}
 .lg_submit{font-weight:bold;padding:0.5em 1em;width:4em;height:4em;display:table;}
 
 /*필수 입력값 제약조건 표시*/
-.no{border:2px solid red;}
+/* .no{border:2px solid red;} */
+.ca_form input.ng-invalid{border:2px solid red;}
 .ok{border:2px solid lawngreen;}
 .ok_font{color:lawngreen;}
 

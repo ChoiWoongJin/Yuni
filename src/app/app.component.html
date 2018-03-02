@@ -48,25 +48,50 @@
       <li class="pl_createaccount cp btn pl_pad" title="회원가입" *ngIf="!(is_login == 'true' || is_login == 'master')" [(ngModel)]="ca_button" role="button" aria-expanded="ca_button" tabindex="0" (keypress)="ca_menu()" (click)="ca_menu()" ngDefaultControl>회원가입</li>
           <div class="createaccount_menu" role="menu" aria-hidden="!ca_button" *ngIf="ca_button == true">
               <h4>회원가입 메뉴</h4>
-              <form name="ca_form" #ca_form class="ca_form" role="form">
-                <table class="createaccount_table" summary="아이디, 비밀번호, 닉네임, 이메일을 입력 및 검사하여 최종적으로 회원등록을 하는 테이블">
+              <!-- <form name="ca_form" #ca_form class="ca_form" role="form"> -->
+                <!-- <table class="createaccount_table" summary="아이디, 비밀번호, 닉네임, 이메일을 입력 및 검사하여 최종적으로 회원등록을 하는 테이블"> -->
                 <legend>회원가입</legend>
-                <tr class="createaccount_list">
+              <form class="ca_form" (ngSubmit)="createAccount(f)" #f="ngForm">
+                <div class="form-group">
+                  <label for="ca_id">UserID</label>
+                  <input id="ca_id" name="ca_id" class="form-control" title="아이디 입력" type="text" placeholder="아이디 입력" [(ngModel)]="ca.id" minlength="5" maxlength="15" pattern="^\w{5,15}$" required> <!-- pattern의 경우 첫번째와 끝에 '/'를 붙이면 안됨 -->
+                </div>
+                <div class="form-group">
+                  <label for="email">E-Mail</label>
+                  <input type="text"
+                         class="form-control"
+                         id="email"
+                         [(ngModel)]="ca.email"
+                         name="email"
+                         required
+                         pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?">
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" class="form-control" id="password">
+                </div>
+                <div class="radio">
+                  <label>
+                  </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <!-- <tr class="createaccount_list">
                     <td>
                         <div class="createaccount_id">
-                            <input id="ca_id_input" name="ca_id_input" #ca_id_input="ngModel" class="createaccount_input no" [ngClass]="{'ok': ca_form.ca_id_input.valid && ca_id == 'true'}" title="아이디 입력" type="text" placeholder="아이디 입력" [(ngModel)]="ca_id" required minlength="5" maxlength="15" pattern="/^\w{5,15}$/" aria-label="아이디 입력" aria-describedby="5~15자의 알파벳과 숫자만 사용하여 입력해 주세요. 편집창 아이디 입력" aria-required="true" ngDefaultControl>
+                            <input id="ca_id_input" class="ca_id_input" name="ca_id_input" #ca_id_input="ngModel" class="createaccount_input" [ngClass]="{'ok': ca_form.ca_id_input.valid && ca_id == 'true'}" title="아이디 입력" type="text" placeholder="아이디 입력"  required minlength="5" maxlength="15" pattern="/^\w{5,15}$/" aria-label="아이디 입력" aria-describedby="5~15자의 알파벳과 숫자만 사용하여 입력해 주세요. 편집창 아이디 입력" aria-required="true">
                         </div>
                     </td>
-                    <!-- <td class="td_checkbox">
+                    <td class="td_checkbox">
                         <div class="createaccount_idCheck cp btn checkbtn" title="아이디 중복검사" label="아이디 중복검사 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-model="vm.ca_id_check" ng-keypress="vm.inputCheck('id')" ng-click="vm.inputCheck('id')">중복검사</div>
-                    </td> -->
+                    </td>
                     <td>
                         <div class="createaccount_info" ng-class="{'ok_font': ca_form.ca_id_input.valid && ca_id_check == 'true'}">
                             <p>알파벳, 숫자 조합 5~15글자</p>
                         </div>
                     </td>
-                </tr>
-                <tr class="createaccount_error">
+                </tr> -->
+                <!-- <tr class="createaccount_error">
                     <td colspan="3" align="center">
                         <div *ngIf="ca_form.ca_id_input.errors.maxlength" role="alert">아이디는 최대 15글자까지 입력 가능 합니다.</div>
                         <div *ngIf="ca_form.ca_id_input.errors.minlength" role="alert">아이디는 최소 5글자 이상 입력 해야 합니다.</div>
@@ -74,7 +99,7 @@
                         <div *ngIf="ca_form.ca_id_input.valid && ca_id_check == 'nocheck'" role="alert">id 중복 검사를 해주시길 바랍니다.</div>
                         <div *ngIf="ca_form.ca_id_input.valid && ca_id_check == 'exist'" role="alert">이미 등록 된 id 입니다.</div>
                     </td>
-                </tr>
+                </tr> -->
 
                 <!-- <tr class="createaccount_list">
                     <td>
@@ -171,7 +196,7 @@
                         <div class="createaccount_submit cp btn" title="가입신청" label="회원가입 신청 버튼" role="button" *ngIf="ca_form.$valid && vm.ca_id_check=='true' && vm.ca_nickname_check=='true' && vm.ca_email_check=='true'" aria-disabled="false" type="submit" tabindex="0" ng-keypress="vm.createaccount()" ng-click="vm.createaccount()">가입신청</div>
                     </td>
                 </tr> -->
-                </table>
+                <!-- </table> -->
               </form>
           </div>
 

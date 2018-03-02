@@ -23,6 +23,13 @@ export class AppComponent {
 
   // ++++++++++++ 회원가입 Argument +++++++++++++
   ca_id: string;
+  ca = {
+    id: '',
+    pwd: '',
+    pwdCheck: '',
+    nickname: '',
+    email: '',
+  }
   // -------------------------------------------
 
 
@@ -180,6 +187,9 @@ export class AppComponent {
     if (this.gb_button) {
         this.gb_button = !this.gb_button;
     }
+  }
+  createAccount(form:NgForm) {
+    console.log(form);
   }
   // --------------------------------------------------------------
 }
