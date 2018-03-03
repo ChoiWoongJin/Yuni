@@ -104,6 +104,12 @@ export class AppComponent {
     console.log(this.nav_menu);
   }
   // -------------------------------------------------------------------------
+  // +++++++++++++++++++++ DataBase에 데이터를 쓰는 함수 +++++++++++++++++++++++
+  addUserInfo() {
+    this._dataService.addUserInfo(this.ca)
+        .subscribe();
+  }
+  // -------------------------------------------------------------------------
 
   // +++++++++++++++++++++ Login/out 관련 함수 +++++++++++++++++++++
   lg_menu() {
@@ -184,8 +190,9 @@ export class AppComponent {
         this.gb_button = !this.gb_button;
     }
   }
-  createAccount(form: NgForm) {
-    console.log(form);
+  createAccount() {
+    console.log(this.ca);
+    this.addUserInfo();
   }
   // 회원가입 Input값 체크
   async inputCheck(inputType, inputValue, checkValue) {
@@ -207,6 +214,11 @@ export class AppComponent {
       this.ca[checkValue] = "true"; // 동일한 아이디가 존재하지 않는 경우
       console.log("[succes] This ID can use");
     }
+  }
+  // 회원가입 input값 변경 시 check 상태 초기화
+  initInputCheck(checkValue) {
+    console.log("[system] 입력값이 변경되었습니다.")
+    this.ca[checkValue] = "nocheck";
   }
   // --------------------------------------------------------------
 }

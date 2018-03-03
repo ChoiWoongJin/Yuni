@@ -30,5 +30,14 @@ export class DataService {
       .map(result => this.result = result.json().data);
   }
 
-
+  addUserInfo(caInfo) {
+    var addData = {
+      id: caInfo.id,
+      pwd: caInfo.pwd,
+      nickname: caInfo.nickname,
+      email: caInfo.email,
+      type: 'guest'
+    }
+    return this._http.post("/api/userInfo", addData)
+  }
 }

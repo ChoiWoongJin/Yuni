@@ -23,6 +23,9 @@ import { DesignPageMainComponent } from './design-page/design-page-main/design-p
 import { PortfolioPageMainComponent } from './portfolio-page/portfolio-page-main/portfolio-page-main.component';
 // Feature Module import
 
+// using jQuery
+import * as $ from 'jquery';
+
 @NgModule({
   declarations: [
     AppComponent,

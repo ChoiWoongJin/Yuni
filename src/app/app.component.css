@@ -30,6 +30,7 @@ h1,h2,h3,h4,h5,h6{display:none;}
 /*필수 입력값 제약조건 표시*/
 /* .no{border:2px solid red;} */
 .form-group input.ng-invalid{border:2px solid red;}
+#ca_pwd.ng-valid{border:2px solid lawngreen;}
 .ok{border:2px solid lawngreen;}
 .ok_font{color:lawngreen;}
 

@@ -30,15 +30,15 @@ let response = {
 router.get('/nav_menu', (req, res) => {
     connection((db) => {
         db.collection('nav_menu')
-            .find()
-            .toArray()
-            .then((nav_menu) => {
-                response.data = nav_menu;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
+          .find()
+          .toArray()
+          .then((nav_menu) => {
+              response.data = nav_menu;
+              res.json(response);
+          })
+          .catch((err) => {
+              sendError(err, res);
+        });
     });
 });
 
@@ -46,15 +46,15 @@ router.get('/nav_menu', (req, res) => {
 router.get('/content_board', (req, res) => {
     connection((db) => {
         db.collection('content_board')
-            .find()
-            .toArray()
-            .then((content_board) => {
-                response.data = content_board;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
+          .find()
+          .toArray()
+          .then((content_board) => {
+              response.data = content_board;
+              res.json(response);
+          })
+          .catch((err) => {
+              sendError(err, res);
+        });
     });
 })
 
@@ -62,15 +62,22 @@ router.get('/content_board', (req, res) => {
 router.get('/userInfo', (req, res) => {
     connection((db) => {
         db.collection('userInfo')
-            .find()
-            .toArray()
-            .then((userInfo) => {
-                response.data = userInfo;
-                res.json(response);
-            })
-            .catch((err) => {
-                sendError(err, res);
-            });
+          .find()
+          .toArray()
+          .then((userInfo) => {
+              response.data = userInfo;
+              res.json(response);
+          })
+          .catch((err) => {
+              sendError(err, res);
+        });
+    });
+})
+// Save Json Data To 'userInfo' Collection
+router.post('/userInfo', (req, res) => {
+  console.log(req.body);
+    connection((db) => {
+        db.collection('userInfo').insert(req.body);
     });
 })
 

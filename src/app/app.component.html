@@ -48,17 +48,15 @@
       <li class="pl_createaccount cp btn pl_pad" title="회원가입" *ngIf="!(is_login == 'true' || is_login == 'master')" [(ngModel)]="ca_button" role="button" aria-expanded="ca_button" tabindex="0" (keypress)="ca_menu()" (click)="ca_menu()" ngDefaultControl>회원가입</li>
           <div class="ca_menu" role="menu" aria-hidden="!ca_button" *ngIf="ca_button == true">
               <h4>회원가입 메뉴</h4>
-              <!-- <form name="ca_form" #ca_form class="ca_form" role="form"> -->
-
-                <legend>회원가입</legend>
-              <form id="ca_form" name="ca_form" class="ca_form" (ngSubmit)="createAccount(f)" #f="ngForm">
+              <legend>회원가입</legend>
+              <div name="ca" class="ca">
                 <!-- table 태그 안에는 caption, col, colgroup, thead, tbody, tfoot만 온다 -->
-                <table class="createaccount_table" summary="아이디, 비밀번호, 닉네임, 이메일을 입력 및 검사하여 최종적으로 회원등록을 하는 테이블">
+                <table class="ca_table" summary="아이디, 비밀번호, 닉네임, 이메일을 입력 및 검사하여 최종적으로 회원등록을 하는 테이블">
                 <!-- +++++++++++++++++++++++++++++++++++++++++++++++ 아이디 입력 단 시작 +++++++++++++++++++++++++++++++++++++++++++++++ -->
                 <tr>
                   <td>
-                    <div class="form-group">
-                      <input id="ca_id" name="ca_id" #ca_id="ngModel" class="form-control" [ngClass]="{'ok': ca_id.valid && ca.id_check == 'true'}" title="아이디 입력" type="text" placeholder="아이디 입력" [(ngModel)]="ca.id" minlength="5" maxlength="15" pattern="^\w{5,15}$" required> <!-- pattern의 경우 첫번째와 끝에 '/'를 붙이면 안됨 -->
+                    <div class="ca_group">
+                      <input id="ca_id" name="ca_id" #ca_id="ngModel" class="ca_id form-control" [ngClass]="{'ok': ca_id.valid && ca.id_check == 'true'}" title="아이디 입력" type="text" placeholder="아이디 입력" [(ngModel)]="ca.id" minlength="5" maxlength="15" pattern="^\w{5,15}$" (ngModelChange)="initInputCheck('id_check')" (keyup.enter)="inputCheck('id', 'id', 'id_check')" required> <!-- pattern의 경우 첫번째와 끝에 '/'를 붙이면 안됨 -->
                     </div>
                   </td>
                   <td>
@@ -82,8 +80,8 @@
                 <!-- +++++++++++++++++++++++++++++++++++++++++++++++ 비밀번호 입력 단 시작 +++++++++++++++++++++++++++++++++++++++++++++++ -->
                 <tr>
                   <td>
-                    <div class="form-group">
-                      <input id="ca_pwd" name="ca_pwd" #ca_pwd="ngModel" class="form-control" [ngClass]="{'ok': ca_pwd.valid}" title="비밀번호 입력" type="password" placeholder="비밀번호 입력" [(ngModel)]="ca.pwd" minlength="8" maxlength="16" pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,16}$" required>
+                    <div class="ca_group">
+                      <input id="ca_pwd" name="ca_pwd" #ca_pwd="ngModel" class="form-control" title="비밀번호 입력" type="password" placeholder="비밀번호 입력" [(ngModel)]="ca.pwd" minlength="8" maxlength="16" pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,16}$" required>
                     </div>
                   </td>
                   <td></td> <!-- 버튼없음 -->
@@ -103,7 +101,7 @@
                 <!-- +++++++++++++++++++++++++++++++++++++++++++++++ 비밀번호 확인 단 시작 +++++++++++++++++++++++++++++++++++++++++++++++ -->
                 <tr>
                   <td>
-                    <div class="form-group">
+                    <div class="ca_group">
                       <input id="ca_pwdCheck" name="ca_pwdCheck" #ca_pwdCheck="ngModel" class="form-control" [ngClass]="{'ok': ca_pwdCheck.value == ca_pwd.value && ca_pwd.valid}" title="비밀번호 확인" type="password" placeholder="비밀번호 확인" [(ngModel)]="ca.pwdCheck" minlength="8" maxlength="16" pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,16}$" required>
                     </div>
                   </td>
@@ -123,8 +121,8 @@
                 <!-- +++++++++++++++++++++++++++++++++++++++++++++++ 닉네임 입력 단 시작 +++++++++++++++++++++++++++++++++++++++++++++++ -->
                 <tr>
                   <td>
-                    <div class="form-group">
-                      <input id="ca_nickname" name="ca_nickname" #ca_nickname="ngModel" class="form-control" [ngClass]="{'ok': ca_nickname.valid && ca.nickname_check == 'true'}" title="닉네임 입력" type="text" placeholder="닉네임 입력" [(ngModel)]="ca.nickname" minlength="2" maxlength="10" pattern="^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$" required>
+                    <div class="ca_group">
+                      <input id="ca_nickname" name="ca_nickname" #ca_nickname="ngModel" class="form-control" [ngClass]="{'ok': ca_nickname.valid && ca.nickname_check == 'true'}" title="닉네임 입력" type="text" placeholder="닉네임 입력" [(ngModel)]="ca.nickname" minlength="2" maxlength="10" pattern="^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$" (ngModelChange)="initInputCheck('nickname_check')" (keyup.enter)="inputCheck('nickname', 'nickname', 'nickname_check')" required>
                     </div>
                   </td>
                   <td>
@@ -148,8 +146,8 @@
                 <!--  E-mail 인증 기능 추가 구현 필요 : 동일인으로 인한 다중 ID 과다생성 방지  -->
                 <tr>
                   <td>
-                    <div class="form-group">
-                      <input id="ca_email" name="ca_email" #ca_email="ngModel" class="form-control" [ngClass]="{'ok': ca_email.valid && ca.email_check == 'true'}" title="이메일 입력" type="text" placeholder="이메일 입력" [(ngModel)]="ca.email" minlength="8" maxlength="16" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" required>
+                    <div class="ca_group">
+                      <input id="ca_email" name="ca_email" #ca_email="ngModel" class="form-control" [ngClass]="{'ok': ca_email.valid && ca.email_check == 'true'}" title="이메일 입력" type="text" placeholder="이메일 입력" [(ngModel)]="ca.email" minlength="8" maxlength="30" pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?" (ngModelChange)="initInputCheck('email_check')" (keyup.enter)="inputCheck('email', 'email', 'email_check')" required>
                     </div>
                   </td>
                   <td>
@@ -171,18 +169,18 @@
                 <!-- =============================================== 이메일 입력 단 끝 =============================================== -->
                 <tr>
                   <td colspan="3" align="center">
-                    <button type="submit" class="btn cp">Submit</button>
+                    <button type="submit" class="ca_submit btn cp" title="가입신청" (click)="createAccount()">Submit</button>
                   </td>
                 </tr>
 
 
                 <!-- <tr class="createaccount_list">
                     <td colspan="3" align="center">
-                        <div class="ca_submit cp btn" title="가입신청" label="회원가입 신청 버튼" role="button" *ngIf="ca_form.$valid && vm.ca_id_check=='true' && vm.ca_nickname_check=='true' && vm.ca_email_check=='true'" aria-disabled="false" type="submit" tabindex="0" ng-keypress="vm.createaccount()" ng-click="vm.createaccount()">가입신청</div>
+                        <div class="ca_submit cp btn" title="가입신청" label="회원가입 신청 버튼" role="button" *ngIf="ca_form.valid && ca.id_check=='true' && ca.nickname_check=='true' && ca.email_check=='true'" aria-disabled="false" type="submit" tabindex="0" ng-keypress="vm.createaccount()" ng-click="vm.createaccount()">가입신청</div>
                     </td>
                 </tr> -->
                 </table>
-              </form>
+              </div>
           </div>
 
 
@@ -195,10 +193,10 @@
               <tr class="lg_list">
                   <td>
                       <div class="lg_input_id">
-                          <input id="lg_input_id" #lg_input_id title="아이디" type="text" placeholder="아이디" aria-label="아이디" aria-describedby="5~20자의 영문 소문자, 숫자와 특수기호 (_), (-)만 사용하여 입력해 주세요. 편집창 아이디" aria-required="true">
+                          <input id="lg_input_id" #lg_input_id title="아이디" type="text" placeholder="아이디" (keyup.enter)="login(lg_input_id.value, lg_input_pwd.value)" aria-label="아이디" aria-describedby="5~20자의 영문 소문자, 숫자와 특수기호 (_), (-)만 사용하여 입력해 주세요. 편집창 아이디" aria-required="true">
                       </div>
                       <div class="lg_input_pwd">
-                          <input id="lg_input_pwd" #lg_input_pwd title="패스워드" type="password" placeholder="패스워드" aria-label="패스워드" aria-describedby="6~16자 영문 대 소문자, 숫자, 특수문자를 사용하여 입력해 주세요. 편집창 패스워드" aria-required="true">
+                          <input id="lg_input_pwd" #lg_input_pwd title="패스워드" type="password" placeholder="패스워드" (keyup.enter)="login(lg_input_id.value, lg_input_pwd.value)" aria-label="패스워드" aria-describedby="6~16자 영문 대 소문자, 숫자, 특수문자를 사용하여 입력해 주세요. 편집창 패스워드" aria-required="true">
                       </div>
                   </td>
                   <td>
@@ -228,3 +226,7 @@
 <div class="intro-"><a routerLink="/">intro</a></div>
 <router-outlet name='intro'></router-outlet>
 </div>
+
+<script>
+
+</script>
