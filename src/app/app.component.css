@@ -18,11 +18,13 @@ h1,h2,h3,h4,h5,h6{display:none;}
 .guestbook_table th:first-child,.guestbook_table td:first-child{border-left:0;}
 .guestbook_table th:last-child,.guestbook_table td:last-child{border-right:0;}
 .guestbook_comment{background-color:#404040;padding:0.2em;vertical-align:bottom;}
+
 .ca_menu{position:absolute;top:2em;right:0;background-color:white;color:#404040;border:0.2em solid black;-webkit-border-radius:2px;border-radius:2px;}
 .ca_submit{font-weight:bold;margin-top:0.3em;text-align:center;}
 .ca_input{width:12em;}
 .ca_info{font-size:0.7em;width:18em;}
 .ca_error{color:red;font-size:0.4em;}
+
 .lg_menu{position:absolute;top:2em;right:0;background-color:silver;-webkit-border-radius:2px;border-radius:2px;}
 .lg_menu input{height:2.5em;}
 .lg_submit{font-weight:bold;padding:0.5em 1em;width:4em;height:4em;display:table;}

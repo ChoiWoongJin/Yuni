@@ -75,7 +75,6 @@ router.get('/userInfo', (req, res) => {
 })
 // Save Json Data To 'userInfo' Collection
 router.post('/userInfo', (req, res) => {
-  console.log(req.body);
     connection((db) => {
         db.collection('userInfo').insert(req.body);
     });

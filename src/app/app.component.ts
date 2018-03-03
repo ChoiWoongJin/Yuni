@@ -190,9 +190,30 @@ export class AppComponent {
         this.gb_button = !this.gb_button;
     }
   }
-  createAccount() {
-    console.log(this.ca);
-    this.addUserInfo();
+  createAccount(pwdValid) {
+    if (this.ca.id_check != 'true') {
+      alert("아이디 중복검사를 해주세요.");
+    } else if (this.ca.nickname_check != 'true') {
+      alert("닉네임 중복검사를 해주세요.");
+    } else if (this.ca.email_check != 'true') {
+      alert("이메일 중복검사를 해주세요.");
+    } else if (!pwdValid) {
+      alert("비밀번호를 다시 확인 해주세요.");
+    } else {
+      this.addUserInfo();
+      alert(this.ca.id+"("+this.ca.nickname+") 님!\n가입을 환영합니다.");
+      this.ca = {
+        id: '',
+        id_check: "nocheck",
+        pwd: '',
+        pwdCheck: '',
+        nickname: '',
+        nickname_check: "nocheck",
+        email: '',
+        email_check: "nochkeck"
+      }
+      this.ca_button = false;
+    }
   }
   // 회원가입 Input값 체크
   async inputCheck(inputType, inputValue, checkValue) {

@@ -72,7 +72,7 @@
                     <td colspan="3" align="center">
                         <div *ngIf="ca_id.errors?.minlength" role="alert">아이디는 최소 5글자 이상 입력 해야 합니다.</div>
                         <div *ngIf="ca_id.errors?.pattern" role="alert">알파벳과 숫자만 입력가능합니다.</div>
-                        <div *ngIf="ca_id.valid && ca.id_check == 'nocheck'" role="alert">id 중복 검사를 해주시길 바랍니다.</div>
+                        <div *ngIf="ca_id.valid && ca.id_check == 'nocheck'" role="alert">아이디 중복검사를 해주시길 바랍니다.</div>
                         <div *ngIf="ca_id.valid && ca.id_check == 'false'" role="alert">이미 등록 된 id 입니다.</div>
                     </td>
                 </tr>
@@ -137,7 +137,7 @@
                 <tr class="ca_error">
                   <td colspan="3" align="center">
                       <div *ngIf="ca_nickname.errors?.minlength" role="alert">닉네임은 최소 2글자 이상 입력 해야 합니다.</div>
-                      <div *ngIf="ca_nickname.valid && ca.nickname_check == 'nocheck'" role="alert">닉네임 중복 검사를 해주시길 바랍니다.</div>
+                      <div *ngIf="ca_nickname.valid && ca.nickname_check == 'nocheck'" role="alert">닉네임 중복검사를 해주시길 바랍니다.</div>
                       <div *ngIf="ca_nickname.valid && ca.nickname_check == 'false'" role="alert">이미 등록 된 닉네임 입니다.</div>
                   </td>
                 </tr>
@@ -162,23 +162,18 @@
                 <tr class="ca_error">
                   <td colspan="3" align="center">
                       <div *ngIf="ca_email.errors?.pattern" role="alert">이메일 주소가 정상적이지 않습니다.</div>
-                      <div *ngIf="ca_email.valid && ca.email_check == 'nocheck'" role="alert">이메일 중복 검사를 해주시길 바랍니다.</div>
+                      <div *ngIf="ca_email.valid && ca.email_check == 'nocheck'" role="alert">이메일 중복검사를 해주시길 바랍니다.</div>
                       <div *ngIf="ca_email.valid && ca.email_check == 'false'" role="alert">이미 등록 된 이메일 주소입니다.</div>
                   </td>
                 </tr>
                 <!-- =============================================== 이메일 입력 단 끝 =============================================== -->
+                <!-- +++++++++++++++++++++++++++++++++++++++++++++++ 가입신청 버튼 단 시작 +++++++++++++++++++++++++++++++++++++++++++++++ -->
                 <tr>
                   <td colspan="3" align="center">
-                    <button type="submit" class="ca_submit btn cp" title="가입신청" (click)="createAccount()">Submit</button>
+                    <button class="ca_submit btn cp" title="가입신청" label="회원가입 신청 버튼" type="submit" (click)="createAccount(ca_pwdCheck.valid)">Submit</button>
                   </td>
                 </tr>
-
-
-                <!-- <tr class="createaccount_list">
-                    <td colspan="3" align="center">
-                        <div class="ca_submit cp btn" title="가입신청" label="회원가입 신청 버튼" role="button" *ngIf="ca_form.valid && ca.id_check=='true' && ca.nickname_check=='true' && ca.email_check=='true'" aria-disabled="false" type="submit" tabindex="0" ng-keypress="vm.createaccount()" ng-click="vm.createaccount()">가입신청</div>
-                    </td>
-                </tr> -->
+                <!-- =============================================== 가입신청 버튼 단 끝 =============================================== -->
                 </table>
               </div>
           </div>
