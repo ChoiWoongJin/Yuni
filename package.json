@@ -1,6 +1,7 @@
 {
   "name": "yuni",
   "version": "0.0.0",
+  "author": "Woongjin.Choi <musi0436@naver.com>",
   "license": "MIT",
   "scripts": {
     "ng": "ng",

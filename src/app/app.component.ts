@@ -5,10 +5,12 @@ import { NgForm } from "@angular/forms";
 import { DataService } from './data.service';
 
 interface GBComment {
+  _id : string;
   nickname: string;
   comment: string;
   date: string;
   order: string;
+  canDelete: boolean;
 }
 
 @Component({
@@ -130,7 +132,6 @@ export class AppComponent {
               this.gbComments[cntItem++] = res[num];
             }
           }
-          console.log(this.gbComments);
         });
   }
   // -------------------------------------------------------------------------
@@ -140,6 +141,12 @@ export class AppComponent {
         .subscribe();
   }
   // -------------------------------------------------------------------------
+  // +++++++++++++++++++++ DataBase의 데이터를 바꾸는 함수 +++++++++++++++++++++++
+  deleteGuestBook(index) {
+    this._dataService.deleteGuestBook(this.gbComments[index])
+        .subscribe();
+  }
+  // ---------------------------------------------------------------------------
 
   // +++++++++++++++++++++ Login/out 관련 함수 +++++++++++++++++++++
   lg_menu() {
@@ -186,6 +193,7 @@ export class AppComponent {
         console.log('[success] Login');
         alert(this.user_id + "님, 접속을 환영합니다!");
         this.login_submit_clear();
+        this.getGuestBook(); // 방명록 초기화
       } else {
         this.is_login = "";
         this.user_id = "";
@@ -207,6 +215,7 @@ export class AppComponent {
         this.gb_button = !this.gb_button;
     }
     sessionStorage.clear();
+    this.getGuestBook();
   }
   // --------------------------------------------------------------
 
@@ -219,12 +228,12 @@ export class AppComponent {
     if (this.ca_button) {
         this.ca_button = !this.ca_button;
     }
-    if (this.gb_button) {
-      this.getGuestBook();
-    }
   }
   gb_delete(index) {
-    console.log(index);
+    console.log('삭제할 코멘트');
+    console.log(this.gbComments[index]);
+    this.deleteGuestBook(index);
+    this.getGuestBook();
   }
   // -------------------------------------------------------------
 

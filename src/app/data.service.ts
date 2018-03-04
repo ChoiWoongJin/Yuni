@@ -20,6 +20,10 @@ export class DataService {
       .map(result => this.result = result.json().data);
   }
 
+  deleteGuestBook(delComment) {
+    return this._http.patch("/api/guestBook", delComment);
+  }
+
   getNav_menu() {
     return this._http.get("/api/nav_menu")
       .map(result => this.result = result.json().data);

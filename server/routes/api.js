@@ -74,6 +74,13 @@ router.get('/guestBook', (req, res) => {
         });
     });
 })
+// Delete guestBook document
+router.patch('/guestBook', (req, res) => {
+    connection((db) => {
+        db.collection('guestBook')
+          .update( { "_id": ObjectID(req.body._id)}, { $set: {"isDeleted": true}});
+    });
+})
 
 // Get 'userInfo' Collection From 'blogData' Database
 router.get('/userInfo', (req, res) => {
