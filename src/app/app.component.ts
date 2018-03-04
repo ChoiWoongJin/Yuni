@@ -4,6 +4,13 @@ import { NgForm } from "@angular/forms";
 // Import the DataService
 import { DataService } from './data.service';
 
+interface GBComment {
+  nickname: string;
+  comment: string;
+  date: string;
+  order: string;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -34,6 +41,10 @@ export class AppComponent {
   }
   // -------------------------------------------
 
+  // ++++++++++++ 방명록 Argument +++++++++++++
+  gbComments: GBComment[];
+  // -------------------------------------------
+
   // ++++++++++++  Define properties to hold our user data From Database ++++++++++++
   nav_menu: Array<any>;
   userInfo: Array<any>;
@@ -45,6 +56,8 @@ export class AppComponent {
     // Access the Data Service's getNav_menu() method we defined
     // this._dataService.getNav_menu()
     //     .subscribe(res => this.nav_menu = res[0].sub);
+
+    this.getGuestBook();
 
     // 처음 시작시 로그인 메뉴 비활성화
     // 로그인 버튼
@@ -92,7 +105,6 @@ export class AppComponent {
         .subscribe(res => this.nav_menu = res);
     console.log(this.nav_menu);
   }
-
   getNav_menuSub() {
     this._dataService.getNav_menu()
         .subscribe(res => this.nav_menu = res[0].sub);
@@ -102,6 +114,24 @@ export class AppComponent {
     this._dataService.getNav_menu()
         .subscribe(res => this.nav_menu = res[0].top);
     console.log(this.nav_menu);
+  }
+  getGuestBook() {
+    this._dataService.getGuestBook()
+        .subscribe(res => {
+          this.gbComments = new Array();
+          var cntItem = 0;
+          for (var num=0; num < res.length; num++) {
+            if (!res[num].isDeleted) {
+              if (res[num].nickname == sessionStorage.user_nickname) {
+                res[num].canDelete = true;
+              } else {
+                res[num].canDelete = false;
+              }
+              this.gbComments[cntItem++] = res[num];
+            }
+          }
+          console.log(this.gbComments);
+        });
   }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase에 데이터를 쓰는 함수 +++++++++++++++++++++++
@@ -179,6 +209,24 @@ export class AppComponent {
     sessionStorage.clear();
   }
   // --------------------------------------------------------------
+
+  // +++++++++++++++++++++ 방명록 관련 함수 +++++++++++++++++++++++
+  gb_menu() {
+    this.gb_button = !this.gb_button;
+    if (this.lg_button) {
+        this.lg_button = !this.lg_button;
+    }
+    if (this.ca_button) {
+        this.ca_button = !this.ca_button;
+    }
+    if (this.gb_button) {
+      this.getGuestBook();
+    }
+  }
+  gb_delete(index) {
+    console.log(index);
+  }
+  // -------------------------------------------------------------
 
   // +++++++++++++++++++++ 회원가입 관련 함수 +++++++++++++++++++++
   ca_menu() {

@@ -58,6 +58,23 @@ router.get('/content_board', (req, res) => {
     });
 })
 
+// Get guestBook
+router.get('/guestBook', (req, res) => {
+    connection((db) => {
+        db.collection('guestBook')
+          .find()
+          .sort( { "order": -1 } )
+          .toArray()
+          .then((guestBook) => {
+              response.data = guestBook;
+              res.json(response);
+          })
+          .catch((err) => {
+              sendError(err, res);
+        });
+    });
+})
+
 // Get 'userInfo' Collection From 'blogData' Database
 router.get('/userInfo', (req, res) => {
     connection((db) => {
