@@ -19,9 +19,11 @@ export class DataService {
     return this._http.get("/api/guestBook")
       .map(result => this.result = result.json().data);
   }
-
   deleteGuestBook(delComment) {
     return this._http.patch("/api/guestBook", delComment);
+  }
+  addGuestBook(addData) {
+    return this._http.post("/api/guestBook", addData)
   }
 
   getNav_menu() {
@@ -33,7 +35,6 @@ export class DataService {
     return this._http.get("/api/userInfo")
       .map(result => this.result = result.json().data);
   }
-
   addUserInfo(caInfo) {
     var addData = {
       id: caInfo.id,

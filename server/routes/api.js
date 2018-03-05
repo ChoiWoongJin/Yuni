@@ -81,6 +81,12 @@ router.patch('/guestBook', (req, res) => {
           .update( { "_id": ObjectID(req.body._id)}, { $set: {"isDeleted": true}});
     });
 })
+// Save Json Data To 'guestBook' Collection
+router.post('/guestBook', (req, res) => {
+    connection((db) => {
+        db.collection('guestBook').insert(req.body);
+    });
+})
 
 // Get 'userInfo' Collection From 'blogData' Database
 router.get('/userInfo', (req, res) => {

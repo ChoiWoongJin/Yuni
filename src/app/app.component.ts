@@ -9,7 +9,7 @@ interface GBComment {
   nickname: string;
   comment: string;
   date: string;
-  order: string;
+  order: number;
   canDelete: boolean;
 }
 
@@ -45,7 +45,7 @@ export class AppComponent {
 
   // ++++++++++++ 방명록 Argument +++++++++++++
   gbComments: GBComment[];
-  gb_Input: string;
+  gb_input: string;
   // -------------------------------------------
 
   // ++++++++++++  Define properties to hold our user data From Database ++++++++++++
@@ -141,6 +141,10 @@ export class AppComponent {
     this._dataService.addUserInfo(this.ca)
         .subscribe();
   }
+  addGuestBook(addData) {
+    this._dataService.addGuestBook(addData)
+        .subscribe();
+  }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase의 데이터를 바꾸는 함수 +++++++++++++++++++++++
   deleteGuestBook(index) {
@@ -152,6 +156,7 @@ export class AppComponent {
   // +++++++++++++++++++++ Login/out 관련 함수 +++++++++++++++++++++
   lgMenu() {
     this.lg_button = !this.lg_button;
+    this.inputValueClear();
     if (this.ca_button) {
         this.ca_button = !this.ca_button;
     }
@@ -193,7 +198,7 @@ export class AppComponent {
         this.lg_button = false;
         console.log('[success] Login');
         alert(this.user_id + "님, 접속을 환영합니다!");
-        this.loginSubmitClear();
+        this.loginInputClear();
         this.getGuestBook(); // 방명록 초기화
       } else {
         this.is_login = "";
@@ -204,7 +209,8 @@ export class AppComponent {
       }
     }
   }
-  loginSubmitClear() {
+  loginInputClear() {
+      (<HTMLInputElement>document.getElementById('lg_input_id')).value = "";
       (<HTMLInputElement>document.getElementById('lg_input_pwd')).value = "";
   }
   logout() {
@@ -223,6 +229,7 @@ export class AppComponent {
   // +++++++++++++++++++++ 방명록 관련 함수 +++++++++++++++++++++++
   gbMenu() {
     this.gb_button = !this.gb_button;
+    this.inputValueClear();
     if (this.lg_button) {
         this.lg_button = !this.lg_button;
     }
@@ -235,13 +242,31 @@ export class AppComponent {
     this.getGuestBook();
   }
   gbInput(value) {
-    console.log(value);
+    var nextOrder = 0;
+    for (var i=0; i < this.gbComments.length; i++) {
+      if (this.gbComments[i].order > nextOrder) {
+        nextOrder = this.gbComments[i].order;
+      }
+    }
+    nextOrder++;
+    var addData = {
+      id: sessionStorage.user_id,
+      nickname: sessionStorage.user_nickname,
+      comment: value,
+      date: this.getTimeStamp(),
+      order: nextOrder,
+      isDeleted: false
+    }
+    this.addGuestBook(addData);
+    this.getGuestBook();
+    this.gb_input = '';
   }
   // -------------------------------------------------------------
 
   // +++++++++++++++++++++ 회원가입 관련 함수 +++++++++++++++++++++
   caMenu() {
     this.ca_button = !this.ca_button;
+    this.inputValueClear();
     if (this.lg_button) {
         this.lg_button = !this.lg_button;
     }
@@ -261,16 +286,7 @@ export class AppComponent {
     } else {
       this.addUserInfo();
       alert(this.ca.id+"("+this.ca.nickname+") 님!\n가입을 환영합니다.");
-      this.ca = {
-        id: '',
-        id_check: "nocheck",
-        pwd: '',
-        pwdCheck: '',
-        nickname: '',
-        nickname_check: "nocheck",
-        email: '',
-        email_check: "nochkeck"
-      }
+      this.initCa();
       this.ca_button = false;
     }
   }
@@ -299,6 +315,47 @@ export class AppComponent {
   initInputCheck(checkValue) {
     console.log("[system] 입력값이 변경되었습니다.")
     this.ca[checkValue] = "nocheck";
+  }
+  // --------------------------------------------------------------
+
+  // ++++++++++++++++++++++++++ 공통 함수 ++++++++++++++++++++++++++
+  // 현재시간 구하는 함수
+  getTimeStamp() {
+    var d = new Date();
+    var s =
+        this.leadingZeros(d.getFullYear(), 4) + '-' +
+        this.leadingZeros(d.getMonth() + 1, 2) + '-' +
+        this.leadingZeros(d.getDate(), 2) + ' ' +
+
+        this.leadingZeros(d.getHours(), 2) + ':' +
+        this.leadingZeros(d.getMinutes(), 2);/* + ':' +
+        leadingZeros(d.getSeconds(), 2)*/ // 초단위는 제외하였음
+    return s;
+  }
+  leadingZeros(n, digits) {
+    var zero = '';
+    n = n.toString();
+    if (n.length < digits) {
+        for (var i = 0; i < digits - n.length; i++)
+            zero += '0';
+    }
+    return zero + n;
+  }
+  inputValueClear() {
+    this.gb_input = '';
+    this.initCa();
+  }
+  initCa() {
+    this.ca = {
+      id: '',
+      id_check: "nocheck",
+      pwd: '',
+      pwdCheck: '',
+      nickname: '',
+      nickname_check: "nocheck",
+      email: '',
+      email_check: "nochkeck"
+    }
   }
   // --------------------------------------------------------------
 }
