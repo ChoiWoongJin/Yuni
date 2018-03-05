@@ -1,4 +1,5 @@
 <div class="top-element">
+  <div class="intro-"><a routerLink="/">intro</a></div>
 
   <h2>개인 도구</h2>
   <div class="header_personallabel">
@@ -184,6 +185,10 @@
       <div class="lg_menu" role="menu" aria-hidden="!lg_button" *ngIf="lg_button == true">
           <h4>로그인 메뉴</h4>
           <table class="lg_table" summary="ID, Password input and Submit button">
+          <colgroup>
+              <col style="width:60%">
+              <col style="width:40%">
+          </colgroup>
           <tr class="lg_list">
               <td>
                   <div class="lg_input_id">
@@ -204,16 +209,5 @@
 </div>
 
 <div class="main-body">
-<h1>Our MongoDB is Working! Good</h1>
-<button mat-raised-button color="primary"
-            (click)="getContentBoard()">getContentBoard</button>
-<button mat-raised-button color="primary"
-            (click)="getNavMenuSub()">getNavMenuSub</button>
-<button mat-raised-button color="primary"
-            (click)="getNavMenuTop()">getNavMenuTop</button>
-<ul>
-  <li *ngFor="let menu of nav_menu">{{ menu.title }}</li>
-</ul>
-<div class="intro-"><a routerLink="/">intro</a></div>
 <router-outlet name='intro'></router-outlet>
 </div>
