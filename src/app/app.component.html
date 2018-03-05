@@ -7,11 +7,17 @@
       <li class="pl_lg user_info_btn pl_pad" [(ngModel)]="user_id" *ngSwitchCase="'true'" ngDefaultControl>{{user_id}}</li>
       <li class="pl_masterLg user_info_btn pl_pad" *ngSwitchCase="'master'" ngDefaultControl>운영자</li>
       <li class="pl_unLg user_info_btn pl_pad" *ngSwitchDefault>로그인하지 않음</li>
-
-
-      <!--  아래는 기능 추가 필요      -->
       <h3>방명록 버튼</h3>
-      <li class="pl_guestbook cp btn pl_pad" title="방명록" [(ngModel)]="gb_button" role="button" tabindex="0" (keypress)="gb_menu()" (click)="gb_menu()" ngDefaultControl>방명록</li>
+      <li class="pl_guestbook cp btn pl_pad" title="방명록" [(ngModel)]="gb_button" role="button" tabindex="0" (keypress)="gbMenu()" (click)="gbMenu()" ngDefaultControl>방명록</li>
+      <h3>회원가입 버튼</h3>
+      <li class="pl_createaccount cp btn pl_pad" title="회원가입" *ngIf="!(is_login == 'true' || is_login == 'master')" [(ngModel)]="ca_button" role="button" aria-expanded="ca_button" tabindex="0" (keypress)="caMenu()" (click)="caMenu()" ngDefaultControl>회원가입</li>
+      <h3>로그인 버튼</h3>
+      <li class="pl_loginButton cp btn pl_pad" title="로그인" [(ngModel)]="lg_button" *ngIf="!(is_login == 'true' || is_login == 'master')" role="button" aria-expanded="lg_button" tabindex="0" (keypress)="lgMenu()" (click)="lgMenu()" ngDefaultControl>로그인</li>
+      <h3>로그아웃 버튼</h3>
+      <li class="pl_logoutButton cp btn pl_pad" title="로그아웃" *ngIf="is_login == 'true' || is_login == 'master'" tabindex="0" (keypress)="logout()" (click)="logout()">로그아웃</li>
+      </ul>
+
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++ 방명록 메뉴 단 시작 +++++++++++++++++++++++++++++++++++++++++++++++ -->
       <div class="gb_menu" role="menu" *ngIf="gb_button == true">
           <h4>방명록 메뉴</h4>
           <legend style="font-size:1.5em;font-weight:bold;color:black;">방명록</legend>
@@ -32,22 +38,16 @@
               <td>{{comment_info.nickname}}</td>
               <td>{{comment_info.comment}}</td>
               <td>{{comment_info.date}}</td>
-              <td><div class="cp btn" role="button" *ngIf="comment_info.canDelete || is_login == 'master'" style="width:5em;margin:auto;" (click)="gb_delete(gb_i)">삭제</div></td>
+              <td><div class="cp btn" role="button" *ngIf="comment_info.canDelete || is_login == 'master'" style="width:5em;margin:auto;" (click)="gbDelete(gb_i)">삭제</div></td>
           </tr>
           </table>
           <div class="gb_comment" *ngIf="is_login == 'true' || is_login == 'master'">
-              <input id="gb_comment" class="gb_input" title="코멘트 입력" style="width:90%;font-size:1em;" type="text" placeholder="코멘트 입력" name="comment" ng-model="vm.comment" ng-required="false" aria-label="코멘트 입력" aria-describedby="편집창 코멘트 입력" aria-required="false">
-              <div class="gb_submit cp btn" title="코멘트 입력 버튼" style="width:10%;display:inline;" label="코멘트 입력 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-model="vm.userNickname" ng-keypress="vm.guestbookInput()" ng-click="vm.guestbookInput()">입력</div>
+              <input id="gb_inputComment" name="gb_inputComment" #gb_inputComment="ngModel" class="gb_inputComment" title="코멘트 입력" type="text" placeholder="코멘트 입력" [(ngModel)]="gb_input" (keyup.enter)="gbInput(gb_input)" style="width:90%;font-size:1em;" required>
+              <div class="gb_submit cp btn" title="코멘트 입력 버튼" style="width:10%;display:inline;" label="코멘트 입력 버튼" role="button" tabindex="0" (keypress)="gbInput(gb_input)" (click)="gbInput(gb_input)">입력</div>
           </div>
       </div>
-
-
-
-
-      <!--  아래는 기능 DB연동 필요      -->
-      <!-- +++++++++++++++++++++++++++++++++++++++++++++++ 회원가입 단 시작 +++++++++++++++++++++++++++++++++++++++++++++++ -->
-      <h3>회원가입 버튼</h3>
-      <li class="pl_createaccount cp btn pl_pad" title="회원가입" *ngIf="!(is_login == 'true' || is_login == 'master')" [(ngModel)]="ca_button" role="button" aria-expanded="ca_button" tabindex="0" (keypress)="ca_menu()" (click)="ca_menu()" ngDefaultControl>회원가입</li>
+      <!-- ================================================================================================================= -->
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++ 회원가입 메뉴 단 시작 +++++++++++++++++++++++++++++++++++++++++++++++ -->
       <div class="ca_menu" role="menu" aria-hidden="!ca_button" *ngIf="ca_button == true">
           <h4>회원가입 메뉴</h4>
           <legend>회원가입</legend>
@@ -179,12 +179,8 @@
             </table>
           </div>
       </div>
-      <!-- =============================================== 회원가입 단 끝 =============================================== -->
-
-
-
-      <h3>로그인 버튼</h3>
-      <li class="pl_loginButton cp btn pl_pad" title="로그인" [(ngModel)]="lg_button" *ngIf="!(is_login == 'true' || is_login == 'master')" role="button" aria-expanded="lg_button" tabindex="0" (keypress)="lg_menu()" (click)="lg_menu()" ngDefaultControl>로그인</li>
+      <!-- =================================================================================================================== -->
+      <!-- +++++++++++++++++++++++++++++++++++++++++++++++ 로그인 메뉴 단 시작 +++++++++++++++++++++++++++++++++++++++++++++++ -->
       <div class="lg_menu" role="menu" aria-hidden="!lg_button" *ngIf="lg_button == true">
           <h4>로그인 메뉴</h4>
           <table class="lg_table" summary="ID, Password input and Submit button">
@@ -203,28 +199,21 @@
           </tr>
           </table>
       </div>
-      <h3>로그아웃 버튼</h3>
-      <li class="pl_logoutButton cp btn pl_pad" title="로그아웃" *ngIf="is_login == 'true' || is_login == 'master'" tabindex="0" (keypress)="logout()" (click)="logout()">로그아웃</li>
-      </ul>
+      <!-- ================================================================================================================= -->
   </div>
-
 </div>
 
 <div class="main-body">
 <h1>Our MongoDB is Working! Good</h1>
 <button mat-raised-button color="primary"
-            (click)="getContent_board()">getContent_board</button>
+            (click)="getContentBoard()">getContentBoard</button>
 <button mat-raised-button color="primary"
-            (click)="getNav_menuSub()">getNav_menuSub</button>
+            (click)="getNavMenuSub()">getNavMenuSub</button>
 <button mat-raised-button color="primary"
-            (click)="getNav_menuTop()">getNav_menuTop</button>
+            (click)="getNavMenuTop()">getNavMenuTop</button>
 <ul>
   <li *ngFor="let menu of nav_menu">{{ menu.title }}</li>
 </ul>
 <div class="intro-"><a routerLink="/">intro</a></div>
 <router-outlet name='intro'></router-outlet>
 </div>
-
-<script>
-
-</script>

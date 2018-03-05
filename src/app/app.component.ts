@@ -45,6 +45,7 @@ export class AppComponent {
 
   // ++++++++++++ 방명록 Argument +++++++++++++
   gbComments: GBComment[];
+  gb_Input: string;
   // -------------------------------------------
 
   // ++++++++++++  Define properties to hold our user data From Database ++++++++++++
@@ -102,17 +103,17 @@ export class AppComponent {
         });
       });
   }
-  getContent_board() {
-    this._dataService.getContent_board()
+  getContentBoard() {
+    this._dataService.getContentBoard()
         .subscribe(res => this.nav_menu = res);
     console.log(this.nav_menu);
   }
-  getNav_menuSub() {
+  getNavMenuSub() {
     this._dataService.getNav_menu()
         .subscribe(res => this.nav_menu = res[0].sub);
     console.log(this.nav_menu);
   }
-  getNav_menuTop() {
+  getNavMenuTop() {
     this._dataService.getNav_menu()
         .subscribe(res => this.nav_menu = res[0].top);
     console.log(this.nav_menu);
@@ -149,7 +150,7 @@ export class AppComponent {
   // ---------------------------------------------------------------------------
 
   // +++++++++++++++++++++ Login/out 관련 함수 +++++++++++++++++++++
-  lg_menu() {
+  lgMenu() {
     this.lg_button = !this.lg_button;
     if (this.ca_button) {
         this.ca_button = !this.ca_button;
@@ -192,7 +193,7 @@ export class AppComponent {
         this.lg_button = false;
         console.log('[success] Login');
         alert(this.user_id + "님, 접속을 환영합니다!");
-        this.login_submit_clear();
+        this.loginSubmitClear();
         this.getGuestBook(); // 방명록 초기화
       } else {
         this.is_login = "";
@@ -203,7 +204,7 @@ export class AppComponent {
       }
     }
   }
-  login_submit_clear() {
+  loginSubmitClear() {
       (<HTMLInputElement>document.getElementById('lg_input_pwd')).value = "";
   }
   logout() {
@@ -215,12 +216,12 @@ export class AppComponent {
         this.gb_button = !this.gb_button;
     }
     sessionStorage.clear();
-    this.getGuestBook();
+    this.getGuestBook(); // 방명록 초기화
   }
   // --------------------------------------------------------------
 
   // +++++++++++++++++++++ 방명록 관련 함수 +++++++++++++++++++++++
-  gb_menu() {
+  gbMenu() {
     this.gb_button = !this.gb_button;
     if (this.lg_button) {
         this.lg_button = !this.lg_button;
@@ -229,16 +230,17 @@ export class AppComponent {
         this.ca_button = !this.ca_button;
     }
   }
-  gb_delete(index) {
-    console.log('삭제할 코멘트');
-    console.log(this.gbComments[index]);
+  gbDelete(index) {
     this.deleteGuestBook(index);
     this.getGuestBook();
+  }
+  gbInput(value) {
+    console.log(value);
   }
   // -------------------------------------------------------------
 
   // +++++++++++++++++++++ 회원가입 관련 함수 +++++++++++++++++++++
-  ca_menu() {
+  caMenu() {
     this.ca_button = !this.ca_button;
     if (this.lg_button) {
         this.lg_button = !this.lg_button;

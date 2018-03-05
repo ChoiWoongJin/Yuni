@@ -10,7 +10,7 @@ export class DataService {
 
   constructor(private _http: Http) { }
 
-  getContent_board() {
+  getContentBoard() {
     return this._http.get("/api/content_board")
       .map(result => this.result = result.json().data);
   }
