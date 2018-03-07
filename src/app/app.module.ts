@@ -52,4 +52,4 @@ import * as $ from 'jquery';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

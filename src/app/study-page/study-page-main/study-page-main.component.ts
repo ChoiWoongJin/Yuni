@@ -12,4 +12,9 @@ export class StudyPageMainComponent implements OnInit {
   ngOnInit() {
   }
 
+  searchGoogle(q) {
+    console.log(q);
+    var url = "http://www.google.co.kr/search?ie=utf-8&oe=utf-8&hl=ko&q=" + q;
+    window.open(url, "_blank");
+  }
 }

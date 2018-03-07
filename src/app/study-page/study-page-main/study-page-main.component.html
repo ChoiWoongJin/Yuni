@@ -1,12 +1,24 @@
 <div class="study-page">
 <div class="study-header">
-  <div class="sh_title"><p>Header</p></div>
+  <div class="study-nav-button cp" role="button"><img src="../../assets/images/list_icon.svg" alt="리스트 아이콘"></div>
+  <div class="sh_banner"><img src="../../assets/images/study_banner.png" alt="배너 아이콘"></div>
+</div>
+<h2>브레드크럼</h2>
+<div class="study-breadcrumb">
+    <div class="wrapper">
+        <!-- <span class="breadcrumb_line"><span class="content_board_menu_path" ng-show="!vm.isHome"><span ng-show="vm.curTopMenu != '' && vm.curTopMenu != null" style="font-weight:bold">{{vm.curTopMenu}} </span><span class="content_board_menu_path_sub" ng-show="vm.curSubMenu != '' && vm.curSubMenu != null" style="font-weight:bold"> {{vm.curSubMenu}}</span></span></span> -->
+        <h3>구글 검색창</h3>
+        <div class="breadcrumb_search_google">
+            <input name="q" placeholder="Google Search" size="20" maxlength="255" [(ngModel)]="q" type="text" (keydown.Enter)="searchGoogle(q)"/>
+            <button name=btnG class="breadcrumb_search_googl_btn cp btn" type="submit" value="Google" (click)="searchGoogle(q)">Google</button>
+        </div>
+    </div>
 </div>
 <div class="study-body">
 <div class="study-main">
   <p>Main</p>
 </div>
-<!-- header의 버튼으로 끄고 키도록 -->
+<!-- header의 버튼으로 nav를 끄고 키도록 -->
 <div class="study-nav">
   <p>Nav</p>
 </div>
