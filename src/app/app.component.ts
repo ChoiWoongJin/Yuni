@@ -5,7 +5,7 @@ import { NgForm } from "@angular/forms";
 import { DataService } from './data.service';
 
 interface GBComment {
-  _id : string;
+  _id: string;
   nickname: string;
   comment: string;
   date: string;
@@ -108,30 +108,18 @@ export class AppComponent {
         .subscribe(res => this.nav_menu = res);
     console.log(this.nav_menu);
   }
-  getNavMenuSub() {
-    this._dataService.getNav_menu()
-        .subscribe(res => this.nav_menu = res[0].sub);
-    console.log(this.nav_menu);
-  }
-  getNavMenuTop() {
-    this._dataService.getNav_menu()
-        .subscribe(res => this.nav_menu = res[0].top);
-    console.log(this.nav_menu);
-  }
   getGuestBook() {
     this._dataService.getGuestBook()
         .subscribe(res => {
           this.gbComments = new Array();
           var cntItem = 0;
           for (var num=0; num < res.length; num++) {
-            if (!res[num].isDeleted) {
-              if (res[num].nickname == sessionStorage.user_nickname) {
-                res[num].canDelete = true;
-              } else {
-                res[num].canDelete = false;
-              }
-              this.gbComments[cntItem++] = res[num];
+            if (res[num].nickname == sessionStorage.user_nickname) {
+              res[num].canDelete = true;
+            } else {
+              res[num].canDelete = false;
             }
+            this.gbComments[cntItem++] = res[num];
           }
         });
   }

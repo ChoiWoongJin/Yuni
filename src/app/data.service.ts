@@ -26,11 +26,6 @@ export class DataService {
     return this._http.post("/api/guestBook", addData)
   }
 
-  getNav_menu() {
-    return this._http.get("/api/nav_menu")
-      .map(result => this.result = result.json().data);
-  }
-
   getUserInfo() {
     return this._http.get("/api/userInfo")
       .map(result => this.result = result.json().data);
@@ -44,5 +39,14 @@ export class DataService {
       type: 'guest'
     }
     return this._http.post("/api/userInfo", addData)
+  }
+
+  getStudyTopMenu() {
+    return this._http.get("/api/studyTopMenu")
+      .map(result => this.result = result.json().data);
+  }
+  getStudySubMenu() {
+    return this._http.get("/api/studySubMenu")
+      .map(result => this.result = result.json().data);
   }
 }

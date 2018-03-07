@@ -26,14 +26,31 @@ let response = {
     message: null
 };
 
-// Get nav_menu
-router.get('/nav_menu', (req, res) => {
+// Get studyTopMenu
+router.get('/studyTopMenu', (req, res) => {
     connection((db) => {
-        db.collection('nav_menu')
-          .find()
+        db.collection('studyTopMenu')
+          .find( { "isDeleted": false } )
+          .sort( { "order": 1 } )
           .toArray()
-          .then((nav_menu) => {
-              response.data = nav_menu;
+          .then((studyTopMenu) => {
+              response.data = studyTopMenu;
+              res.json(response);
+          })
+          .catch((err) => {
+              sendError(err, res);
+        });
+    });
+});
+// Get studySubMenu
+router.get('/studySubMenu', (req, res) => {
+    connection((db) => {
+        db.collection('studySubMenu')
+          .find( { "isDeleted": false } )
+          .sort( { "super": 1, "order": 1 } )
+          .toArray()
+          .then((studySubMenu) => {
+              response.data = studySubMenu;
               res.json(response);
           })
           .catch((err) => {
@@ -46,7 +63,7 @@ router.get('/nav_menu', (req, res) => {
 router.get('/content_board', (req, res) => {
     connection((db) => {
         db.collection('content_board')
-          .find()
+          .find( { "isDeleted": false } )
           .toArray()
           .then((content_board) => {
               response.data = content_board;
@@ -62,7 +79,7 @@ router.get('/content_board', (req, res) => {
 router.get('/guestBook', (req, res) => {
     connection((db) => {
         db.collection('guestBook')
-          .find()
+          .find( { "isDeleted": false } )
           .sort( { "order": -1 } )
           .toArray()
           .then((guestBook) => {
@@ -92,7 +109,7 @@ router.post('/guestBook', (req, res) => {
 router.get('/userInfo', (req, res) => {
     connection((db) => {
         db.collection('userInfo')
-          .find()
+          .find( { "isDeleted": false } )
           .toArray()
           .then((userInfo) => {
               response.data = userInfo;

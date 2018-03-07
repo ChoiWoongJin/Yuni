@@ -1,12 +1,12 @@
 <div class="study-page">
 <div class="study-header">
-  <div class="study-nav-button cp" role="button"><img src="../../assets/images/list_icon.svg" alt="리스트 아이콘"></div>
+  <div class="study-nav-button cp" title="리스트 버튼" role="button" tabindex="0" [(ngModel)]="list_button" (keypress)="listMenu()" (click)="listMenu()" ngDefaultControl><img src="../../assets/images/list_icon.svg" alt="리스트 아이콘"></div>
   <div class="sh_banner"><img src="../../assets/images/study_banner.png" alt="배너 아이콘"></div>
 </div>
 <h2>브레드크럼</h2>
 <div class="study-breadcrumb">
     <div class="wrapper">
-        <!-- <span class="breadcrumb_line"><span class="content_board_menu_path" ng-show="!vm.isHome"><span ng-show="vm.curTopMenu != '' && vm.curTopMenu != null" style="font-weight:bold">{{vm.curTopMenu}} </span><span class="content_board_menu_path_sub" ng-show="vm.curSubMenu != '' && vm.curSubMenu != null" style="font-weight:bold"> {{vm.curSubMenu}}</span></span></span> -->
+        <!-- <span class="breadcrumb_line"><span class="content_board_menu_path" ng-show="!vm.isHome"><span ng-show="cur_top_menu != '' && cur_top_menu != null" style="font-weight:bold">{{cur_top_menu}} </span><span class="content_board_menu_path_sub" ng-show="cur_sub_menu != '' && cur_sub_menu != null" style="font-weight:bold"> {{cur_sub_menu}}</span></span></span> -->
         <h3>구글 검색창</h3>
         <div class="breadcrumb_search_google">
             <input name="q" placeholder="Google Search" size="20" maxlength="255" [(ngModel)]="q" type="text" (keydown.Enter)="searchGoogle(q)"/>
@@ -18,10 +18,40 @@
 <div class="study-main">
   <p>Main</p>
 </div>
+
+
 <!-- header의 버튼으로 nav를 끄고 키도록 -->
-<div class="study-nav">
+<div class="study-nav" role="menu" *ngIf="list_button == true">
   <p>Nav</p>
+  <div style="float:right;">
+  <table id="nav_menu" class="nav_menu_table" summary="블로그의 전체 메뉴를 구성하는 테이블">
+    <!--  *ngIf="!menu_top.isDeleted" 이것은 ts파일 내부적으로 구현, 알아서 걸르기.. -->
+  <tr *ngFor="let menu_top of nav_menu_top; let list_top_i = index">
+      <td class="nav_menu_top">
+          <div class="nav_menu_top_item cp" style="width:10em;" title="주 메뉴" role="button" tabindex="0" [(ngModel)]="cur_top_menu" (keypress)="topMenu(menu_top, list_top_i)" (click)="topMenu(menu_top, list_top_i)" ngDefaultControl>{{menu_top.title}}</div>
+          <div class="nav_menu_top_delete cp" *ngIf="is_login == 'master'" title="주 메뉴 삭제 버튼" label="주 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="topMenuDelete(menu_top, list_top_i)" (click)="topMenuDelete(menu_top, list_top_i)">메뉴 삭제</div>
+          <table *ngIf="menu_top.topMenuButton">
+          <div *ngIf="menu_top.id == menu_sub.super">
+            <!-- *ngIf="!menu_sub.isDeleted" 이것은 ts파일 내부적으로 구현, DB에서 걍 가져오지 말자; -->
+          <tr *ngFor="let menu_sub of nav_menu_sub; let list_sub_i = index">
+              <td class="nav_menu_sub" [ngClass]="{'sub_master_mod':is_Login == 'master'}">
+                  <div class="nav_menu_sub_item" style="width:7.5em;" title="서브 메뉴" role="button" tabindex="0" [(ngModel)]="cur_sub_menu" (keypress)="subMenu(menu_sub)" (click)="subMenu(menu_sub)">{{menu_sub.title}}</div>
+                <div class="nav_menu_sub_delete cp" *ngIf="menu_top.topMenuButton && is_Login == 'master'" title="서브 메뉴 삭제 버튼" label="서브 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="subMenuDelete(menu_sub, list_sub_i)" (click)="subMenuDelete(menu_sub, list_sub_i)">메뉴 삭제</div>
+              </td>
+          </tr>
+          </div>
+          </table>
+          <input id="nav_menu_sub_add_{{list_top_i}}" title="서브 메뉴 추가 입력창" type="text" placeholder="서브 메뉴 이름" *ngIf="menu_top.topMenuButton && is_Login == 'master'" [(ngModel)]="nav_menu_sub_title_add" style="margin-left:2.4em;width:9.6em;">
+          <div class="nav_menu_add cp btn" *ngIf="menu_top.topMenuButton && is_Login == 'master'" title="서브 메뉴 추가 버튼" label="서브 메뉴 추가 버튼" role="button" type="submit" tabindex="0" (keypress)="subMenuAdd(menu_top, list_top_i)" (click)="subMenuAdd(menu_top, list_top_i)" style="display:block;margin-left:2.8em;margin-bottom:0.2em;">메뉴 추가</div>
+      </td>
+  </tr>
+  </table>
+  <input id="nav_menu_top_add" title="주 메뉴 추가 입력창" type="text" placeholder="주 메뉴 이름" *ngIf="is_Login == 'master'" [(ngModel)]="nav_menu_top_title_add">
+  <div class="nav_menu_add cp btn" *ngIf="is_Login == 'master'" title="주 메뉴 추가 버튼" label="주 메뉴 추가 버튼" role="button" type="submit" tabindex="0" (keypress)="topMenuAdd()" (click)="topMenuAdd()">메뉴 추가</div>
+  </div>
 </div>
+
+
 <div class="study-ad">
   <p>Ad</p>
 </div>
