@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { NgForm } from "@angular/forms";
 
 // Import the DataService
 import { DataService } from '../../data.service';
@@ -8,6 +9,7 @@ interface MenuTop {
   id: string;
   title: string;
   order: number;
+  menu_top_btn: boolean;
   isDeleted: boolean;
 }
 interface MenuSub {
@@ -26,37 +28,32 @@ export class StudyPageMainComponent {
 
   list_button: boolean;
 
-  is_login: string;
-  user_id: string;
-  user_nickname: string;
-  user_email: string;
-
   nav_menu_top: MenuTop[];
   nav_menu_sub: MenuSub[];
+
+  // ++++++++++++++++++++ List(Menu) 관련 속성 ++++++++++++++++++++++
+  is_home: boolean;
+  cur_page: number;
+  cur_top_menu: string;
+  cur_sub_menu: string;
+  // ---------------------------------------------------------------
 
   constructor(private _dataService: DataService) {
     this.list_button = true;
 
     this.getStudyTopMenu();
     this.getStudySubMenu();
-
-    // session 유지되고 있을 때의 상태에 대한 처리
-    if (sessionStorage.is_login == "true") {
-        console.log('[system] 로그인이 유지되고 있습니다');
-        this.is_login = "true";
-        this.user_id = sessionStorage.user_id;
-        this.user_nickname = sessionStorage.user_nickname;
-        this.user_email = sessionStorage.user_nickname;
-        if (sessionStorage.user_type == "master") {
-            this.is_login = "master";
-        }
-    }
   }
 
   // +++++++++++++++++++++ DataBase에서 데이터를 읽는 함수 +++++++++++++++++++++
   getStudyTopMenu() {
     this._dataService.getStudyTopMenu()
-        .subscribe(res => this.nav_menu_top = res);
+        .subscribe(res => {
+          for (var i=0; i < res.length; i++) {
+            res[i].menu_top_btn = false;
+          }
+          this.nav_menu_top = res;
+        });
   }
   getStudySubMenu() {
     this._dataService.getStudySubMenu()
@@ -65,9 +62,65 @@ export class StudyPageMainComponent {
   // -------------------------------------------------------------------------
 
 
-  // +++++++++++++++++++++ List 관련 함수 +++++++++++++++++++++
+  // +++++++++++++++++++++ List(Menu) 관련 함수 +++++++++++++++++++++
   listMenu() {
     this.list_button = !this.list_button;
+  }
+  // 주 메뉴 클릭 이벤트
+  topMenu = (obj, index) => {
+      this.is_home = false; // 홈 화면이 아님을 알림
+      this.cur_page = 1; // 페이지 번호를 1로 초기화
+      this.cur_top_menu = obj.title;
+      this.cur_sub_menu = '';
+      this.nav_menu_top[index].menu_top_btn = !this.nav_menu_top[index].menu_top_btn; // top메뉴 여닫기 관리
+/*
+      var superId = obj.id;
+      $commonGetContentBoardService.getContentBoard().then(data => {
+          $scope.contentBoard = new Array();
+          $scope.getBoardItem = new Array();
+          var cnt = 0;
+          for (var i = 0; i < data.board.length; i++) {
+              if (data.board[i].superId == superId) {
+                  $scope.getBoardItem[cnt] = data.board[i];
+                  cnt++;
+              }
+          }
+          cnt = 0;
+          // 역순으로 정렬하여 최신글이 앞으로 오도록 한다
+          $scope.getBoardItem.sort(function(a, b) {
+              return b.index - a.index;
+          });
+
+          // 게시판의 글 페이징 처리
+          var boardItemNum = $scope.getBoardItem.length;
+          $scope.totalPageNum = Math.ceil(boardItemNum/15);
+          if ( boardItemNum <= $scope.itemPerPage) {
+              for (var item in $scope.getBoardItem) {
+                  $scope.contentBoard[cnt] = $scope.getBoardItem[item];
+                  cnt++;
+              }
+          } else {
+              for (var i = 0; i < $scope.itemPerPage; i++) {
+                  $scope.contentBoard[cnt] = $scope.getBoardItem[i];
+                  cnt++;
+              }
+          }
+
+          // 페이지 넘버링 처리
+          $scope.curPageList = new Array();
+          if ($scope.totalPageNum > $scope.maxShowPageNum) { // 전체 페이지 수가 maxShowPageNum의 개수보다 클 경우
+              for (var i = 1; i <= $scope.maxShowPageNum; i++) {
+                  $scope.curPageList[i-1] = i;
+              }
+          } else {
+              for (var i = 1; i <= $scope.totalPageNum; i++) { // 전체 페이지 수가 maxShowPageNum의 개수보다 작을 경우
+                  $scope.curPageList[i-1] = i;
+              }
+          }
+          console.log('read board items success');
+      }, data => {
+          console.log('error : ' + data);
+      });*/
   }
   // ---------------------------------------------------------
 
@@ -75,5 +128,8 @@ export class StudyPageMainComponent {
     console.log(q);
     var url = "http://www.google.co.kr/search?ie=utf-8&oe=utf-8&hl=ko&q=" + q;
     window.open(url, "_blank");
+  }
+  getSessionIsLogin() {
+    return sessionStorage.is_login;
   }
 }

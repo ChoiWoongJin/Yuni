@@ -13,7 +13,7 @@ import { DesignPageMainComponent } from "../design-page/design-page-main/design-
 // Router 생성( path 표시할 때 Root path에 대한 '/'는 제외 )
 const routers: Routes = [
   { path : '', outlet : 'intro', component : IntroPageMainComponent },
-  { path : 'study', outlet : 'intro', component : StudyPageMainComponent },
+  { path : 'study', outlet : 'intro', component : StudyPageMainComponent},
   { path : 'design', outlet : 'intro', component : DesignPageMainComponent }
 ];
 

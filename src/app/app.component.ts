@@ -80,15 +80,12 @@ export class AppComponent {
     // -------------------------------------------
 
     // session 유지되고 있을 때의 상태에 대한 처리
-    if (sessionStorage.is_login == "true") {
+    if (sessionStorage.is_login == "true" || sessionStorage.is_login == "master") {
         console.log('[system] 로그인이 유지되고 있습니다');
-        this.is_login = "true";
+        this.is_login = sessionStorage.is_login;
         this.user_id = sessionStorage.user_id;
         this.user_nickname = sessionStorage.user_nickname;
-        this.user_email = sessionStorage.user_nickname;
-        if (sessionStorage.user_type == "master") {
-            this.is_login = "master";
-        }
+        this.user_email = sessionStorage.user_email;
     }
   }
 
@@ -169,20 +166,19 @@ export class AppComponent {
               // 세션이 유지되는 동안 user의 타입(*권한)을 설정
               sessionStorage.setItem("user_id", this.userInfo[infoNum].id);
               sessionStorage.setItem("user_nickname", this.userInfo[infoNum].nickname);
-              sessionStorage.setItem("user_type", this.userInfo[infoNum].type);
               sessionStorage.setItem("user_email", this.userInfo[infoNum].email);
               sessionStorage.setItem("is_login", "true");
+              if (this.userInfo[infoNum].type == "master") {
+                sessionStorage.is_login = "master";
+              }
               break;
             }
           }
       }
-      if (sessionStorage.is_login == "true") {
+      if (sessionStorage.is_login == "true" || sessionStorage.is_login == "master") {
         this.user_id = sessionStorage.user_id;
         this.user_nickname = sessionStorage.user_nickname;
-        this.is_login = "true";
-        if (sessionStorage.user_type == "master") {
-            this.is_login = "master";
-        }
+        this.is_login = sessionStorage.is_login;
         this.lg_button = false;
         console.log('[success] Login');
         alert(this.user_id + "님, 접속을 환영합니다!");

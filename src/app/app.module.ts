@@ -22,6 +22,7 @@ import { StudyPageMainComponent } from './study-page/study-page-main/study-page-
 import { DesignPageMainComponent } from './design-page/design-page-main/design-page-main.component';
 import { PortfolioPageMainComponent } from './portfolio-page/portfolio-page-main/portfolio-page-main.component';
 // Feature Module import
+import { FileSelectDirective } from 'ng2-file-upload';
 
 // using jQuery
 import * as $ from 'jquery';
@@ -32,7 +33,8 @@ import * as $ from 'jquery';
     IntroPageMainComponent,
     StudyPageMainComponent,
     DesignPageMainComponent,
-    PortfolioPageMainComponent
+    PortfolioPageMainComponent,
+    FileSelectDirective
   ],
   imports: [
     BrowserModule,
