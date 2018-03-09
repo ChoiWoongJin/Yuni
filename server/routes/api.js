@@ -1,16 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
+const Server = require('mongodb').Server;
 const ObjectID = require('mongodb').ObjectID;
 
+const url = "mongodb://localhost:27017/blogData";
+
 // Connect
-const connection = (closure) => {
-    return MongoClient.connect('mongodb://localhost:27017/blogData', (err, client) => {
-        if (err) return console.log(err);
-        let db = client.db('blogData');
-        closure(db);
-    });
-};
+let mongodb = null;
+MongoClient.connect(url, {poolSize: 10}, (err, database) => {
+    if(err) throw err;
+    mongodb = database.db('blogData');
+});
+
 
 // Error handling
 const sendError = (err, res) => {
@@ -35,8 +37,8 @@ let responseContents = {
 
 // Get studyTopMenu
 router.get('/studyTopMenu', (req, res) => {
-    connection((db) => {
-        db.collection('studyTopMenu')
+    // connection((mongodb) => {
+        mongodb.collection('studyTopMenu')
           .find( { "isDeleted": false } )
           .sort( { "order": 1 } )
           .toArray()
@@ -47,12 +49,12 @@ router.get('/studyTopMenu', (req, res) => {
           .catch((err) => {
               sendError(err, res);
         });
-    });
+    // });
 });
 // Get studySubMenu
 router.get('/studySubMenu', (req, res) => {
-    connection((db) => {
-        db.collection('studySubMenu')
+    // connection((mongodb) => {
+        mongodb.collection('studySubMenu')
           .find( { "isDeleted": false } )
           .sort( { "super": 1, "order": 1 } )
           .toArray()
@@ -63,14 +65,14 @@ router.get('/studySubMenu', (req, res) => {
           .catch((err) => {
               sendError(err, res);
         });
-    });
+    // });
 });
 
 // Get boardContent As Paging
 router.post('/boardContent', (req, res) => {
-    connection((db) => {
+    // connection((mongodb) => {
       if (req.body.sub_order == "no") {
-        db.collection('boardContent')
+        mongodb.collection('boardContent')
           .find( { "isDeleted": false, "super_id": req.body.super_id } )
           .count()
           .then((item_size) => {
@@ -80,7 +82,7 @@ router.post('/boardContent', (req, res) => {
               sendError(err, res);
         });
 
-        db.collection('boardContent')
+        mongodb.collection('boardContent')
           .find( { "isDeleted": false, "super_id": req.body.super_id } )
           .sort( { "index": -1, "date": -1 } )
           .skip((req.body.page-1)*req.body.page_cnt)
@@ -94,7 +96,7 @@ router.post('/boardContent', (req, res) => {
               sendError(err, res);
         });
       } else {
-        db.collection('boardContent')
+        mongodb.collection('boardContent')
           .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order } )
           .count()
           .then((item_size) => {
@@ -104,7 +106,7 @@ router.post('/boardContent', (req, res) => {
               sendError(err, res);
         });
 
-        db.collection('boardContent')
+        mongodb.collection('boardContent')
           .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order } )
           .sort( { "index": -1, "date": -1 } )
           .skip((req.body.page-1)*req.body.page_cnt)
@@ -118,13 +120,13 @@ router.post('/boardContent', (req, res) => {
               sendError(err, res);
         });
       }
-    });
+    // });
 })
 
 // Get guestBook
 router.get('/guestBook', (req, res) => {
-    connection((db) => {
-        db.collection('guestBook')
+    // connection((mongodb) => {
+        mongodb.collection('guestBook')
           .find( { "isDeleted": false } )
           .sort( { "order": -1 } )
           .toArray()
@@ -135,26 +137,26 @@ router.get('/guestBook', (req, res) => {
           .catch((err) => {
               sendError(err, res);
         });
-    });
+    // });
 })
 // Delete guestBook document
 router.patch('/guestBook', (req, res) => {
-    connection((db) => {
-        db.collection('guestBook')
+    // connection((mongodb) => {
+        mongodb.collection('guestBook')
           .update( { "_id": ObjectID(req.body._id)}, { $set: {"isDeleted": true}});
-    });
+    // });
 })
 // Save Json Data To 'guestBook' Collection
 router.post('/guestBook', (req, res) => {
-    connection((db) => {
-        db.collection('guestBook').insert(req.body);
-    });
+    // connection((mongodb) => {
+        mongodb.collection('guestBook').insert(req.body);
+    // });
 })
 
 // Get 'userInfo' Collection From 'blogData' Database
 router.get('/userInfo', (req, res) => {
-    connection((db) => {
-        db.collection('userInfo')
+    // connection((mongodb) => {
+        mongodb.collection('userInfo')
           .find( { "isDeleted": false } )
           .toArray()
           .then((userInfo) => {
@@ -164,13 +166,13 @@ router.get('/userInfo', (req, res) => {
           .catch((err) => {
               sendError(err, res);
         });
-    });
+    // });
 })
 // Save Json Data To 'userInfo' Collection
 router.post('/userInfo', (req, res) => {
-    connection((db) => {
-        db.collection('userInfo').insert(req.body);
-    });
+    // connection((mongodb) => {
+        mongodb.collection('userInfo').insert(req.body);
+    // });
 })
 
 module.exports = router;
