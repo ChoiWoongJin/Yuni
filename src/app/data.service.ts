@@ -18,7 +18,11 @@ export class DataService {
       page_cnt: page_cnt
     }
     return this._http.post("/api/boardContent", pageInfo)
-      .map(result => this.result = result.json().data);
+      .map(result => {
+        this.result = result.json().data;
+        this.result.total = result.json().total;
+        return this.result;
+      });
   }
 
   getGuestBook() {

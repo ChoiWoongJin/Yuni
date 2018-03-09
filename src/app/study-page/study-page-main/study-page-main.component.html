@@ -51,7 +51,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr class="cp" *ngFor="let board_info of board_content" title="글 선택 버튼" label="글 선택 버튼" role="button" type="submit"  tabindex="0"  (keypress)="boardItemOpen(board_info)" (click)="vm.boardItemOpen(board_info)">
+                    <tr class="cp" *ngFor="let board_info of board_content" title="글 선택 버튼" label="글 선택 버튼" role="button" type="submit"  tabindex="0"  (keypress)="boardItemOpen(board_info)" (click)="boardItemOpen(board_info)">
                     <td>{{board_info.index}}</td>
                     <td>{{board_info.title}}</td>
                     <td>{{board_info.author}}</td>
@@ -61,31 +61,31 @@
                 </tbody>
                 <div></div>
                 </table>
-                <!-- <div>
+                <div>
                     <table class="board_content_paging" style="margin:auto;">
                     <tr style="display:inline;">
                         <td>
-                            <span class="board_content_paging_first cp" label="첫번째 페이지 이동 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-keypress="vm.board_content_page_move('first')" ng-click="vm.board_content_page_move('first')"></span>
+                            <span class="board_content_paging_first cp" label="첫번째 페이지 이동 버튼" role="button"type="submit" tabindex="0" (keypress)="boardContentPageMove('first')" (click)="boardContentPageMove('first')"></span>
                         </td>
                         <td>
-                            <span class="board_content_paging_back cp" label="이전 페이지 이동 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-keypress="vm.board_content_page_move('back')" ng-click="vm.board_content_page_move('back')"></span>
+                            <span class="board_content_paging_back cp" label="이전 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove('back')" (click)="boardContentPageMove('back')"></span>
                         </td>
                     </tr>
-                    <tr ng-model="vm.curPage" ng-repeat="page in curPageList" style="display:inline;">
+                    <tr *ngFor="let page of cur_page_list" style="display:inline;">
                         <td>
-                            <span class="board_content_paging_number cp" ng-class="{'curPage':vm.curPage == page}" label="숫자 페이지 이동 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-keypress="vm.board_content_page_move(page)" ng-click="vm.board_content_page_move(page)">{{page}}</span>
+                            <span class="board_content_paging_number cp" [ngClass]="{'cur_page':cur_page == page}" label="숫자 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove(page)" (click)="boardContentPageMove(page)" ngDefaultControl>{{page}}</span>
                         </td>
                     </tr>
                     <tr style="display:inline;">
                         <td>
-                            <span class="board_content_paging_next cp" label="다음 페이지 이동 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-keypress="vm.board_content_page_move('next')" ng-click="vm.board_content_page_move('next')" style="display:block;"></span>
+                            <span class="board_content_paging_next cp" label="다음 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove('next')" (click)="boardContentPageMove('next')" style="display:block;"></span>
                         </td>
                         <td>
-                            <span class="board_content_paging_last cp" label="마지막 페이지 이동 버튼" role="button" aria-disabled="false" type="submit" tabindex="0" ng-keypress="vm.board_content_page_move('last')" ng-click="vm.board_content_page_move('last')"></span>
+                            <span class="board_content_paging_last cp" label="마지막 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove('last')" (click)="boardContentPageMove('last')"></span>
                         </td>
                     </tr>
                     </table>
-                </div> -->
+                </div>
             </div>
         </div>
 
