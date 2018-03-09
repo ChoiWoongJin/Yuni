@@ -59,20 +59,41 @@ router.get('/studySubMenu', (req, res) => {
     });
 });
 
-// Get content_board
-router.get('/content_board', (req, res) => {
-    connection((db) => {
-        db.collection('content_board')
-          .find( { "isDeleted": false } )
-          .toArray()
-          .then((content_board) => {
-              response.data = content_board;
-              res.json(response);
-          })
-          .catch((err) => {
-              sendError(err, res);
-        });
-    });
+// Get boardContent As Paging
+router.post('/boardContent', (req, res) => {
+    if (req.body.sub_order == "no") {
+      connection((db) => {
+          db.collection('boardContent')
+            .find( { "isDeleted": false, "super_id": req.body.super_id } )
+            .sort( { "index": -1, "date": -1 } )
+            .skip((req.body.page-1)*req.body.page_cnt)
+            .limit(req.body.page_cnt)
+            .toArray()
+            .then((boardContent) => {
+                response.data = boardContent;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+          });
+      });
+    } else {
+      connection((db) => {
+          db.collection('boardContent')
+            .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order } )
+            .sort( { "index": -1, "date": -1 } )
+            .skip((req.body.page-1)*req.body.page_cnt)
+            .limit(req.body.page_cnt)
+            .toArray()
+            .then((boardContent) => {
+                response.data = boardContent;
+                res.json(response);
+            })
+            .catch((err) => {
+                sendError(err, res);
+          });
+      });
+    }
 })
 
 // Get guestBook

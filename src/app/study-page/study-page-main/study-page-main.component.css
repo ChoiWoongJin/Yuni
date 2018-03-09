@@ -19,8 +19,21 @@
 .study-page .study-body .study-ad{width:150px;margin-right:-150px;}
 .study-page footer{clear: both;}
 
+.board_content_table{width:100%;color:#777}
+.board_content_table thead tr th{height:2em;color:#fff;font-weight:bold;background:#333;vertical-align:middle;}
+.board_content_table tbody tr{border-bottom:1px solid #eee;margin-bottom:10em;}
+.board_content_table tbody tr:hover td{background:#eaeaea}
+.board_content_table tbody tr td{text-align:center;}
+.board_content_menu_path span{font-size:1em;font-weight:normal;}
+.board_content_menu_path_sub:before{font-family:"FontAwesome";content:"\f101";margin-left:0.2em;margin-right:0.2em;}
+.board_content_write_btn:before{font-family:"FontAwesome";content:"\f044";margin-left:0.2em;margin-right:0.2em;}
+.board_content_paging_first:before{font-family:"FontAwesome";content:"\f100";margin-left:0.2em;margin-right:0.2em;float:left;}
+.board_content_paging_back:before{font-family:"FontAwesome";content:"\f104";margin-left:0.2em;margin-right:0.2em;float:left;}
+.board_content_paging_number{float:left;}
+.board_content_paging_next:before{font-family:"FontAwesome";content:"\f105";margin-left:0.2em;margin-right:0.2em;float:left;}
+.board_content_paging_last:before{font-family:"FontAwesome";content:"\f101";margin-left:0.2em;margin-right:0.2em;float:left;}
 
-.HolyGrail-nav{flex:0 0 12em;order:-1;}
+
 .nav_menu_top{text-align:center;}
 .nav_menu_top_item{width:10em;color:#FFF;background-color:#404040;border:3px solid black;font-family:'Lato',sans-serif;font-size:1em;font-weight:bold;margin-bottom:0.3em;transition:all .5s ease;}
 .nav_menu_top_item:hover{box-shadow:rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;}
@@ -36,6 +49,7 @@
 .nav_menu_sub_delete{text-align:center;font-size:0.5em;font-weight:bold;color:white;background:crimson;border:0.1em solid black;-webkit-border-radius:3px;border-radius:3px;transition:all .5s ease;}
 .nav_menu_sub_delete:focus{position:relative;height:100%;top:-0.9em;font-size:1.4em;}
 .nav_menu_sub_delete:hover{position:relative;height:100%;top:-0.9em;font-size:1.4em;pointer-events: painted;}
+
 
 .cp{cursor:pointer;}/*커서 포인터 속성*/
 .curPage{font-weight:bold;font-size:1.1em;}

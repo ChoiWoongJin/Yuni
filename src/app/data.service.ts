@@ -10,8 +10,14 @@ export class DataService {
 
   constructor(private _http: Http) { }
 
-  getContentBoard() {
-    return this._http.get("/api/content_board")
+  getBoardContent(super_id, sub_order, page, page_cnt) {
+    var pageInfo = {
+      super_id: super_id,
+      sub_order: sub_order,
+      page: page,
+      page_cnt: page_cnt
+    }
+    return this._http.post("/api/boardContent", pageInfo)
       .map(result => this.result = result.json().data);
   }
 

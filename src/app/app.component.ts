@@ -100,11 +100,6 @@ export class AppComponent {
         });
       });
   }
-  getContentBoard() {
-    this._dataService.getContentBoard()
-        .subscribe(res => this.nav_menu = res);
-    console.log(this.nav_menu);
-  }
   getGuestBook() {
     this._dataService.getGuestBook()
         .subscribe(res => {
