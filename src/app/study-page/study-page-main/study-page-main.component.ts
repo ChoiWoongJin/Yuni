@@ -91,6 +91,7 @@ export class StudyPageMainComponent {
             }
             this.total_content_num = res.total;
             console.log('[DB][succes] Get boardContent');
+            console.log(this.board_content);
             resolve();
           });
     });
@@ -129,6 +130,30 @@ export class StudyPageMainComponent {
         }
         console.log('[System] Reading board items success');
       }
+  }
+  // 서브 메뉴 클릭 이벤트
+  async subMenu(obj) {
+    this.is_home = false; // 홈 화면이 아님을 알림
+    this.cur_page = 1; // 페이지 번호를 1로 초기화
+    this.cur_sub_menu = obj.title;
+    this.cur_super_id = obj.super;
+    this.cur_sub_order = obj.order;
+    this.board_content = new Array();
+    await this.getBoardContent(obj.super, this.cur_sub_order, this.cur_page);
+
+    // 페이지 넘버링 처리
+    this.cur_page_list = new Array();
+    this.total_page_num =  Math.ceil(this.total_content_num / this.cur_page_cnt);
+    if (this.total_page_num > this.max_show_page_num) { // 전체 페이지 수가 maxShowPageNum의 개수보다 클 경우
+        for (var i = 1; i <= this.max_show_page_num; i++) {
+            this.cur_page_list[i-1] = i;
+        }
+    } else {
+        for (var i = 1; i <= this.total_page_num; i++) { // 전체 페이지 수가 maxShowPageNum의 개수보다 작을 경우
+            this.cur_page_list[i-1] = i;
+        }
+    }
+    console.log('[System] Reading board items success');
   }
   // 페이지 이동 이벤트
   async boardContentPageMove(obj) {
