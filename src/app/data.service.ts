@@ -32,8 +32,8 @@ export class DataService {
   deleteGuestBook(delComment) {
     return this._http.patch("/api/guestBook", delComment);
   }
-  addGuestBook(addData) {
-    return this._http.post("/api/guestBook", addData)
+  addGuestBook(gbInfo) {
+    return this._http.post("/api/guestBook", gbInfo);
   }
 
   getUserInfo() {
@@ -55,8 +55,20 @@ export class DataService {
     return this._http.get("/api/studyTopMenu")
       .map(result => this.result = result.json().data);
   }
+  addStudyTopMenu(topMenuInfo) {
+    return this._http.post("/api/studyTopMenu", topMenuInfo);
+  }
+  deleteStudyTopMenu(topMenuInfo) {
+    return this._http.patch("/api/studyTopMenu", topMenuInfo);
+  }
   getStudySubMenu() {
     return this._http.get("/api/studySubMenu")
       .map(result => this.result = result.json().data);
+  }
+  addStudySubMenu(subMenuInfo) {
+    return this._http.post("/api/studySubMenu", subMenuInfo);
+  }
+  deleteStudySubMenu(subMenuInfo) {
+    return this._http.patch("/api/studySubMenu", subMenuInfo);
   }
 }

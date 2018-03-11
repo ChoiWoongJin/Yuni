@@ -34,36 +34,6 @@ let responseContents = {
   message: null
 };
 
-
-// Get studyTopMenu
-router.get('/studyTopMenu', (req, res) => {
-  mongodb.collection('studyTopMenu')
-    .find( { "isDeleted": false } )
-    .sort( { "order": 1 } )
-    .toArray()
-    .then((studyTopMenu) => {
-        response.data = studyTopMenu;
-        res.json(response);
-    })
-    .catch((err) => {
-        sendError(err, res);
-  });
-});
-// Get studySubMenu
-router.get('/studySubMenu', (req, res) => {
-  mongodb.collection('studySubMenu')
-    .find( { "isDeleted": false } )
-    .sort( { "super": 1, "order": 1 } )
-    .toArray()
-    .then((studySubMenu) => {
-        response.data = studySubMenu;
-        res.json(response);
-    })
-    .catch((err) => {
-        sendError(err, res);
-  });
-});
-
 // Get boardContent As Paging
 router.post('/boardContent', (req, res) => {
   if (req.body.sub_order == "no") {
@@ -157,6 +127,53 @@ router.get('/userInfo', (req, res) => {
 // Save Json Data To 'userInfo' Collection
 router.post('/userInfo', (req, res) => {
   mongodb.collection('userInfo').insert(req.body);
+})
+
+// Get studyTopMenu
+router.get('/studyTopMenu', (req, res) => {
+  mongodb.collection('studyTopMenu')
+    .find( { "isDeleted": false } )
+    .sort( { "order": 1 } )
+    .toArray()
+    .then((studyTopMenu) => {
+        response.data = studyTopMenu;
+        res.json(response);
+    })
+    .catch((err) => {
+        sendError(err, res);
+  });
+});
+// Add studyTopMenu
+router.post('/studyTopMenu', (req, res) => {
+  mongodb.collection('studyTopMenu').insert(req.body);
+})
+// Delete studyTopMenu item
+router.patch('/studyTopMenu', (req, res) => {
+  mongodb.collection('studyTopMenu')
+         .update( { "_id": ObjectID(req.body._id)}, { $set: {"isDeleted": true}});
+})
+// Get studySubMenu
+router.get('/studySubMenu', (req, res) => {
+  mongodb.collection('studySubMenu')
+    .find( { "isDeleted": false } )
+    .sort( { "super": 1, "order": 1 } )
+    .toArray()
+    .then((studySubMenu) => {
+        response.data = studySubMenu;
+        res.json(response);
+    })
+    .catch((err) => {
+        sendError(err, res);
+  });
+});
+// Add studySubMenu
+router.post('/studySubMenu', (req, res) => {
+  mongodb.collection('studySubMenu').insert(req.body);
+})
+// Delete studySubMenu item
+router.patch('/studySubMenu', (req, res) => {
+  mongodb.collection('studySubMenu')
+         .update( { "_id": ObjectID(req.body._id)}, { $set: {"isDeleted": true}});
 })
 
 module.exports = router;

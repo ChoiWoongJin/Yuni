@@ -16,111 +16,105 @@
 </div>
 <div class="study-body">
 <div class="study-main">
-  <p>Main</p>
-
   <!--홈 View-->
-        <div *ngIf="is_home">
-          <p>Home Page</p>
-        </div>
-        <!--게시판 View-->
-        <div style="margin-top:1em;margin-left:1em;margin-right:1em;" *ngIf="!is_home">
-            <div style="position:relative;">
-                <span style="margin-left:0.5em;font-size:2em;font-weight:bold;">게시판</span>
-                <span class="board_content_menu_path"><span *ngIf="cur_top_menu != '' && cur_top_menu != null">[{{cur_top_menu}}]</span><span class="board_content_menu_path_sub" *ngIf="cur_sub_menu != '' && cur_sub_menu != null">[{{cur_sub_menu}}]</span></span>
-                <span class="cp btn" *ngIf="getSessionIsLogin() == 'master'" style="position:absolute;bottom:0.2em;right:0.5em;">
-                    <!-- <div class="board_content_write_btn" title="글쓰기 버튼" label="글쓰기 버튼" role="button" type="submit" tabindex="0" (keypress)="" (click)="">글쓰기</div> -->
-                    <div class="board_content_write_btn" title="글쓰기 버튼" label="글쓰기 버튼" role="button" type="submit" tabindex="0">글쓰기</div>
-                </span>
-            </div>
-            <div>
-                <table class="board_content_table">
-                <colgroup>
-                    <col style="width:8%">
-                    <col style="width:50%">
-                    <col style="width:17%">
-                    <col style="width:17%">
-                    <col style="width:8%">
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>조회수</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr class="cp" *ngFor="let board_info of board_content" title="글 선택 버튼" label="글 선택 버튼" role="button" type="submit"  tabindex="0"  (keypress)="boardItemOpen(board_info)" (click)="boardItemOpen(board_info)">
-                    <td>{{board_info.index}}</td>
-                    <td>{{board_info.title}}</td>
-                    <td>{{board_info.author}}</td>
-                    <td>{{board_info.date}}</td>
-                    <td>{{board_info.views}}</td>
-                </tr>
-                </tbody>
-                <div></div>
-                </table>
-                <div>
-                    <table class="board_content_paging" style="margin:auto;">
-                    <tr style="display:inline;">
-                        <td>
-                            <span class="board_content_paging_first cp" label="첫번째 페이지 이동 버튼" role="button"type="submit" tabindex="0" (keypress)="boardContentPageMove('first')" (click)="boardContentPageMove('first')"></span>
-                        </td>
-                        <td>
-                            <span class="board_content_paging_back cp" label="이전 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove('back')" (click)="boardContentPageMove('back')"></span>
-                        </td>
-                    </tr>
-                    <tr *ngFor="let page of cur_page_list" style="display:inline;">
-                        <td>
-                            <span class="board_content_paging_number cp" [ngClass]="{'cur_page':cur_page == page}" label="숫자 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove(page)" (click)="boardContentPageMove(page)" ngDefaultControl>{{page}}</span>
-                        </td>
-                    </tr>
-                    <tr style="display:inline;">
-                        <td>
-                            <span class="board_content_paging_next cp" label="다음 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove('next')" (click)="boardContentPageMove('next')" style="display:block;"></span>
-                        </td>
-                        <td>
-                            <span class="board_content_paging_last cp" label="마지막 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove('last')" (click)="boardContentPageMove('last')"></span>
-                        </td>
-                    </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-
+  <div *ngIf="is_home">
+    <p>Home Page</p>
+  </div>
+  <!--게시판 View-->
+  <div style="margin-top:1em;margin-left:1em;margin-right:1em;" *ngIf="!is_home">
+      <div style="position:relative;">
+          <span style="margin-left:0.5em;font-size:2em;font-weight:bold;">게시판</span>
+          <span class="board_content_menu_path"><span *ngIf="cur_top_menu != '' && cur_top_menu != null">[{{cur_top_menu}}]</span><span class="board_content_menu_path_sub" *ngIf="cur_sub_menu != '' && cur_sub_menu != null">[{{cur_sub_menu}}]</span></span>
+          <span class="cp btn" *ngIf="getSessionIsLogin() == 'master'" style="position:absolute;bottom:0.2em;right:0.5em;">
+              <!-- <div class="board_content_write_btn" title="글쓰기 버튼" label="글쓰기 버튼" role="button" type="submit" tabindex="0" (keypress)="" (click)="">글쓰기</div> -->
+              <div class="board_content_write_btn" title="글쓰기 버튼" label="글쓰기 버튼" role="button" type="submit" tabindex="0">글쓰기</div>
+          </span>
+      </div>
+      <div>
+          <table class="board_content_table">
+          <colgroup>
+              <col style="width:8%">
+              <col style="width:50%">
+              <col style="width:17%">
+              <col style="width:17%">
+              <col style="width:8%">
+          </colgroup>
+          <thead>
+          <tr>
+              <th>번호</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
+              <th>조회수</th>
+          </tr>
+          </thead>
+          <tbody>
+              <tr class="cp" *ngFor="let board_info of board_content" title="글 선택 버튼" label="글 선택 버튼" role="button" type="submit"  tabindex="0"  (keypress)="boardItemOpen(board_info)" (click)="boardItemOpen(board_info)">
+              <td>{{board_info.index}}</td>
+              <td>{{board_info.title}}</td>
+              <td>{{board_info.author}}</td>
+              <td>{{board_info.date}}</td>
+              <td>{{board_info.views}}</td>
+          </tr>
+          </tbody>
+          <div></div>
+          </table>
+          <div>
+              <table class="board_content_paging" style="margin:auto;">
+              <tr style="display:inline;">
+                  <td>
+                      <span class="board_content_paging_first cp" label="첫번째 페이지 이동 버튼" role="button"type="submit" tabindex="0" (keypress)="boardContentPageMove('first')" (click)="boardContentPageMove('first')"></span>
+                  </td>
+                  <td>
+                      <span class="board_content_paging_back cp" label="이전 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove('back')" (click)="boardContentPageMove('back')"></span>
+                  </td>
+              </tr>
+              <tr *ngFor="let page of cur_page_list" style="display:inline;">
+                  <td>
+                      <span class="board_content_paging_number cp" [ngClass]="{'cur_page':cur_page == page}" label="숫자 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove(page)" (click)="boardContentPageMove(page)" ngDefaultControl>{{page}}</span>
+                  </td>
+              </tr>
+              <tr style="display:inline;">
+                  <td>
+                      <span class="board_content_paging_next cp" label="다음 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove('next')" (click)="boardContentPageMove('next')" style="display:block;"></span>
+                  </td>
+                  <td>
+                      <span class="board_content_paging_last cp" label="마지막 페이지 이동 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentPageMove('last')" (click)="boardContentPageMove('last')"></span>
+                  </td>
+              </tr>
+              </table>
+          </div>
+      </div>
+  </div>
 </div>
-
 
 <!-- header의 버튼으로 nav를 끄고 키도록 -->
 <div class="study-nav" role="menu" *ngIf="list_button == true">
-  <p>Nav</p>
   <div style="float:right;">
   <table id="nav_menu" class="nav_menu_table" summary="블로그의 전체 메뉴를 구성하는 테이블">
-  <tr *ngFor="let menu_top of nav_menu_top; let list_top_i = index">
-      <td class="nav_menu_top">
-          <div class="nav_menu_top_item cp" title="주 메뉴" role="button" tabindex="0" [(ngModel)]="cur_top_menu" (keypress)="topMenu(menu_top, list_top_i)" (click)="topMenu(menu_top, list_top_i)" ngDefaultControl>{{menu_top.title}}</div>
-          <div class="nav_menu_top_delete cp" *ngIf="getSessionIsLogin() == 'master'" title="주 메뉴 삭제 버튼" label="주 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="topMenuDelete(menu_top, list_top_i)" (click)="topMenuDelete(menu_top, list_top_i)">메뉴 삭제</div>
+  <tr *ngFor="let menu_top of nav_top_menu; let list_top_i = index">
+      <td class="nav_top_menu">
+          <div class="nav_top_menu_item cp" title="주 메뉴" role="button" tabindex="0" [(ngModel)]="cur_top_menu" (keypress)="topMenu(menu_top, list_top_i)" (click)="topMenu(menu_top, list_top_i)" ngDefaultControl>{{menu_top.title}}</div>
+          <div class="nav_top_menu_delete cp" *ngIf="getSessionIsLogin() == 'master'" title="주 메뉴 삭제 버튼" label="주 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="topMenuDelete(menu_top)" (click)="topMenuDelete(menu_top)">메뉴 삭제</div>
           <table *ngIf="menu_top.menu_top_btn">
-          <tr *ngFor="let menu_sub of nav_menu_sub; let list_sub_i = index">
+          <tr *ngFor="let menu_sub of nav_sub_menu">
               <div *ngIf="menu_top.id == menu_sub.super">
-              <td class="nav_menu_sub" [ngClass]="{'sub_master_mod':getSessionIsLogin() == 'master'}" ngDefaultControl>
-                  <div class="nav_menu_sub_item" style="width:7.5em;" title="서브 메뉴" role="button" tabindex="0" [(ngModel)]="cur_sub_menu" (keypress)="subMenu(menu_sub)" (click)="subMenu(menu_sub)" ngDefaultControl>{{menu_sub.title}}</div>
-                <div class="nav_menu_sub_delete cp" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" title="서브 메뉴 삭제 버튼" label="서브 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="subMenuDelete(menu_sub, list_sub_i)" (click)="subMenuDelete(menu_sub, list_sub_i)">메뉴 삭제</div>
+              <td class="nav_sub_menu" [ngClass]="{'sub_master_mod':getSessionIsLogin() == 'master'}" ngDefaultControl>
+                  <div class="nav_sub_menu_item" style="width:7.5em;" title="서브 메뉴" role="button" tabindex="0" [(ngModel)]="cur_sub_menu" (keypress)="subMenu(menu_sub)" (click)="subMenu(menu_sub)" ngDefaultControl>{{menu_sub.title}}</div>
+                <div class="nav_sub_menu_delete cp" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" title="서브 메뉴 삭제 버튼" label="서브 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="subMenuDelete(menu_sub)" (click)="subMenuDelete(menu_sub)">메뉴 삭제</div>
               </td>
               </div>
           </tr>
           </table>
-          <input id="nav_menu_sub_add_{{list_top_i}}" title="서브 메뉴 추가 입력창" type="text" placeholder="서브 메뉴 이름" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" [(ngModel)]="nav_menu_sub_title_add" style="margin-left:2.4em;width:9.6em;">
+          <input id="nav_sub_menu_add_{{list_top_i}}" title="서브 메뉴 추가 입력창" type="text" placeholder="서브 메뉴 이름" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" style="margin-left:2.4em;width:9.6em;">
           <div class="nav_menu_add cp btn" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" title="서브 메뉴 추가 버튼" label="서브 메뉴 추가 버튼" role="button" type="submit" tabindex="0" (keypress)="subMenuAdd(menu_top, list_top_i)" (click)="subMenuAdd(menu_top, list_top_i)" style="display:block;margin-left:2.8em;margin-bottom:0.2em;">메뉴 추가</div>
       </td>
   </tr>
   </table>
-  <input id="nav_menu_top_add" title="주 메뉴 추가 입력창" type="text" placeholder="주 메뉴 이름" *ngIf="getSessionIsLogin() == 'master'" [(ngModel)]="nav_menu_top_title_add">
+  <input id="nav_top_menu_add" title="주 메뉴 추가 입력창" type="text" placeholder="주 메뉴 이름" *ngIf="getSessionIsLogin() == 'master'" [(ngModel)]="nav_top_menu_title_input">
   <div class="nav_menu_add cp btn" *ngIf="getSessionIsLogin() == 'master'" title="주 메뉴 추가 버튼" label="주 메뉴 추가 버튼" role="button" tabindex="0" (keypress)="topMenuAdd()" (click)="topMenuAdd()">메뉴 추가</div>
   </div>
 </div>
-
 
 <div class="study-ad">
   <p>Ad</p>

@@ -34,21 +34,21 @@
 .board_content_paging_last:before{font-family:"FontAwesome";content:"\f101";margin-left:0.2em;margin-right:0.2em;float:left;}
 
 
-.nav_menu_top{text-align:center;}
-.nav_menu_top_item{width:10em;color:#FFF;background-color:#404040;border:3px solid black;font-family:'Lato',sans-serif;font-size:1em;font-weight:bold;margin-bottom:0.3em;transition:all .5s ease;}
-.nav_menu_top_item:hover{box-shadow:rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;}
-.nav_menu_sub{border:0.1em solid black;display:block;margin-left:2em;margin-bottom:0.2em;-webkit-border-radius:3px;border-radius:3px;transition:all .5s ease;}
-.nav_menu_sub:hover{background-color:#404040;color:white;}
-.nav_menu_sub:before{font-family:"FontAwesome";content:"\f1ae";margin-right:0.2em;position:relative;float:left;}
+.nav_top_menu{text-align:center;}
+.nav_top_menu_item{width:10em;color:#FFF;background-color:#404040;border:3px solid black;font-family:'Lato',sans-serif;font-size:1em;font-weight:bold;margin-bottom:0.3em;transition:all .5s ease;}
+.nav_top_menu_item:hover{box-shadow:rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;}
+.nav_sub_menu{border:0.1em solid black;display:block;margin-left:2em;margin-bottom:0.2em;-webkit-border-radius:3px;border-radius:3px;transition:all .5s ease;}
+.nav_sub_menu:hover{background-color:#404040;color:white;}
+.nav_sub_menu:before{font-family:"FontAwesome";content:"\f1ae";margin-right:0.2em;position:relative;float:left;}
 .nav_menu_table{margin-top:1em;}
 .nav_menu_add{text-align:center;font-size:0.7em;font-weight:bold;}
 .sub_master_mod{height:2.5em;}
-.nav_menu_top_delete{text-align:center;font-size:0.5em;font-weight:bold;color:white;background:crimson;border:0.1em solid black;-webkit-border-radius:3px;border-radius:3px;transition:all .05s ease;margin-top:-0.55em;margin-bottom:0.6em;}
-.nav_menu_top_delete:focus{position:relative;top:0.3em;font-size:1.4em;pointer-events: painted;}
-.nav_menu_top_delete:hover{position:relative;top:0.3em;font-size:1.4em;pointer-events: painted;}
-.nav_menu_sub_delete{text-align:center;font-size:0.5em;font-weight:bold;color:white;background:crimson;border:0.1em solid black;-webkit-border-radius:3px;border-radius:3px;transition:all .5s ease;}
-.nav_menu_sub_delete:focus{position:relative;height:100%;top:-0.9em;font-size:1.4em;}
-.nav_menu_sub_delete:hover{position:relative;height:100%;top:-0.9em;font-size:1.4em;pointer-events: painted;}
+.nav_top_menu_delete{text-align:center;font-size:0.5em;font-weight:bold;color:white;background:crimson;border:0.1em solid black;-webkit-border-radius:3px;border-radius:3px;transition:all .05s ease;margin-top:-0.55em;margin-bottom:0.6em;}
+.nav_top_menu_delete:focus{position:relative;top:0.3em;font-size:1.4em;pointer-events: painted;}
+.nav_top_menu_delete:hover{position:relative;top:0.3em;font-size:1.4em;pointer-events: painted;}
+.nav_sub_menu_delete{text-align:center;font-size:0.5em;font-weight:bold;color:white;background:crimson;border:0.1em solid black;-webkit-border-radius:3px;border-radius:3px;transition:all .5s ease;}
+.nav_sub_menu_delete:focus{position:relative;height:100%;top:-0.9em;font-size:1.4em;}
+.nav_sub_menu_delete:hover{position:relative;height:100%;top:-0.9em;font-size:1.4em;pointer-events: painted;}
 
 
 .cp{cursor:pointer;}/*커서 포인터 속성*/

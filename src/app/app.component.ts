@@ -118,18 +118,15 @@ export class AppComponent {
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase에 데이터를 쓰는 함수 +++++++++++++++++++++++
   addUserInfo() {
-    this._dataService.addUserInfo(this.ca)
-        .subscribe();
+    this._dataService.addUserInfo(this.ca).subscribe();
   }
-  addGuestBook(addData) {
-    this._dataService.addGuestBook(addData)
-        .subscribe();
+  addGuestBook(gbInfo) {
+    this._dataService.addGuestBook(gbInfo).subscribe();
   }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase의 데이터를 바꾸는 함수 +++++++++++++++++++++++
   deleteGuestBook(index) {
-    this._dataService.deleteGuestBook(this.gbComments[index])
-        .subscribe();
+    this._dataService.deleteGuestBook(this.gbComments[index]).subscribe();
   }
   // ---------------------------------------------------------------------------
 
