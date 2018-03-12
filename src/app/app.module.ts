@@ -23,6 +23,9 @@ import { DesignPageMainComponent } from './design-page/design-page-main/design-p
 import { PortfolioPageMainComponent } from './portfolio-page/portfolio-page-main/portfolio-page-main.component';
 // Feature Module import
 import { FileSelectDirective } from 'ng2-file-upload';
+// wysiwyg - froala
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { ReactiveFormsModule } from '@angular/forms';
 
 // using jQuery
 import * as $ from 'jquery';
@@ -43,7 +46,8 @@ import * as $ from 'jquery';
     MatTableModule,
     FormsModule,
     CommonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(), ReactiveFormsModule
   ],
   providers: [
     DataService, // <-Add DataService

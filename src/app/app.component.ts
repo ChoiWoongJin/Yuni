@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
+// for using froala wysiwyg
+import * as $ from 'jquery'; window["$"] = $; window["jQuery"] = $;
+import "froala-editor/js/froala_editor.pkgd.min.js";
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+
 // Import the DataService
 import { DataService } from './data.service';
 
@@ -19,6 +24,8 @@ interface GBComment {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  wysiwygForm: FormGroup;
 
   lg_button: boolean;
   ca_button: boolean;
@@ -59,6 +66,10 @@ export class AppComponent {
     // Access the Data Service's getNav_menu() method we defined
     // this._dataService.getNav_menu()
     //     .subscribe(res => this.nav_menu = res[0].sub);
+
+    this.wysiwygForm = new FormGroup({
+       wysiwygFormModel: new FormControl()
+    });
 
     this.getGuestBook();
 
