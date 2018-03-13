@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from "@angular/forms";
+import * as $ from 'jquery';
 
 // Import the DataService
 import { DataService } from '../../data.service';
@@ -37,9 +38,10 @@ interface BoardContent {
   templateUrl: './study-page-main.component.html',
   styleUrls: ['./study-page-main.component.css']
 })
-export class StudyPageMainComponent {
+export class StudyPageMainComponent implements OnInit {
 
   list_button: boolean;
+  is_write: boolean;
 
   // ++++++++++++++++++++ List(Menu), BoardContent 관련 속성 ++++++++++++++++++++++
   nav_top_menu: TopMenu[]; // top 메뉴 정보
@@ -64,6 +66,7 @@ export class StudyPageMainComponent {
   constructor(private _dataService: DataService) {
     this.list_button = true;
     this.is_home = true;
+    this.is_write = false;
 
     this.getStudyTopMenu();
     this.getStudySubMenu();
@@ -115,6 +118,15 @@ export class StudyPageMainComponent {
   // ---------------------------------------------------------------------------
 
 
+  // +++++++++++++++++++++++ 글쓰기 관련 함수 +++++++++++++++++++++++
+  writeBtn() {
+    this.is_home = false; // 홈 화면이 아님을 알림
+    this.is_write = true; // 글쓰기 화면임을 알림
+  }
+  writeCancelBtn() {
+    this.is_write = false; // 글쓰기 화면임을 알림
+  }
+  // ---------------------------------------------------------------
   // +++++++++++++++++++++ List(Menu) 관련 함수 +++++++++++++++++++++
   listMenu() {
     this.list_button = !this.list_button;
@@ -124,6 +136,7 @@ export class StudyPageMainComponent {
     this.nav_top_menu[index].menu_top_btn = !this.nav_top_menu[index].menu_top_btn; // top메뉴 여닫기 관리
     if (this.nav_top_menu[index].menu_top_btn) {
       this.is_home = false; // 홈 화면이 아님을 알림
+      this.is_write = false; // 글쓰기 화면이 아님을 알림
       this.cur_page = 1; // 페이지 번호를 1로 초기화
       this.cur_top_menu = obj.title;
       this.cur_sub_menu = '';
@@ -150,6 +163,7 @@ export class StudyPageMainComponent {
   // 서브 메뉴 클릭 이벤트
   async subMenu(obj) {
     this.is_home = false; // 홈 화면이 아님을 알림
+    this.is_write = false; // 글쓰기 화면이 아님을 알림
     this.cur_page = 1; // 페이지 번호를 1로 초기화
     this.cur_sub_menu = obj.title;
     this.cur_super_id = obj.super;
@@ -268,6 +282,7 @@ export class StudyPageMainComponent {
   topMenuDelete(obj) {
     if (this.cur_super_id == obj.id) {
       this.is_home = true; // 홈 화면이 나오도록 함
+      this.is_write = false; // 글쓰기 화면이 아님을 알림
     }
     this.deleteStudyTopMenu(obj);
     this.getStudyTopMenu(); // top 메뉴를 재호출
@@ -304,6 +319,7 @@ export class StudyPageMainComponent {
   subMenuDelete(obj) {
     if (this.cur_super_id == obj.super && this.cur_sub_order == obj.order) {
       this.is_home = true; // 홈 화면이 나오도록 함
+      this.is_write = false; // 글쓰기 화면이 아님을 알림
     }
     this.deleteStudySubMenu(obj);
     this.getStudySubMenu(); // sub 메뉴를 재호출
@@ -317,5 +333,10 @@ export class StudyPageMainComponent {
   }
   getSessionIsLogin() {
     return sessionStorage.is_login;
+  }
+
+
+  public ngOnInit()
+  {
   }
 }
