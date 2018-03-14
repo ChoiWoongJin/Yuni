@@ -22,11 +22,11 @@
   </div>
   <!-- 글쓰기 View-->
   <div style="margin-top:1em;margin-left:1em;margin-right:1em;" *ngIf="is_write">
-  
     <div style="position:relative;">
-        <span class="cp btn" *ngIf="getSessionIsLogin() == 'master'" style="position:absolute;bottom:0.2em;right:0.5em;">
-            <div class="board_content_write_btn" title="글쓰기 취소 버튼" label="글쓰기 취소 버튼" role="button" type="submit" tabindex="0" (keypress)="writeCancelBtn()" (click)="writeCancelBtn()">글쓰기 취소</div>
-        </span>
+      <input style="width:100%" type="text" placeholder="글 제목 입력" [(ngModel)]='board_content_title_input'>
+      <app-tinymce [(ngModel)]='board_content_content_input'></app-tinymce>
+      <div class="board_content_write_btn cp btn" role="button" *ngIf="getSessionIsLogin() == 'master'" title="글쓰기 취소 버튼" label="글쓰기 취소 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentWriteCancelBtn()" (click)="boardContentWriteCancelBtn()">취소</div>
+      <div class="board_content_write_btn cp btn" role="button" tabindex="0" (keypress)="boardContentWrite()" (click)="boardContentWrite()">작성</div>
     </div>
   </div>
   <!--게시판 View-->
@@ -35,7 +35,7 @@
           <span style="margin-left:0.5em;font-size:2em;font-weight:bold;">게시판</span>
           <span class="board_content_menu_path"><span *ngIf="cur_top_menu != '' && cur_top_menu != null">[{{cur_top_menu}}]</span><span class="board_content_menu_path_sub" *ngIf="cur_sub_menu != '' && cur_sub_menu != null">[{{cur_sub_menu}}]</span></span>
           <span class="cp btn" *ngIf="getSessionIsLogin() == 'master'" style="position:absolute;bottom:0.2em;right:0.5em;">
-              <div class="board_content_write_btn" title="글쓰기 버튼" label="글쓰기 버튼" role="button" type="submit" tabindex="0" (keypress)="writeBtn()" (click)="writeBtn()">글쓰기</div>
+              <div class="board_content_write_btn" title="글쓰기 버튼" label="글쓰기 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentWriteBtn()" (click)="boardContentWriteBtn()">글쓰기</div>
           </span>
       </div>
       <div>

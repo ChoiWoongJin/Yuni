@@ -60,17 +60,22 @@ export class StudyPageMainComponent implements OnInit {
   cur_super_id: string;
   cur_sub_order: any;
 
+  board_content_title_input: string;
+  board_content_content_input: string;
+
   nav_top_menu_title_input: string; // top 메뉴 추가 타이틀 input 정보
   // ------------------------------------------------------------------------------
 
   constructor(private _dataService: DataService) {
+    this.board_content_title_input = '';
+    this.board_content_content_input = '';
+
     this.list_button = true;
     this.is_home = true;
     this.is_write = false;
 
     this.getStudyTopMenu();
     this.getStudySubMenu();
-    // this.getBoardContent();
   }
 
   // +++++++++++++++++++++ DataBase에서 데이터를 읽는 함수 +++++++++++++++++++++
@@ -119,12 +124,16 @@ export class StudyPageMainComponent implements OnInit {
 
 
   // +++++++++++++++++++++++ 글쓰기 관련 함수 +++++++++++++++++++++++
-  writeBtn() {
+  boardContentWriteBtn() {
     this.is_home = false; // 홈 화면이 아님을 알림
     this.is_write = true; // 글쓰기 화면임을 알림
   }
-  writeCancelBtn() {
+  boardContentWriteCancelBtn() {
     this.is_write = false; // 글쓰기 화면임을 알림
+  }
+  boardContentWrite() {
+    console.log(this.board_content_title_input);
+    console.log(this.board_content_content_input);
   }
   // ---------------------------------------------------------------
   // +++++++++++++++++++++ List(Menu) 관련 함수 +++++++++++++++++++++

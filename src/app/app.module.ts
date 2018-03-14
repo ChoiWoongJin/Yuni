@@ -26,7 +26,9 @@ import { FileSelectDirective } from 'ng2-file-upload';
 
 import * as $ from 'jquery';
 
-// For using summernote-wysiwyg
+// For using tinymce-wysiwyg
+import { TinymceModule } from 'angular2-tinymce';
+
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import * as $ from 'jquery';
     MatTableModule,
     FormsModule,
     CommonModule,
-    AppRoutingModule
+    AppRoutingModule,
+    TinymceModule.withConfig({
+    })
   ],
   providers: [
     DataService, // <-Add DataService
