@@ -27,7 +27,7 @@ import { FileSelectDirective } from 'ng2-file-upload';
 import * as $ from 'jquery';
 
 // For using tinymce-wysiwyg
-import { TinymceModule } from 'angular2-tinymce';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 
 @NgModule({
@@ -47,8 +47,7 @@ import { TinymceModule } from 'angular2-tinymce';
     FormsModule,
     CommonModule,
     AppRoutingModule,
-    TinymceModule.withConfig({
-    })
+    EditorModule
   ],
   providers: [
     DataService, // <-Add DataService
