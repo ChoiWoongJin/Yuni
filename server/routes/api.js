@@ -148,7 +148,7 @@ router.post('/studyTopMenu', (req, res) => {
   mongodb.collection('studyTopMenu').insert(req.body);
 })
 // Delete studyTopMenu item
-router.patch('/studyTopMenu', (req, res) => {
+  router.patch('/studyTopMenu', (req, res) => {
   mongodb.collection('studyTopMenu')
          .update( { "_id": ObjectID(req.body._id)}, { $set: {"isDeleted": true}});
 })

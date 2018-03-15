@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import * as $ from 'jquery';
 
+declare var tinymce: any;
+
 // Import the DataService
 import { DataService } from '../../data.service';
 

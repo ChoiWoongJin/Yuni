@@ -26,8 +26,9 @@
       <input style="width:100%" type="text" placeholder="글 제목 입력" [(ngModel)]='board_content_title_input'>
       <editor apiKey="3b8y44u2uv5h6dcgjq5bxp3y53lua1dxvq0ndobd0211ejk7"
               [init]="{
-                plugins: 'link, code, codesample, image, media, lists',
-                toolbar: 'code | undo, redo | styleselect, fontselect, fontsizeselect | alignleft aligncenter alignright alignjustify | numlist bullist | indent, outdent | codesample, link, image, media',
+                plugins: 'emoticons, print, preview, link, code, textcolor colorpicker, nonbreaking, charmap, table, codesample, image, media, lists',
+                toolbar1: 'code | undo, redo | styleselect, fontselect, fontsizeselect forecolor backcolor emoticons | alignleft aligncenter alignright alignjustify | numlist bullist | indent, outdent',
+                toolbar2: 'print preview | codesample, link, image, media | nonbreaking charmap table',
                 font_formats: 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;AkrutiKndPadmini=Akpdmi-n',
                 fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
                 style_formats: [
