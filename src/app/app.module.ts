@@ -29,6 +29,9 @@ import * as $ from 'jquery';
 // For using tinymce-wysiwyg
 import { EditorModule } from '@tinymce/tinymce-angular';
 
+// For using quill-wysiwyg
+import { QuillModule } from 'ngx-quill'
+
 
 @NgModule({
   declarations: [
@@ -47,7 +50,8 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     FormsModule,
     CommonModule,
     AppRoutingModule,
-    EditorModule
+    EditorModule,
+    QuillModule
   ],
   providers: [
     DataService, // <-Add DataService

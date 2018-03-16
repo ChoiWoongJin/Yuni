@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from "@angular/forms";
 import * as $ from 'jquery';
 
@@ -40,7 +40,7 @@ interface BoardContent {
   templateUrl: './study-page-main.component.html',
   styleUrls: ['./study-page-main.component.css']
 })
-export class StudyPageMainComponent implements OnInit {
+export class StudyPageMainComponent {
 
   list_button: boolean;
   is_write: boolean;
@@ -344,10 +344,5 @@ export class StudyPageMainComponent implements OnInit {
   }
   getSessionIsLogin() {
     return sessionStorage.is_login;
-  }
-
-
-  public ngOnInit()
-  {
   }
 }
