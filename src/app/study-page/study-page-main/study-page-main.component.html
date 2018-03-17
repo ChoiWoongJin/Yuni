@@ -23,7 +23,6 @@
   <!-- 글쓰기 View-->
   <div style="margin-top:1em;margin-left:1em;margin-right:1em;" *ngIf="is_write">
     <div style="position:relative;">
-      <quill-editor></quill-editor>
       <input style="width:100%" type="text" placeholder="글 제목 입력" [(ngModel)]='board_content_title_input'>
       <editor apiKey="3b8y44u2uv5h6dcgjq5bxp3y53lua1dxvq0ndobd0211ejk7"
               [init]="{
