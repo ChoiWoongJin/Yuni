@@ -36,52 +36,8 @@
         (fileUploadRequest)="onFileUploadRequest($event)"
         debounce="500">
       </ckeditor> -->
-      <ckeditor>
-      </ckeditor>
       <input style="width:100%" type="text" placeholder="글 제목 입력" [(ngModel)]='board_content_title_input'>
-      <editor apiKey="3b8y44u2uv5h6dcgjq5bxp3y53lua1dxvq0ndobd0211ejk7"
-              plugins="emoticons, print, preview, link, code, textcolor colorpicker, nonbreaking, charmap, table, codesample, image, media, lists, wordcount"
-              [init]="{
-                toolbar1: 'code | undo, redo | styleselect, fontselect, fontsizeselect forecolor backcolor emoticons | alignleft aligncenter alignright alignjustify | numlist bullist | indent, outdent',
-                toolbar2: 'print preview | codesample, link, image, media | nonbreaking charmap table',
-                font_formats: 'Arial=arial,helvetica,sans-serif;Courier New=courier new,courier,monospace;AkrutiKndPadmini=Akpdmi-n',
-                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
-                wordcount_cleanregex: '/[0-9.(),;:!?%#$?\x27\x22_+=\\\/\-]*/g',
-                wordcount_countregex: '/[\w\u2019\x27\-\u00C0-\u1FFF]+/g',
-                images_upload_url: 'postAcceptor.php',
-                style_formats: [
-                  {title: 'Headers', items: [
-                    {title: 'Header 1', format: 'h1'},
-                    {title: 'Header 2', format: 'h2'},
-                    {title: 'Header 3', format: 'h3'},
-                    {title: 'Header 4', format: 'h4'},
-                    {title: 'Header 5', format: 'h5'},
-                    {title: 'Header 6', format: 'h6'}
-                  ]},
-                  {title: 'Inline', items: [
-                    {title: 'Bold', icon: 'bold', format: 'bold'},
-                    {title: 'Italic', icon: 'italic', format: 'italic'},
-                    {title: 'Underline', icon: 'underline', format: 'underline'},
-                    {title: 'Strikethrough', icon: 'strikethrough', format: 'strikethrough'},
-                    {title: 'Superscript', icon: 'superscript', format: 'superscript'},
-                    {title: 'Subscript', icon: 'subscript', format: 'subscript'},
-                    {title: 'Code', icon: 'code', format: 'code'}
-                  ]},
-                  {title: 'Blocks', items: [
-                    {title: 'Paragraph', format: 'p'},
-                    {title: 'Blockquote', format: 'blockquote'},
-                    {title: 'Div', format: 'div'},
-                    {title: 'Pre', format: 'pre'}
-                  ]},
-                  {title: 'Alignment', items: [
-                    {title: 'Left', icon: 'alignleft', format: 'alignleft'},
-                    {title: 'Center', icon: 'aligncenter', format: 'aligncenter'},
-                    {title: 'Right', icon: 'alignright', format: 'alignright'},
-                    {title: 'Justify', icon: 'alignjustify', format: 'alignjustify'}
-                  ]}
-                ]
-              }"
-              [(ngModel)]='board_content_content_input'></editor>
+      <ckeditor [(ngModel)]='board_content_content_input'></ckeditor>
       <div class="board_content_write_inner_btn cp btn" role="button" *ngIf="getSessionIsLogin() == 'master'" title="글쓰기 취소 버튼" label="글쓰기 취소 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentWriteCancelBtn()" (click)="boardContentWriteCancelBtn()">취소</div>
       <div class="board_content_write_inner_btn cp btn" role="button" tabindex="0" (keypress)="boardContentWrite()" (click)="boardContentWrite()">작성</div>
     </div>

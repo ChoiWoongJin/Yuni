@@ -26,9 +26,7 @@ import { FileSelectDirective } from 'ng2-file-upload';
 
 import * as $ from 'jquery';
 
-// For using tinymce-wysiwyg
-import { EditorModule } from '@tinymce/tinymce-angular';
-
+// For using ckeditor-wysiwyg
 import { CKEditorModule } from 'ng2-ckeditor';
 
 
@@ -49,7 +47,6 @@ import { CKEditorModule } from 'ng2-ckeditor';
     FormsModule,
     CommonModule,
     AppRoutingModule,
-    EditorModule,
     CKEditorModule
   ],
   providers: [
