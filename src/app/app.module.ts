@@ -29,6 +29,7 @@ import * as $ from 'jquery';
 // For using tinymce-wysiwyg
 import { EditorModule } from '@tinymce/tinymce-angular';
 
+import { CKEditorModule } from 'ng2-ckeditor';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     FormsModule,
     CommonModule,
     AppRoutingModule,
-    EditorModule
+    EditorModule,
+    CKEditorModule
   ],
   providers: [
     DataService, // <-Add DataService
