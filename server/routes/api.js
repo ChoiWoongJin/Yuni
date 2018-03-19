@@ -86,6 +86,10 @@ router.post('/boardContent', (req, res) => {
     });
   }
 })
+// Add boardContent
+router.post('/boardContent', (req, res) => {
+  mongodb.collection('boardContent').insert(req.body);
+})
 
 // Get guestBook
 router.get('/guestBook', (req, res) => {

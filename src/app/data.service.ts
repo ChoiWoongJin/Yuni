@@ -24,6 +24,9 @@ export class DataService {
         return this.result;
       });
   }
+  addBoardContent(contentInfo) {
+    return this._http.post("/api/boardContent", contentInfo);
+  }
 
   getGuestBook() {
     return this._http.get("/api/guestBook")

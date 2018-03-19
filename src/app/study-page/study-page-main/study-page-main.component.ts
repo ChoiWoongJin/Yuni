@@ -42,6 +42,7 @@ export class StudyPageMainComponent {
 
   list_button: boolean;
   is_write: boolean;
+  is_view: boolean;
 
   // ++++++++++++++++++++ List(Menu), BoardContent 관련 속성 ++++++++++++++++++++++
   nav_top_menu: TopMenu[]; // top 메뉴 정보
@@ -60,8 +61,10 @@ export class StudyPageMainComponent {
   cur_super_id: string;
   cur_sub_order: any;
 
-  board_content_title_input: string;
-  board_content_content_input: string;
+  board_content_title_input: string; // 글 작성시 입력된 제목
+  board_content_content_input: string; // 글 작성시 입력된 내용
+
+  board_content_view: BoardContent; // 자료의 상세내용을 화면에 보여주는 정보
 
   nav_top_menu_title_input: string; // top 메뉴 추가 타이틀 input 정보
   // ------------------------------------------------------------------------------
@@ -73,6 +76,7 @@ export class StudyPageMainComponent {
     this.list_button = true;
     this.is_home = true;
     this.is_write = false;
+    this.is_view = false;
 
     this.getStudyTopMenu();
     this.getStudySubMenu();
@@ -112,6 +116,9 @@ export class StudyPageMainComponent {
   addStudySubMenu(subMenuInfo) {
     this._dataService.addStudySubMenu(subMenuInfo).subscribe();
   }
+  addBoardContent(contentInfo) {
+    this._dataService.addBoardContent(contentInfo).subscribe();
+  }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase의 데이터를 바꾸는 함수 +++++++++++++++++++++++
   deleteStudyTopMenu(topMenuInfo) {
@@ -134,8 +141,36 @@ export class StudyPageMainComponent {
   boardContentWrite() {
     console.log(this.board_content_title_input);
     console.log(this.board_content_content_input);
+
+    // 컨텐츠와 제목이 입력되지 않았을 경우 예외처리 하도록 할 것
+
+    var inputModel = {
+        "super_id": this.cur_super_id,
+        "sub_order": Number(this.cur_sub_order), // not NaN 인 경우만!
+        "index": (this.total_content_num+1),
+        "title": this.board_content_title_input,
+        "contents": this.board_content_content_input,
+        "author": sessionStorage.user_id,
+        "nickname": sessionStorage.user_nickname,
+        "date": this.getTimeStamp(),
+        "views": 0,
+        "isDeleted": false
+    };
+
+    console.log(inputModel);
+    // this.addBoardContent(inputModel);
+    // 글쓰기 이후 메뉴 초기화 해서 보여주기! 또는 작성된 글 결과 보여주기
   }
   // ---------------------------------------------------------------
+  // +++++++++++++++++++++++ 글 읽기 관련 함수 +++++++++++++++++++++++
+  boardContentView(obj) {
+    this.is_home = false; // 홈 화면이 아님을 알림
+    this.is_view = true;
+    this.is_write = false; // 글쓰기 화면이 아님을 알림
+
+    this.board_content_view = obj;
+  }
+  // ----------------------------------------------------------------
   // +++++++++++++++++++++ List(Menu) 관련 함수 +++++++++++++++++++++
   listMenu() {
     this.list_button = !this.list_button;
@@ -145,6 +180,7 @@ export class StudyPageMainComponent {
     this.nav_top_menu[index].menu_top_btn = !this.nav_top_menu[index].menu_top_btn; // top메뉴 여닫기 관리
     if (this.nav_top_menu[index].menu_top_btn) {
       this.is_home = false; // 홈 화면이 아님을 알림
+      this.is_view = false;
       this.is_write = false; // 글쓰기 화면이 아님을 알림
       this.cur_page = 1; // 페이지 번호를 1로 초기화
       this.cur_top_menu = obj.title;
@@ -172,6 +208,7 @@ export class StudyPageMainComponent {
   // 서브 메뉴 클릭 이벤트
   async subMenu(obj) {
     this.is_home = false; // 홈 화면이 아님을 알림
+    this.is_view = false;
     this.is_write = false; // 글쓰기 화면이 아님을 알림
     this.cur_page = 1; // 페이지 번호를 1로 초기화
     this.cur_sub_menu = obj.title;
@@ -291,6 +328,7 @@ export class StudyPageMainComponent {
   topMenuDelete(obj) {
     if (this.cur_super_id == obj.id) {
       this.is_home = true; // 홈 화면이 나오도록 함
+      this.is_view = false;
       this.is_write = false; // 글쓰기 화면이 아님을 알림
     }
     this.deleteStudyTopMenu(obj);
@@ -328,6 +366,7 @@ export class StudyPageMainComponent {
   subMenuDelete(obj) {
     if (this.cur_super_id == obj.super && this.cur_sub_order == obj.order) {
       this.is_home = true; // 홈 화면이 나오도록 함
+      this.is_view = false;
       this.is_write = false; // 글쓰기 화면이 아님을 알림
     }
     this.deleteStudySubMenu(obj);
@@ -343,4 +382,29 @@ export class StudyPageMainComponent {
   getSessionIsLogin() {
     return sessionStorage.is_login;
   }
+
+  // ++++++++++++++++++++++++++ 공통 함수 ++++++++++++++++++++++++++
+  // 현재시간 구하는 함수
+  getTimeStamp() {
+    var d = new Date();
+    var s =
+        this.leadingZeros(d.getFullYear(), 4) + '-' +
+        this.leadingZeros(d.getMonth() + 1, 2) + '-' +
+        this.leadingZeros(d.getDate(), 2) + ' ' +
+
+        this.leadingZeros(d.getHours(), 2) + ':' +
+        this.leadingZeros(d.getMinutes(), 2);/* + ':' +
+        leadingZeros(d.getSeconds(), 2)*/ // 초단위는 제외하였음
+    return s;
+  }
+  leadingZeros(n, digits) {
+    var zero = '';
+    n = n.toString();
+    if (n.length < digits) {
+        for (var i = 0; i < digits - n.length; i++)
+            zero += '0';
+    }
+    return zero + n;
+  }
+  // --------------------------------------------------------------
 }
