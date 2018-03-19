@@ -61,6 +61,7 @@ export class StudyPageMainComponent {
   cur_super_id: string;
   cur_sub_order: any;
 
+  board_content_menu_input: SubMenu;
   board_content_title_input: string; // 글 작성시 입력된 제목
   board_content_content_input: string; // 글 작성시 입력된 내용
 
@@ -108,6 +109,14 @@ export class StudyPageMainComponent {
           });
     });
   }
+  getBoardContentMaxIndex(super_id, sub_order) {
+    return new Promise((resolve, reject) => {
+      this._dataService.getBoardContentMaxIndex(super_id, sub_order)
+          .subscribe(res => {
+            resolve(res);
+          });
+    });
+  }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase에 데이터를 쓰는 함수 +++++++++++++++++++++++
   addStudyTopMenu(topMenuInfo) {
@@ -138,28 +147,31 @@ export class StudyPageMainComponent {
   boardContentWriteCancelBtn() {
     this.is_write = false; // 글쓰기 화면임을 알림
   }
-  boardContentWrite() {
-    console.log(this.board_content_title_input);
-    console.log(this.board_content_content_input);
+  async boardContentWrite() {
+    if (this.board_content_menu_input == null) {
+      alert("글을 작성할 게시판을 선택해 주세요.");
+    } else if (this.board_content_title_input == "" || this.board_content_title_input == null) {
+      alert("글의 제목을 작성해 주세요.");
+    } else if (this.board_content_content_input == "" || this.board_content_content_input == null) {
+      alert("글의 내용을 작성해 주세요.");
+    } else {
+      var max_index = await this.getBoardContentMaxIndex(this.board_content_menu_input.super, this.board_content_menu_input.order);
+      var inputModel = {
+          "super_id": this.board_content_menu_input.super,
+          "sub_order": this.board_content_menu_input.order,
+          "index": (Number(max_index)+1),
+          "title": this.board_content_title_input,
+          "contents": this.board_content_content_input,
+          "author": sessionStorage.user_id,
+          "nickname": sessionStorage.user_nickname,
+          "date": this.getTimeStamp(),
+          "views": 0,
+          "isDeleted": false
+      };
 
-    // 컨텐츠와 제목이 입력되지 않았을 경우 예외처리 하도록 할 것
-
-    var inputModel = {
-        "super_id": this.cur_super_id,
-        "sub_order": Number(this.cur_sub_order), // not NaN 인 경우만!
-        "index": (this.total_content_num+1),
-        "title": this.board_content_title_input,
-        "contents": this.board_content_content_input,
-        "author": sessionStorage.user_id,
-        "nickname": sessionStorage.user_nickname,
-        "date": this.getTimeStamp(),
-        "views": 0,
-        "isDeleted": false
-    };
-
-    console.log(inputModel);
-    // this.addBoardContent(inputModel);
-    // 글쓰기 이후 메뉴 초기화 해서 보여주기! 또는 작성된 글 결과 보여주기
+      this.addBoardContent(inputModel);
+      this.subMenu(this.board_content_menu_input);
+    }
   }
   // ---------------------------------------------------------------
   // +++++++++++++++++++++++ 글 읽기 관련 함수 +++++++++++++++++++++++
@@ -167,7 +179,6 @@ export class StudyPageMainComponent {
     this.is_home = false; // 홈 화면이 아님을 알림
     this.is_view = true;
     this.is_write = false; // 글쓰기 화면이 아님을 알림
-
     this.board_content_view = obj;
   }
   // ----------------------------------------------------------------
@@ -211,11 +222,12 @@ export class StudyPageMainComponent {
     this.is_view = false;
     this.is_write = false; // 글쓰기 화면이 아님을 알림
     this.cur_page = 1; // 페이지 번호를 1로 초기화
+    this.board_content_menu_input = obj;
     this.cur_sub_menu = obj.title;
     this.cur_super_id = obj.super;
     this.cur_sub_order = obj.order;
     this.board_content = new Array();
-    await this.getBoardContent(obj.super, this.cur_sub_order, this.cur_page);
+    await this.getBoardContent(obj.super, obj.order, this.cur_page);
 
     // 페이지 넘버링 처리
     this.cur_page_list = new Array();

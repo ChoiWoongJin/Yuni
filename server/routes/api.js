@@ -35,7 +35,7 @@ let responseContents = {
 };
 
 // Get boardContent As Paging
-router.post('/boardContent', (req, res) => {
+router.post('/boardContent/contents', (req, res) => {
   if (req.body.sub_order == "no") {
     mongodb.collection('boardContent')
       .find( { "isDeleted": false, "super_id": req.body.super_id } )
@@ -85,6 +85,21 @@ router.post('/boardContent', (req, res) => {
           sendError(err, res);
     });
   }
+})
+// Get boardContent sub content's max index
+router.post('/boardContent/maxIndex', (req, res) => {
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order } )
+      .sort( { "index": -1 } )
+      .limit(1)
+      .toArray()
+      .then((max_index) => {
+        response.data = max_index[0].index;
+        res.json(response);
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
 })
 // Add boardContent
 router.post('/boardContent', (req, res) => {

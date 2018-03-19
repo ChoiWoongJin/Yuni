@@ -17,15 +17,23 @@ export class DataService {
       page: page,
       page_cnt: page_cnt
     }
-    return this._http.post("/api/boardContent", pageInfo)
+    return this._http.post("/api/boardContent/contents", pageInfo)
       .map(result => {
         this.result = result.json().data;
         this.result.total = result.json().total;
         return this.result;
       });
   }
+  getBoardContentMaxIndex(super_id, sub_order) {
+    var contentBoardInfo = {
+      super_id: super_id,
+      sub_order: sub_order
+    }
+    return this._http.post("/api/boardContent/maxIndex", contentBoardInfo)
+      .map(result => this.result = result.json().data);
+  }
   addBoardContent(contentInfo) {
-    return this._http.post("/api/boardContent", contentInfo);
+    return this._http.post("/api/boardContent/", contentInfo);
   }
 
   getGuestBook() {

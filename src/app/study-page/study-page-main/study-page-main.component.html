@@ -36,6 +36,10 @@
         (fileUploadRequest)="onFileUploadRequest($event)"
         debounce="500">
       </ckeditor> -->
+      <select name="select_sub_menu" [(ngModel)]="board_content_menu_input">
+          <option [ngValue]="null">게시판 선택</option>
+          <option *ngFor="let menu_sub of nav_sub_menu" [ngValue]="menu_sub">{{menu_sub.title}}</option>
+      </select>
       <input style="width:100%;border:1px solid #268cde;" type="text" placeholder="글 제목 입력" [(ngModel)]='board_content_title_input'>
       <ckeditor [(ngModel)]='board_content_content_input'></ckeditor>
       <div class="board_content_write_inner_btn cp btn" role="button" *ngIf="getSessionIsLogin() == 'master'" title="글쓰기 취소 버튼" label="글쓰기 취소 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentWriteCancelBtn()" (click)="boardContentWriteCancelBtn()">취소</div>
@@ -47,8 +51,7 @@
     <div>
       {{board_content_view.title}}
     </div>
-    <div>
-      {{board_content_view.contents}}
+    <div id="content_view" [innerHTML]="board_content_view.contents">
     </div>
   </div>
   <!-- 게시판 View -->
@@ -79,7 +82,7 @@
           </tr>
           </thead>
           <tbody>
-              <tr class="cp" *ngFor="let board_info of board_content" title="글 선택 버튼" label="글 선택 버튼" role="button" type="submit"  tabindex="0"  (keypress)="boardContentView(board_info)" (click)="boardContentView(board_info)">
+          <tr class="cp" *ngFor="let board_info of board_content" title="글 선택 버튼" label="글 선택 버튼" role="button" type="submit"  tabindex="0"  (keypress)="boardContentView(board_info)" (click)="boardContentView(board_info)">
               <td>{{board_info.index}}</td>
               <td>{{board_info.title}}</td>
               <td>{{board_info.author}}</td>
