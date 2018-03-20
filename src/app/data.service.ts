@@ -35,6 +35,10 @@ export class DataService {
   addBoardContent(contentInfo) {
     return this._http.post("/api/boardContent/", contentInfo);
   }
+  updateBoardContentViewCount(_id) {
+    var data = { _id: _id};
+    return this._http.patch("/api/boardContent/viewCount", data);
+  }
 
   getGuestBook() {
     return this._http.get("/api/guestBook")

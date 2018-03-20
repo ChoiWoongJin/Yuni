@@ -41,18 +41,20 @@
           <option *ngFor="let menu_sub of nav_sub_menu" [ngValue]="menu_sub">{{menu_sub.title}}</option>
       </select>
       <input style="width:100%;border:1px solid #268cde;" type="text" placeholder="글 제목 입력" [(ngModel)]='board_content_title_input'>
-      <ckeditor [(ngModel)]='board_content_content_input'></ckeditor>
+      <ckeditor [(ngModel)]="board_content_content_input"></ckeditor>
       <div class="board_content_write_inner_btn cp btn" role="button" *ngIf="getSessionIsLogin() == 'master'" title="글쓰기 취소 버튼" label="글쓰기 취소 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentWriteCancelBtn()" (click)="boardContentWriteCancelBtn()">취소</div>
       <div class="board_content_write_inner_btn cp btn" role="button" tabindex="0" (keypress)="boardContentWrite()" (click)="boardContentWrite()">작성</div>
     </div>
   </div>
   <!-- 글내용 View -->
   <div *ngIf="is_view">
-    <div>
+    <div style="text-align:center;font-weight:bold;font-size:3em;">
       {{board_content_view.title}}
     </div>
-    <div id="content_view" [innerHTML]="board_content_view.contents">
-    </div>
+    <!-- <div id="content_view" [innerHTML]="board_content_view.contents"></div> -->
+    <!-- removeButtons : 'Source,Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Bold,Italic,Underline,Strike,Subscript,Superscript,CopyFormatting,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,BidiRtl,Language,Link,Unlink,Anchor,CodeSnippet,Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Youtube,base64image,Styles,Format,Font,FontSize,TextColor,BGColor,Maximize,ShowBlocks,About' -->
+    <ckeditor [config]="{removePlugins: 'elementspath', toolbarCanCollapse: 'true', toolbarStartupExpanded: false, height: '100%', resize_enabled: false, autoGrow_onStartup: 'true'}" [readonly]="true" [(ngModel)]="board_content_view.contents"></ckeditor>
+    <div class="board_content_write_inner_btn cp btn" role="button" title="글 읽기 취소 버튼" label="글 읽기 취소 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentViewCancelBtn()" (click)="boardContentViewCancelBtn()">나가기</div>
   </div>
   <!-- 게시판 View -->
   <div style="margin-top:1em;margin-left:1em;margin-right:1em;" *ngIf="!is_home && !is_write && !is_view">

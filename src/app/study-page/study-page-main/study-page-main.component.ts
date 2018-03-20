@@ -136,6 +136,9 @@ export class StudyPageMainComponent {
   deleteStudySubMenu(subMenuInfo) {
     this._dataService.deleteStudySubMenu(subMenuInfo).subscribe();
   }
+  updateBoardContentViewCount(_id) {
+    this._dataService.updateBoardContentViewCount(_id).subscribe();
+  }
   // ---------------------------------------------------------------------------
 
 
@@ -144,8 +147,9 @@ export class StudyPageMainComponent {
     this.is_home = false; // 홈 화면이 아님을 알림
     this.is_write = true; // 글쓰기 화면임을 알림
   }
-  boardContentWriteCancelBtn() {
-    this.is_write = false; // 글쓰기 화면임을 알림
+  async boardContentWriteCancelBtn() {
+    this.is_write = false; // 글쓰기 화면이 아님을 알림
+    await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
   }
   async boardContentWrite() {
     if (this.board_content_menu_input == null) {
@@ -175,11 +179,16 @@ export class StudyPageMainComponent {
   }
   // ---------------------------------------------------------------
   // +++++++++++++++++++++++ 글 읽기 관련 함수 +++++++++++++++++++++++
+  async boardContentViewCancelBtn() {
+    this.is_view = false;
+    await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
+  }
   boardContentView(obj) {
     this.is_home = false; // 홈 화면이 아님을 알림
     this.is_view = true;
     this.is_write = false; // 글쓰기 화면이 아님을 알림
     this.board_content_view = obj;
+    this.updateBoardContentViewCount(obj._id);
   }
   // ----------------------------------------------------------------
   // +++++++++++++++++++++ List(Menu) 관련 함수 +++++++++++++++++++++

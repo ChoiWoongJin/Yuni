@@ -105,6 +105,17 @@ router.post('/boardContent/maxIndex', (req, res) => {
 router.post('/boardContent', (req, res) => {
   mongodb.collection('boardContent').insert(req.body);
 })
+// Update boardContent view count
+router.patch('/boardContent/viewCount', (req, res) => {
+  mongodb.collection('boardContent')
+    .find( { "_id": ObjectID(req.body._id) } )
+    .toArray()
+    .then((content) => {
+       var views = content[0].views + 1;
+       mongodb.collection('boardContent')
+              .update( { "_id": ObjectID(req.body._id)}, { $set: {"views": views}});
+    });
+})
 
 // Get guestBook
 router.get('/guestBook', (req, res) => {
@@ -167,7 +178,7 @@ router.post('/studyTopMenu', (req, res) => {
   mongodb.collection('studyTopMenu').insert(req.body);
 })
 // Delete studyTopMenu item
-  router.patch('/studyTopMenu', (req, res) => {
+router.patch('/studyTopMenu', (req, res) => {
   mongodb.collection('studyTopMenu')
          .update( { "_id": ObjectID(req.body._id)}, { $set: {"isDeleted": true}});
 })
