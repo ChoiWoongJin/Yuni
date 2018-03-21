@@ -1,6 +1,6 @@
 *{box-sizing:border-box;}
-.study-page{border:5px solid black;}
-.study-page>*{border:5px solid red;}
+/* .study-page{border:5px solid black;} */
+/* .study-page>*{border:5px solid red;} */
 .study-header{height:6em;}
 .study-header *{margin:0;}
 .study-header>.study-nav-button{position:absolute;left:2%;margin-top:3em;/*display:none;*/}
@@ -8,10 +8,10 @@
 .study-header>.sh_banner>img{height:5em;position:absolute;left:50%;}
 .study-breadcrumb{background-color:#eee;height:2.5em;border-bottom:0.2em solid #ddd;}
 .breadcrumb_line{color:#999;margin-left:2em;}
-.breadcrumb_search_google{display:inline;float:right;margin-right:2em;font-size:1em;}
+.breadcrumb_search_google{display:inline;float:right;margin-right:2em;margin-top:0.3em;font-size:1em;}
 .breadcrumb_search_google:before{color:#404040;font-family:"FontAwesome";content:"\f0d0";margin-right:0.2em;}
 .breadcrumb_search_google>.breadcrumb_search_googl_btn{height:1.7em;margin-left:-0.5em;}
-.study-page>.study-body>*{border:5px solid green;}
+/* .study-page>.study-body>*{border:5px solid green;} */
 .study-page .study-body{padding-left:200px;padding-right:150px;overflow:hidden;}
 .study-page .study-body>*{float:left;padding-bottom:2500px;margin-bottom:-2500px;}
 .study-page .study-body .study-main{width:100%;}
@@ -62,7 +62,6 @@
 .bwgColor{color:#268cde;}/*bwg 색상 속성*/
 .pl_pad{padding:0.3em 0.3em;}/*personallabel 메뉴들에 대한 패딩 속성*/
 .td_checkbox{width:6em};
-.wrapper{height:40px;line-height:40px;margin:0 auto;position:relative;vertical-align:middle;}
 
 
 @media(max-width:40em){
