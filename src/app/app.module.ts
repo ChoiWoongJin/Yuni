@@ -29,6 +29,9 @@ import * as $ from 'jquery';
 // For using ckeditor-wysiwyg
 import { CKEditorModule } from 'ng2-ckeditor';
 
+import { IpAddressInfo } from "./ip-address-info/ip-address-info";
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -47,10 +50,13 @@ import { CKEditorModule } from 'ng2-ckeditor';
     FormsModule,
     CommonModule,
     AppRoutingModule,
-    CKEditorModule
+    CKEditorModule,
+    HttpClientModule
   ],
   providers: [
     DataService, // <-Add DataService
+    IpAddressInfo,
+    HttpClientModule,
     {
       provide: COMPOSITION_BUFFER_MODE,
       useValue: false

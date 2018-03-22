@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
 // Import the DataService
 import { DataService } from '../../data.service';
+// Import Access ip-address-info catcher
+import { IpAddressInfo } from "../../ip-address-info/ip-address-info";
+import { IpFormat } from "../../ip-address-info/ip-format";
 
 
 interface TopMenu {
@@ -38,13 +41,15 @@ interface BoardContent {
   templateUrl: './study-page-main.component.html',
   styleUrls: ['./study-page-main.component.css']
 })
-export class StudyPageMainComponent {
+export class StudyPageMainComponent implements OnInit {
 
+  client_ip: IpFormat | null = null;
+
+  // ++++++++++++++++++++ List(Menu), BoardContent 관련 속성 ++++++++++++++++++++++
   list_button: boolean;
   is_write: boolean;
   is_view: boolean;
 
-  // ++++++++++++++++++++ List(Menu), BoardContent 관련 속성 ++++++++++++++++++++++
   nav_top_menu: TopMenu[]; // top 메뉴 정보
   nav_sub_menu: SubMenu[]; // sub 메뉴 정보
   board_content: BoardContent[]; // 게시판 컨텐츠 정보
@@ -70,7 +75,7 @@ export class StudyPageMainComponent {
   nav_top_menu_title_input: string; // top 메뉴 추가 타이틀 input 정보
   // ------------------------------------------------------------------------------
 
-  constructor(private _dataService: DataService) {
+  constructor(private _dataService: DataService, private _get_ip: IpAddressInfo) {
     this.board_content_title_input = '';
     this.board_content_content_input = '';
 
@@ -428,4 +433,11 @@ export class StudyPageMainComponent {
     return zero + n;
   }
   // --------------------------------------------------------------
+
+  ngOnInit() {
+    this._get_ip.getIpAddress().subscribe(data => {
+      this.client_ip = data;
+      console.log("접속자 정보 : ", data);
+    });
+  }
 }
