@@ -120,8 +120,8 @@ export class AppComponent {
   addUserInfo() {
     this._dataService.addUserInfo(this.ca).subscribe();
   }
-  addGuestBook(gbInfo) {
-    this._dataService.addGuestBook(gbInfo).subscribe();
+  addGuestBook(gb_info) {
+    this._dataService.addGuestBook(gb_info).subscribe();
   }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase의 데이터를 바꾸는 함수 +++++++++++++++++++++++
@@ -225,7 +225,7 @@ export class AppComponent {
       }
     }
     nextOrder++;
-    var addData = {
+    var add_data = {
       id: sessionStorage.user_id,
       nickname: sessionStorage.user_nickname,
       comment: value,
@@ -233,7 +233,7 @@ export class AppComponent {
       order: nextOrder,
       isDeleted: false
     }
-    this.addGuestBook(addData);
+    this.addGuestBook(add_data);
     this.getGuestBook();
     this.gb_input = '';
   }

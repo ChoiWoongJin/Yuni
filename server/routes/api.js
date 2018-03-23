@@ -206,4 +206,9 @@ router.patch('/studySubMenu', (req, res) => {
          .update( { "_id": ObjectID(req.body._id)}, { $set: {"isDeleted": true}});
 })
 
+// Add All accessInfo
+router.post('/accessTotalLog', (req, res) => {
+  mongodb.collection('accessTotalLog').insert(req.body);
+})
+
 module.exports = router;

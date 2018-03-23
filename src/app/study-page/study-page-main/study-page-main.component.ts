@@ -5,8 +5,6 @@ import { NgForm } from "@angular/forms";
 import { DataService } from '../../data.service';
 // Import Access ip-address-info catcher
 import { IpAddressInfo } from "../../ip-address-info/ip-address-info";
-import { IpFormat } from "../../ip-address-info/ip-format";
-
 
 interface TopMenu {
   _id: string;
@@ -42,8 +40,6 @@ interface BoardContent {
   styleUrls: ['./study-page-main.component.css']
 })
 export class StudyPageMainComponent implements OnInit {
-
-  client_ip: IpFormat | null = null;
 
   // ++++++++++++++++++++ List(Menu), BoardContent 관련 속성 ++++++++++++++++++++++
   list_button: boolean;
@@ -124,22 +120,25 @@ export class StudyPageMainComponent implements OnInit {
   }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase에 데이터를 쓰는 함수 +++++++++++++++++++++++
-  addStudyTopMenu(topMenuInfo) {
-    this._dataService.addStudyTopMenu(topMenuInfo).subscribe();
+  addStudyTopMenu(topMenu_info) {
+    this._dataService.addStudyTopMenu(topMenu_info).subscribe();
   }
-  addStudySubMenu(subMenuInfo) {
-    this._dataService.addStudySubMenu(subMenuInfo).subscribe();
+  addStudySubMenu(subMenu_info) {
+    this._dataService.addStudySubMenu(subMenu_info).subscribe();
   }
-  addBoardContent(contentInfo) {
-    this._dataService.addBoardContent(contentInfo).subscribe();
+  addBoardContent(content_info) {
+    this._dataService.addBoardContent(content_info).subscribe();
+  }
+  addAccessTotalLog(access_info) {
+    this._dataService.addAccessTotalLog(access_info).subscribe();
   }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase의 데이터를 바꾸는 함수 +++++++++++++++++++++++
-  deleteStudyTopMenu(topMenuInfo) {
-    this._dataService.deleteStudyTopMenu(topMenuInfo).subscribe();
+  deleteStudyTopMenu(topMenu_info) {
+    this._dataService.deleteStudyTopMenu(topMenu_info).subscribe();
   }
-  deleteStudySubMenu(subMenuInfo) {
-    this._dataService.deleteStudySubMenu(subMenuInfo).subscribe();
+  deleteStudySubMenu(subMenu_info) {
+    this._dataService.deleteStudySubMenu(subMenu_info).subscribe();
   }
   updateBoardContentViewCount(_id) {
     this._dataService.updateBoardContentViewCount(_id).subscribe();
@@ -419,8 +418,8 @@ export class StudyPageMainComponent implements OnInit {
         this.leadingZeros(d.getDate(), 2) + ' ' +
 
         this.leadingZeros(d.getHours(), 2) + ':' +
-        this.leadingZeros(d.getMinutes(), 2);/* + ':' +
-        leadingZeros(d.getSeconds(), 2)*/ // 초단위는 제외하였음
+        this.leadingZeros(d.getMinutes(), 2) + ':' +
+        this.leadingZeros(d.getSeconds(), 2); // 초단위는 제외하였음
     return s;
   }
   leadingZeros(n, digits) {
@@ -436,8 +435,22 @@ export class StudyPageMainComponent implements OnInit {
 
   ngOnInit() {
     this._get_ip.getIpAddress().subscribe(data => {
-      this.client_ip = data;
-      console.log("접속자 정보 : ", data);
+      var access_info = {
+        "access_time": this.getTimeStamp(),
+        "ip": data.ip,
+        "country_code": data.country_code,
+        "country_name": data.country_name,
+        "city": data.city,
+        "latitude": data.latitude,
+        "longitude": data.longitude,
+        "metro_code": data.metro_code,
+        "region_code": data.region_code,
+        "region_name": data.region_name,
+        "time_zone": data.time_zone,
+        "zip_code": data.zip_code
+      }
+      console.log("접속자 정보 : ", access_info);
+      this.addAccessTotalLog(access_info);
     });
   }
 }

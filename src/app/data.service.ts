@@ -11,13 +11,13 @@ export class DataService {
   constructor(private _http: Http) { }
 
   getBoardContent(super_id, sub_order, page, page_cnt) {
-    var pageInfo = {
+    var page_info = {
       super_id: super_id,
       sub_order: sub_order,
       page: page,
       page_cnt: page_cnt
     }
-    return this._http.post("/api/boardContent/contents", pageInfo)
+    return this._http.post("/api/boardContent/contents", page_info)
       .map(result => {
         this.result = result.json().data;
         this.result.total = result.json().total;
@@ -32,8 +32,8 @@ export class DataService {
     return this._http.post("/api/boardContent/maxIndex", contentBoardInfo)
       .map(result => this.result = result.json().data);
   }
-  addBoardContent(contentInfo) {
-    return this._http.post("/api/boardContent/", contentInfo);
+  addBoardContent(content_info) {
+    return this._http.post("/api/boardContent/", content_info);
   }
   updateBoardContentViewCount(_id) {
     var data = { _id: _id};
@@ -44,46 +44,50 @@ export class DataService {
     return this._http.get("/api/guestBook")
       .map(result => this.result = result.json().data);
   }
-  deleteGuestBook(delComment) {
-    return this._http.patch("/api/guestBook", delComment);
+  deleteGuestBook(del_comment) {
+    return this._http.patch("/api/guestBook", del_comment);
   }
-  addGuestBook(gbInfo) {
-    return this._http.post("/api/guestBook", gbInfo);
+  addGuestBook(gb_info) {
+    return this._http.post("/api/guestBook", gb_info);
   }
 
   getUserInfo() {
     return this._http.get("/api/userInfo")
       .map(result => this.result = result.json().data);
   }
-  addUserInfo(caInfo) {
-    var addData = {
-      id: caInfo.id,
-      pwd: caInfo.pwd,
-      nickname: caInfo.nickname,
-      email: caInfo.email,
+  addUserInfo(ca_info) {
+    var add_data = {
+      id: ca_info.id,
+      pwd: ca_info.pwd,
+      nickname: ca_info.nickname,
+      email: ca_info.email,
       type: 'guest'
     }
-    return this._http.post("/api/userInfo", addData)
+    return this._http.post("/api/userInfo", add_data)
   }
 
   getStudyTopMenu() {
     return this._http.get("/api/studyTopMenu")
       .map(result => this.result = result.json().data);
   }
-  addStudyTopMenu(topMenuInfo) {
-    return this._http.post("/api/studyTopMenu", topMenuInfo);
+  addStudyTopMenu(topMenu_info) {
+    return this._http.post("/api/studyTopMenu", topMenu_info);
   }
-  deleteStudyTopMenu(topMenuInfo) {
-    return this._http.patch("/api/studyTopMenu", topMenuInfo);
+  deleteStudyTopMenu(topMenu_info) {
+    return this._http.patch("/api/studyTopMenu", topMenu_info);
   }
   getStudySubMenu() {
     return this._http.get("/api/studySubMenu")
       .map(result => this.result = result.json().data);
   }
-  addStudySubMenu(subMenuInfo) {
-    return this._http.post("/api/studySubMenu", subMenuInfo);
+  addStudySubMenu(subMenu_info) {
+    return this._http.post("/api/studySubMenu", subMenu_info);
   }
-  deleteStudySubMenu(subMenuInfo) {
-    return this._http.patch("/api/studySubMenu", subMenuInfo);
+  deleteStudySubMenu(subMenu_info) {
+    return this._http.patch("/api/studySubMenu", subMenu_info);
+  }
+
+  addAccessTotalLog(access_info) {
+    return this._http.post("/api/accessTotalLog", access_info);
   }
 }
