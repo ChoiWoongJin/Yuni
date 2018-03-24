@@ -87,7 +87,13 @@ export class DataService {
     return this._http.patch("/api/studySubMenu", subMenu_info);
   }
 
-  addAccessTotalLog(access_info) {
-    return this._http.post("/api/accessTotalLog", access_info);
+  addAccessMainLog(access_info) {
+    return this._http.post("/api/accessMainLog", access_info);
+  }
+  addAccessLoginLog(access_info) {
+    return this._http.post("/api/accessLoginLog", access_info);
+  }
+  addAccessStudyLog(access_info) {
+    return this._http.post("/api/accessStudyLog", access_info);
   }
 }

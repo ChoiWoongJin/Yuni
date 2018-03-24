@@ -129,8 +129,8 @@ export class StudyPageMainComponent implements OnInit {
   addBoardContent(content_info) {
     this._dataService.addBoardContent(content_info).subscribe();
   }
-  addAccessTotalLog(access_info) {
-    this._dataService.addAccessTotalLog(access_info).subscribe();
+  addAccessStudyLog(access_info) {
+    this._dataService.addAccessStudyLog(access_info).subscribe();
   }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase의 데이터를 바꾸는 함수 +++++++++++++++++++++++
@@ -437,6 +437,7 @@ export class StudyPageMainComponent implements OnInit {
     this._get_ip.getIpAddress().subscribe(data => {
       var access_info = {
         "access_time": this.getTimeStamp(),
+        "access_type": "study",
         "ip": data.ip,
         "country_code": data.country_code,
         "country_name": data.country_name,
@@ -449,8 +450,8 @@ export class StudyPageMainComponent implements OnInit {
         "time_zone": data.time_zone,
         "zip_code": data.zip_code
       }
-      console.log("접속자 정보 : ", access_info);
-      this.addAccessTotalLog(access_info);
+      console.log("[Study]접속자 정보 : ", access_info);
+      this.addAccessStudyLog(access_info);
     });
   }
 }

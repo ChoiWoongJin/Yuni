@@ -206,9 +206,17 @@ router.patch('/studySubMenu', (req, res) => {
          .update( { "_id": ObjectID(req.body._id)}, { $set: {"isDeleted": true}});
 })
 
-// Add All accessInfo
-router.post('/accessTotalLog', (req, res) => {
-  mongodb.collection('accessTotalLog').insert(req.body);
+// Add Main page accessInfo
+router.post('/accessMainLog', (req, res) => {
+  mongodb.collection('accessMainLog').insert(req.body);
+})
+// Add Login User accessInfo
+router.post('/accessLoginLog', (req, res) => {
+  mongodb.collection('accessLoginLog').insert(req.body);
+})
+// Add Study page accessInfo
+router.post('/accessStudyLog', (req, res) => {
+  mongodb.collection('accessStudyLog').insert(req.body);
 })
 
 module.exports = router;

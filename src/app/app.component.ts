@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
 // Import the DataService
 import { DataService } from './data.service';
+// Import Access ip-address-info catcher
+import { IpAddressInfo } from "./ip-address-info/ip-address-info";
 
 interface GBComment {
   _id: string;
@@ -18,7 +20,7 @@ interface GBComment {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   lg_button: boolean;
   ca_button: boolean;
@@ -55,7 +57,7 @@ export class AppComponent {
 
 
   // Create an instance of the DataService through dependency injection
-  constructor(private _dataService: DataService) {
+  constructor(private _dataService: DataService, private _get_ip: IpAddressInfo) {
     // Access the Data Service's getNav_menu() method we defined
     // this._dataService.getNav_menu()
     //     .subscribe(res => this.nav_menu = res[0].sub);
@@ -123,6 +125,12 @@ export class AppComponent {
   addGuestBook(gb_info) {
     this._dataService.addGuestBook(gb_info).subscribe();
   }
+  addAccessMainLog(access_info) {
+    this._dataService.addAccessMainLog(access_info).subscribe();
+  }
+  addAccessLoginLog(access_info) {
+    this._dataService.addAccessLoginLog(access_info).subscribe();
+  }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase의 데이터를 바꾸는 함수 +++++++++++++++++++++++
   deleteGuestBook(index) {
@@ -176,6 +184,27 @@ export class AppComponent {
         alert(this.user_id + "님, 접속을 환영합니다!");
         this.loginInputClear();
         this.getGuestBook(); // 방명록 초기화
+        this._get_ip.getIpAddress().subscribe(data => {
+          var access_info = {
+            "access_time": this.getTimeStamp(),
+            "access_type": "login",
+            "ip": data.ip,
+            "country_code": data.country_code,
+            "country_name": data.country_name,
+            "city": data.city,
+            "latitude": data.latitude,
+            "longitude": data.longitude,
+            "metro_code": data.metro_code,
+            "region_code": data.region_code,
+            "region_name": data.region_name,
+            "time_zone": data.time_zone,
+            "zip_code": data.zip_code,
+            "user_id": this.user_id,
+            "user_nickname": this.user_nickname
+          }
+          console.log("로그인 정보 : ", access_info);
+          this.addAccessLoginLog(access_info);
+        });
       } else {
         this.is_login = "";
         this.user_id = "";
@@ -334,4 +363,25 @@ export class AppComponent {
     }
   }
   // --------------------------------------------------------------
+  ngOnInit() {
+    this._get_ip.getIpAddress().subscribe(data => {
+      var access_info = {
+        "access_time": this.getTimeStamp(),
+        "access_type": "main",
+        "ip": data.ip,
+        "country_code": data.country_code,
+        "country_name": data.country_name,
+        "city": data.city,
+        "latitude": data.latitude,
+        "longitude": data.longitude,
+        "metro_code": data.metro_code,
+        "region_code": data.region_code,
+        "region_name": data.region_name,
+        "time_zone": data.time_zone,
+        "zip_code": data.zip_code
+      }
+      console.log("[Main]접속자 정보 : ", access_info);
+      this.addAccessMainLog(access_info);
+    });
+  }
 }
