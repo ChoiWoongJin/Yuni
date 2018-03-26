@@ -202,7 +202,7 @@ export class AppComponent implements OnInit {
             "user_id": this.user_id,
             "user_nickname": this.user_nickname
           }
-          console.log("로그인 정보 : ", access_info);
+          console.log("[Main] 로그인 정보 : ", access_info);
           this.addAccessLoginLog(access_info);
         });
       } else {
@@ -378,9 +378,15 @@ export class AppComponent implements OnInit {
         "region_code": data.region_code,
         "region_name": data.region_name,
         "time_zone": data.time_zone,
-        "zip_code": data.zip_code
+        "zip_code": data.zip_code,
+        "user_id": "",
+        "user_nickname": ""
       }
-      console.log("[Main]접속자 정보 : ", access_info);
+      if (sessionStorage.is_login) {
+        access_info.user_id = this.user_id;
+        access_info.user_nickname = this.user_nickname;
+      }
+      console.log("[Main] 접속자 정보 : ", access_info);
       this.addAccessMainLog(access_info);
     });
   }

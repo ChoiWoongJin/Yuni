@@ -214,6 +214,20 @@ router.post('/accessMainLog', (req, res) => {
 router.post('/accessLoginLog', (req, res) => {
   mongodb.collection('accessLoginLog').insert(req.body);
 })
+// Get Study page accessInfo
+router.get('/accessStudyLog', (req, res) => {
+  mongodb.collection('accessStudyLog')
+    .find()
+    .sort( { "access_time": -1} )
+    .toArray()
+    .then((accessStudyLog) => {
+        response.data = accessStudyLog;
+        res.json(response);
+    })
+    .catch((err) => {
+        sendError(err, res);
+  });
+});
 // Add Study page accessInfo
 router.post('/accessStudyLog', (req, res) => {
   mongodb.collection('accessStudyLog').insert(req.body);

@@ -118,6 +118,82 @@ export class StudyPageMainComponent implements OnInit {
           });
     });
   }
+  getAccessStudyLog() {
+    this._dataService.getAccessStudyLog()
+        .subscribe(res => {
+          // 1. 동일한 날짜 접속 개수
+          var test_one = new Array();
+          var date_info_ex : string = "";
+          var cnt : number = -1;
+          for (var i=0; i < res.length; i++) {
+            var date_info = res[i].access_time.split(" ")[0];
+            if (date_info != date_info_ex) {
+              date_info_ex = date_info;
+              cnt ++;
+            }
+            if (test_one[cnt] == null) {
+              test_one[cnt] = new Array(2);
+              test_one[cnt][0] = date_info;
+              test_one[cnt][1] = 1;
+            } else {
+              test_one[cnt][1] ++;
+            }
+          }
+          // console.log(test_one);
+          var sum_test_one = 0;
+          for (var i=0; i < test_one.length; i++) {
+            sum_test_one += test_one[i][1];
+          }
+          console.log("[중복미제거] 총 방문자 수 : ", sum_test_one);
+
+          // 2. 동일한 날짜, 같은 ip 중복 제거 접속 개수
+          var test_two = new Array();
+          var ip_info = new Array<string>();
+          var date_info_ex2 : string = "";
+          var cnt2 : number = -1;
+          var ip_cnt : number = 0;
+          for (var i=0; i < res.length; i++) {
+            var date_info = res[i].access_time.split(" ")[0];
+
+            // 날짜 변경 확인
+            if (date_info != date_info_ex2) {
+              date_info_ex2 = date_info;
+              cnt2 ++;
+              ip_info = new Array<string>();
+              ip_cnt = 0;
+            }
+
+            // 중복 ip 확인
+            var check_ip_info : boolean = false;
+            for (var j=0; j < ip_info.length; j++) {
+              if (ip_info[j] == res[i].ip) {
+                check_ip_info = true;
+                break;
+              }
+            }
+            if (check_ip_info) {
+              continue;
+            } else {
+              ip_info[ip_cnt++] = res[i].ip;
+            }
+
+            // 인원수 count
+            if (test_two[cnt2] == null) {
+              test_two[cnt2] = new Array(2);
+              test_two[cnt2][0] = date_info;
+              test_two[cnt2][1] = 1;
+            } else {
+              test_two[cnt2][1] ++;
+            }
+          }
+          // console.log(test_two);
+          var sum_test_two = 0;
+          for (var i=0; i < test_two.length; i++) {
+            sum_test_two += test_two[i][1];
+          }
+          console.log("[중복제거] 총 방문자 수 : ", sum_test_two);
+        });
+  }
   // -------------------------------------------------------------------------
   // +++++++++++++++++++++ DataBase에 데이터를 쓰는 함수 +++++++++++++++++++++++
   addStudyTopMenu(topMenu_info) {
@@ -202,6 +278,7 @@ export class StudyPageMainComponent implements OnInit {
   // 주 메뉴 클릭 이벤트
   async topMenu(obj, index) {
     this.nav_top_menu[index].menu_top_btn = !this.nav_top_menu[index].menu_top_btn; // top메뉴 여닫기 관리
+    /*
     if (this.nav_top_menu[index].menu_top_btn) {
       this.is_home = false; // 홈 화면이 아님을 알림
       this.is_view = false;
@@ -228,6 +305,7 @@ export class StudyPageMainComponent implements OnInit {
       }
       console.log('[System] Reading board items success');
     }
+    */
   }
   // 서브 메뉴 클릭 이벤트
   async subMenu(obj) {
@@ -434,6 +512,7 @@ export class StudyPageMainComponent implements OnInit {
   // --------------------------------------------------------------
 
   ngOnInit() {
+    this.getAccessStudyLog();
     this._get_ip.getIpAddress().subscribe(data => {
       var access_info = {
         "access_time": this.getTimeStamp(),
@@ -448,9 +527,15 @@ export class StudyPageMainComponent implements OnInit {
         "region_code": data.region_code,
         "region_name": data.region_name,
         "time_zone": data.time_zone,
-        "zip_code": data.zip_code
+        "zip_code": data.zip_code,
+        "user_id": "",
+        "user_nickname": ""
       }
-      console.log("[Study]접속자 정보 : ", access_info);
+      if (sessionStorage.is_login) {
+        access_info.user_id = sessionStorage.user_id;
+        access_info.user_nickname = sessionStorage.user_nickname;
+      }
+      console.log("[Study] 접속자 정보 : ", access_info);
       this.addAccessStudyLog(access_info);
     });
   }

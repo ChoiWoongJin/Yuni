@@ -121,7 +121,8 @@ For licensing, see LICENSE.md or http://ckeditor.com/license
 .cke_bottom {
   padding: 6px 8px 2px;
   position: relative;
-  background: #2b579a
+  /* background: #2b579a */
+  background: #606060;
 }
 
 .cke_browser_ios .cke_contents {
@@ -492,8 +493,8 @@ a.cke_button_off:hover, a.cke_button_off:focus, a.cke_button_off:active, a.cke_b
   font-size: 0;
   cursor: default;
   text-align: center;
-  border: 1px solid #a6a6a6;
-  background: #e4e4e4
+  /* border: 1px solid #a6a6a6;
+  background: #e4e4e4 */
 }
 
 .cke_toolbox_collapser:hover {

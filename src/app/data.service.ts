@@ -93,6 +93,10 @@ export class DataService {
   addAccessLoginLog(access_info) {
     return this._http.post("/api/accessLoginLog", access_info);
   }
+  getAccessStudyLog() {
+    return this._http.get("/api/accessStudyLog")
+      .map(result => this.result = result.json().data);
+  }
   addAccessStudyLog(access_info) {
     return this._http.post("/api/accessStudyLog", access_info);
   }
