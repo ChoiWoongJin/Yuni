@@ -86,6 +86,18 @@ router.post('/boardContent/contents', (req, res) => {
     });
   }
 })
+// Delete boardContent document
+router.patch('/boardContent/content/isDeleted', (req, res) => {
+  mongodb.collection('boardContent')
+         .update( { "_id": ObjectID(req.body._id)}, { $set: {"isDeleted": true}})
+         .then((boardContent) => {
+            response.data = boardContent;
+            res.json(response);
+         })
+         .catch((err) => {
+            sendError(err, res);
+       });
+})
 // Get boardContent sub content's max index
 router.post('/boardContent/maxIndex', (req, res) => {
     mongodb.collection('boardContent')
@@ -103,18 +115,38 @@ router.post('/boardContent/maxIndex', (req, res) => {
 })
 // Add boardContent
 router.post('/boardContent', (req, res) => {
-  mongodb.collection('boardContent').insert(req.body);
+  mongodb.collection('boardContent').insert(req.body)
+    .then((boardContent) => {
+      response.data = boardContent;
+      res.json(response);
+    })
+    .catch((err) => {
+      sendError(err, res);
+    });
+})
+// Update boardContent content info
+router.patch('/boardContent/content', (req, res) => {
+  mongodb.collection('boardContent')
+    .update( { "_id": ObjectID(req.body._id)}, { $set: {"super_id": req.body.super_id, "sub_order": req.body.sub_order, "title": req.body.title, "contents": req.body.contents, "date": req.body.date, "views": req.body.views}})
+    .then((viewCount) => {
+        response.data = viewCount;
+        res.json(response);
+    })
+    .catch((err) => {
+        sendError(err, res);
+  });
 })
 // Update boardContent view count
 router.patch('/boardContent/viewCount', (req, res) => {
   mongodb.collection('boardContent')
-    .find( { "_id": ObjectID(req.body._id) } )
-    .toArray()
-    .then((content) => {
-       var views = content[0].views + 1;
-       mongodb.collection('boardContent')
-              .update( { "_id": ObjectID(req.body._id)}, { $set: {"views": views}});
-    });
+    .update( { "_id": ObjectID(req.body._id)}, { $set: {"views": req.body.views}})
+    .then((viewCount) => {
+        response.data = viewCount;
+        res.json(response);
+    })
+    .catch((err) => {
+        sendError(err, res);
+  });
 })
 
 // Get guestBook
@@ -138,7 +170,14 @@ router.patch('/guestBook', (req, res) => {
 })
 // Save Json Data To 'guestBook' Collection
 router.post('/guestBook', (req, res) => {
-  mongodb.collection('guestBook').insert(req.body);
+  mongodb.collection('guestBook').insert(req.body)
+    .then((guestBook) => {
+      response.data = guestBook;
+      res.json(response);
+    })
+    .catch((err) => {
+      sendError(err, res);
+    });
 })
 
 // Get 'userInfo' Collection From 'blogData' Database
@@ -156,7 +195,14 @@ router.get('/userInfo', (req, res) => {
 })
 // Save Json Data To 'userInfo' Collection
 router.post('/userInfo', (req, res) => {
-  mongodb.collection('userInfo').insert(req.body);
+  mongodb.collection('userInfo').insert(req.body)
+    .then((userInfo) => {
+      response.data = userInfo;
+      res.json(response);
+    })
+    .catch((err) => {
+      sendError(err, res);
+    });
 })
 
 // Get studyTopMenu
@@ -175,7 +221,14 @@ router.get('/studyTopMenu', (req, res) => {
 });
 // Add studyTopMenu
 router.post('/studyTopMenu', (req, res) => {
-  mongodb.collection('studyTopMenu').insert(req.body);
+  mongodb.collection('studyTopMenu').insert(req.body)
+    .then((studyTopMenu) => {
+      response.data = studyTopMenu;
+      res.json(response);
+    })
+    .catch((err) => {
+      sendError(err, res);
+    });
 })
 // Delete studyTopMenu item
 router.patch('/studyTopMenu', (req, res) => {
@@ -198,7 +251,14 @@ router.get('/studySubMenu', (req, res) => {
 });
 // Add studySubMenu
 router.post('/studySubMenu', (req, res) => {
-  mongodb.collection('studySubMenu').insert(req.body);
+  mongodb.collection('studySubMenu').insert(req.body)
+    .then((studySubMenu) => {
+      response.data = studySubMenu;
+      res.json(response);
+    })
+    .catch((err) => {
+      sendError(err, res);
+    });
 })
 // Delete studySubMenu item
 router.patch('/studySubMenu', (req, res) => {
@@ -208,11 +268,25 @@ router.patch('/studySubMenu', (req, res) => {
 
 // Add Main page accessInfo
 router.post('/accessMainLog', (req, res) => {
-  mongodb.collection('accessMainLog').insert(req.body);
+  mongodb.collection('accessMainLog').insert(req.body)
+    .then((accessMainLog) => {
+      response.data = accessMainLog;
+      res.json(response);
+    })
+    .catch((err) => {
+      sendError(err, res);
+    });
 })
 // Add Login User accessInfo
 router.post('/accessLoginLog', (req, res) => {
-  mongodb.collection('accessLoginLog').insert(req.body);
+  mongodb.collection('accessLoginLog').insert(req.body)
+    .then((accessLoginLog) => {
+      response.data = accessLoginLog;
+      res.json(response);
+    })
+    .catch((err) => {
+      sendError(err, res);
+    });
 })
 // Get Study page accessInfo
 router.get('/accessStudyLog', (req, res) => {
@@ -230,7 +304,14 @@ router.get('/accessStudyLog', (req, res) => {
 });
 // Add Study page accessInfo
 router.post('/accessStudyLog', (req, res) => {
-  mongodb.collection('accessStudyLog').insert(req.body);
+  mongodb.collection('accessStudyLog').insert(req.body)
+    .then((accessStudyLog) => {
+      response.data = accessStudyLog;
+      res.json(response);
+    })
+    .catch((err) => {
+      sendError(err, res);
+    });
 })
 
 module.exports = router;

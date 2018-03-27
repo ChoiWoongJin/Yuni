@@ -45,6 +45,7 @@ export class StudyPageMainComponent implements OnInit {
   list_button: boolean;
   is_write: boolean;
   is_view: boolean;
+  is_modify:boolean;
 
   nav_top_menu: TopMenu[]; // top 메뉴 정보
   nav_sub_menu: SubMenu[]; // sub 메뉴 정보
@@ -79,6 +80,7 @@ export class StudyPageMainComponent implements OnInit {
     this.is_home = true;
     this.is_write = false;
     this.is_view = false;
+    this.is_modify = false;
 
     this.getStudyTopMenu();
     this.getStudySubMenu();
@@ -216,8 +218,18 @@ export class StudyPageMainComponent implements OnInit {
   deleteStudySubMenu(subMenu_info) {
     this._dataService.deleteStudySubMenu(subMenu_info).subscribe();
   }
-  updateBoardContentViewCount(_id) {
-    this._dataService.updateBoardContentViewCount(_id).subscribe();
+  updateBoardContent(modified_content_info) {
+    this._dataService.updateBoardContent(modified_content_info).subscribe();
+  }
+  updateBoardContentViewCount(obj) {
+    this._dataService.updateBoardContentViewCount(obj).subscribe();
+  }
+  deleteBoardContent(content_info) {
+    this._dataService.deleteBoardContent(content_info)
+      .subscribe(res => {
+        this.boardContentViewCancelBtn();
+        console.log('[DB][succes] Delete boardContent');
+      });
   }
   // ---------------------------------------------------------------------------
 
@@ -225,13 +237,14 @@ export class StudyPageMainComponent implements OnInit {
   // +++++++++++++++++++++++ 글쓰기 관련 함수 +++++++++++++++++++++++
   boardContentWriteBtn() {
     this.is_home = false; // 홈 화면이 아님을 알림
+    this.is_modify = false; // 글 수정이 아님을 알림
     this.is_write = true; // 글쓰기 화면임을 알림
   }
   async boardContentWriteCancelBtn() {
     this.is_write = false; // 글쓰기 화면이 아님을 알림
     await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
   }
-  async boardContentWrite() {
+  async boardContentWrite() { // 글 작성
     if (this.board_content_menu_input == null) {
       alert("글을 작성할 게시판을 선택해 주세요.");
     } else if (this.board_content_title_input == "" || this.board_content_title_input == null) {
@@ -257,18 +270,75 @@ export class StudyPageMainComponent implements OnInit {
       this.subMenu(this.board_content_menu_input);
     }
   }
+  boardContentModifyBtn() { // 글 수정
+    if (this.board_content_menu_input == null) {
+      alert("글을 작성할 게시판을 선택해 주세요.");
+    } else if (this.board_content_title_input == "" || this.board_content_title_input == null) {
+      alert("글의 제목을 작성해 주세요.");
+    } else if (this.board_content_content_input == "" || this.board_content_content_input == null) {
+      alert("글의 내용을 작성해 주세요.");
+    } else {
+      var inputModel = {
+          "_id": this.board_content_view._id,
+          "super_id": this.board_content_menu_input.super,
+          "sub_order": this.board_content_menu_input.order,
+          "title": this.board_content_title_input,
+          "contents": this.board_content_content_input,
+          "date": this.getTimeStamp(),
+          "views": 0
+      };
+      console.log(inputModel);
+
+      this.updateBoardContent(inputModel);
+      this.subMenu(this.board_content_menu_input);
+    }
+  }
   // ---------------------------------------------------------------
   // +++++++++++++++++++++++ 글 읽기 관련 함수 +++++++++++++++++++++++
   async boardContentViewCancelBtn() {
     this.is_view = false;
+    this.is_modify = false; // 글 수정이 아님을 알림
     await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
+  }
+  boardContentViewRewriteBtn() {
+    this.is_view = false;
+    this.is_home = false; // 홈 화면이 아님을 알림
+    this.is_modify = false; // 글 수정이 아님을 알림
+    this.is_write = true; // 글쓰기 화면임을 알림
+    for (var i=0; i < this.nav_sub_menu.length; i++) {
+      if (this.nav_sub_menu[i].super == this.board_content_view.super_id && this.nav_sub_menu[i].order == this.board_content_view.sub_order) {
+        this.board_content_menu_input = this.nav_sub_menu[i];
+        break;
+      }
+    }
+    this.board_content_title_input = this.board_content_view.title;
+    this.board_content_content_input = this.board_content_view.contents;
+  }
+  boardContentViewModifyBtn() {
+    this.is_view = false;
+    this.is_home = false; // 홈 화면이 아님을 알림
+    this.is_modify = true; // 글 수정임을 알림
+    this.is_write = true; // 글쓰기 화면임을 알림
+    for (var i=0; i < this.nav_sub_menu.length; i++) {
+      if (this.nav_sub_menu[i].super == this.board_content_view.super_id && this.nav_sub_menu[i].order == this.board_content_view.sub_order) {
+        this.board_content_menu_input = this.nav_sub_menu[i];
+        break;
+      }
+    }
+    this.board_content_title_input = this.board_content_view.title;
+    this.board_content_content_input = this.board_content_view.contents;
+  }
+  boardContentViewDeleteBtn() {
+    this.deleteBoardContent(this.board_content_view);
   }
   boardContentView(obj) {
     this.is_home = false; // 홈 화면이 아님을 알림
     this.is_view = true;
+    this.is_modify = false; // 글 수정이 아님을 알림
     this.is_write = false; // 글쓰기 화면이 아님을 알림
     this.board_content_view = obj;
-    this.updateBoardContentViewCount(obj._id);
+    console.log("글 내용 객체 : ", obj);
+    this.updateBoardContentViewCount(obj);
   }
   // ----------------------------------------------------------------
   // +++++++++++++++++++++ List(Menu) 관련 함수 +++++++++++++++++++++
@@ -312,6 +382,7 @@ export class StudyPageMainComponent implements OnInit {
     this.is_home = false; // 홈 화면이 아님을 알림
     this.is_view = false;
     this.is_write = false; // 글쓰기 화면이 아님을 알림
+    this.is_modify = false; // 글 수정이 아님을 알림
     this.cur_page = 1; // 페이지 번호를 1로 초기화
     this.board_content_menu_input = obj;
     this.cur_sub_menu = obj.title;
@@ -356,6 +427,7 @@ export class StudyPageMainComponent implements OnInit {
     // view에 뿌릴 게시판 item의 목록을 수정
     this.board_content = new Array();
     await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
+    console.log("게시판 내용 : ", this.board_content);
 
     // 페이지 넘버링 처리
     this.cur_page_list = new Array();

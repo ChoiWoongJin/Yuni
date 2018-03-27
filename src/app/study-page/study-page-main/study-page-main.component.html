@@ -40,19 +40,26 @@
         debounce="500">
       </ckeditor> -->
       <div class="board_content_write_inner_btn cp btn" role="button" *ngIf="getSessionIsLogin() == 'master'" title="글쓰기 취소 버튼" label="글쓰기 취소 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentWriteCancelBtn()" (click)="boardContentWriteCancelBtn()">취소</div>
-      <div class="board_content_write_inner_btn cp btn" role="button" tabindex="0" (keypress)="boardContentWrite()" (click)="boardContentWrite()">작성</div>
+      <div class="board_content_write_inner_btn cp btn" role="button" tabindex="0" *ngIf="!is_modify" (keypress)="boardContentWrite()" (click)="boardContentWrite()">작성</div>
+      <div class="board_content_write_inner_btn cp btn" role="button" tabindex="0" *ngIf="is_modify" (keypress)="boardContentModifyBtn()" (click)="boardContentModifyBtn()">수정</div>
     </div>
   </div>
   <!-- 글내용 View -->
   <div style="margin:1em;" *ngIf="is_view">
-    <div style="text-align:center;font-weight:bold;font-size:3em;">
+    <div style="text-align:center;font-weight:bold;font-size:2em;">
       {{board_content_view.title}}
     </div>
-    <div>
+    <div style="text-align:center;font-size:0.8em;color:#606060;margin-top:1em;">
+      {{board_content_view.date}}
+    </div>
+    <div style="width:80%;margin:auto;">
       <!-- removeButtons : 'Source,Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Bold,Italic,Underline,Strike,Subscript,Superscript,CopyFormatting,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,BidiRtl,Language,Link,Unlink,Anchor,CodeSnippet,Image,Flash,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Youtube,base64image,Styles,Format,Font,FontSize,TextColor,BGColor,Maximize,ShowBlocks,About' -->
       <ckeditor [config]="{removePlugins: 'elementspath', toolbarCanCollapse: 'true', toolbarStartupExpanded: false, height: '100%', resize_enabled: false, autoGrow_onStartup: 'true'}" [readonly]="true" [(ngModel)]="board_content_view.contents"></ckeditor>
+      <div class="board_content_write_inner_btn cp btn" role="button" title="글 읽기 취소 버튼" label="글 읽기 취소 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentViewCancelBtn()" (click)="boardContentViewCancelBtn()">나가기</div>
+      <div class="board_content_write_inner_btn cp btn" role="button" title="글 재작성 버튼" label="글 재작성 버튼" role="button" type="submit" tabindex="0" *ngIf="getSessionIsLogin() == 'master'" (keypress)="boardContentViewRewriteBtn()" (click)="boardContentViewRewriteBtn()">재작성</div>
+      <div class="board_content_write_inner_btn cp btn" role="button" title="글 수정 버튼" label="글 수정 버튼" role="button" type="submit" tabindex="0" *ngIf="getSessionIsLogin() == 'master'" (keypress)="boardContentViewModifyBtn()" (click)="boardContentViewModifyBtn()">수정</div>
+      <div class="board_content_write_inner_btn cp btn" role="button" title="글 삭제 버튼" label="글 삭제 버튼" role="button" type="submit" tabindex="0" *ngIf="getSessionIsLogin() == 'master'" (keypress)="boardContentViewDeleteBtn()" (click)="boardContentViewDeleteBtn()">삭제</div>
     </div>
-    <div class="board_content_write_inner_btn cp btn" role="button" title="글 읽기 취소 버튼" label="글 읽기 취소 버튼" role="button" type="submit" tabindex="0" (keypress)="boardContentViewCancelBtn()" (click)="boardContentViewCancelBtn()">나가기</div>
   </div>
   <!-- 게시판 View -->
   <div style="margin-top:1em;margin-left:1em;margin-right:1em;" *ngIf="!is_home && !is_write && !is_view">

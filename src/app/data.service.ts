@@ -24,6 +24,10 @@ export class DataService {
         return this.result;
       });
   }
+  deleteBoardContent(del_content) {
+    return this._http.patch("/api/boardContent/content/isDeleted", del_content)
+      .map(result => this.result = result.json().data);
+  }
   getBoardContentMaxIndex(super_id, sub_order) {
     var contentBoardInfo = {
       super_id: super_id,
@@ -33,11 +37,17 @@ export class DataService {
       .map(result => this.result = result.json().data);
   }
   addBoardContent(content_info) {
-    return this._http.post("/api/boardContent/", content_info);
+    return this._http.post("/api/boardContent/", content_info)
+        .map(result => this.result = result.json().data);
   }
-  updateBoardContentViewCount(_id) {
-    var data = { _id: _id};
-    return this._http.patch("/api/boardContent/viewCount", data);
+  updateBoardContent(content_info) {
+    return this._http.patch("/api/boardContent/content", content_info)
+      .map(result => this.result = result.json().data);
+  }
+  updateBoardContentViewCount(obj) {
+    obj.views = obj.views + 1;
+    return this._http.patch("/api/boardContent/viewCount", obj)
+      .map(result => this.result = result.json().data);
   }
 
   getGuestBook() {
@@ -48,7 +58,8 @@ export class DataService {
     return this._http.patch("/api/guestBook", del_comment);
   }
   addGuestBook(gb_info) {
-    return this._http.post("/api/guestBook", gb_info);
+    return this._http.post("/api/guestBook", gb_info)
+      .map(result => this.result = result.json().data);
   }
 
   getUserInfo() {
@@ -64,6 +75,7 @@ export class DataService {
       type: 'guest'
     }
     return this._http.post("/api/userInfo", add_data)
+      .map(result => this.result = result.json().data);
   }
 
   getStudyTopMenu() {
@@ -71,7 +83,8 @@ export class DataService {
       .map(result => this.result = result.json().data);
   }
   addStudyTopMenu(topMenu_info) {
-    return this._http.post("/api/studyTopMenu", topMenu_info);
+    return this._http.post("/api/studyTopMenu", topMenu_info)
+      .map(result => this.result = result.json().data);
   }
   deleteStudyTopMenu(topMenu_info) {
     return this._http.patch("/api/studyTopMenu", topMenu_info);
@@ -81,23 +94,27 @@ export class DataService {
       .map(result => this.result = result.json().data);
   }
   addStudySubMenu(subMenu_info) {
-    return this._http.post("/api/studySubMenu", subMenu_info);
+    return this._http.post("/api/studySubMenu", subMenu_info)
+      .map(result => this.result = result.json().data);
   }
   deleteStudySubMenu(subMenu_info) {
     return this._http.patch("/api/studySubMenu", subMenu_info);
   }
 
   addAccessMainLog(access_info) {
-    return this._http.post("/api/accessMainLog", access_info);
+    return this._http.post("/api/accessMainLog", access_info)
+      .map(result => this.result = result.json().data);
   }
   addAccessLoginLog(access_info) {
-    return this._http.post("/api/accessLoginLog", access_info);
+    return this._http.post("/api/accessLoginLog", access_info)
+      .map(result => this.result = result.json().data);
   }
   getAccessStudyLog() {
     return this._http.get("/api/accessStudyLog")
       .map(result => this.result = result.json().data);
   }
   addAccessStudyLog(access_info) {
-    return this._http.post("/api/accessStudyLog", access_info);
+    return this._http.post("/api/accessStudyLog", access_info)
+      .map(result => this.result = result.json().data);
   }
 }
