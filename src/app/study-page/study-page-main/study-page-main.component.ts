@@ -391,6 +391,13 @@ export class StudyPageMainComponent implements OnInit {
     this.board_content = new Array();
     await this.getBoardContent(obj.super, obj.order, this.cur_page);
 
+    for (var i = 0; i < this.nav_top_menu.length; i++) {
+      if (this.nav_top_menu[i].id == obj.super) {
+        this.cur_top_menu = this.nav_top_menu[i].title;
+        break;
+      }
+    }
+
     // 페이지 넘버링 처리
     this.cur_page_list = new Array();
     this.total_page_num =  Math.ceil(this.total_content_num / this.cur_page_cnt);
