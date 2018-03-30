@@ -141,7 +141,7 @@
           <div class="nav_top_menu_item cp" title="주 메뉴" role="button" tabindex="0" [(ngModel)]="cur_top_menu" (keypress)="topMenu(menu_top, list_top_i)" (click)="topMenu(menu_top, list_top_i)" ngDefaultControl>{{menu_top.title}}</div>
           <div class="nav_top_menu_delete cp" *ngIf="getSessionIsLogin() == 'master'" title="주 메뉴 삭제 버튼" label="주 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="topMenuDelete(menu_top)" (click)="topMenuDelete(menu_top)">메뉴 삭제</div>
           <table *ngIf="menu_top.menu_top_btn">
-          <tr *ngFor="let menu_sub of nav_sub_menu">
+          <tr *ngFor="let menu_sub of getNavSubMenu(menu_top.id)">
               <div *ngIf="menu_top.id == menu_sub.super">
               <td class="nav_sub_menu" [ngClass]="{'sub_master_mod':getSessionIsLogin() == 'master'}" ngDefaultControl>
                 <div class="nav_sub_menu_item cp" style="width:7.5em;" title="서브 메뉴" role="button" tabindex="0" [(ngModel)]="cur_sub_menu" (keypress)="subMenu(menu_sub)" (click)="subMenu(menu_sub)" ngDefaultControl>{{menu_sub.title}}</div>

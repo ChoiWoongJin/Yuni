@@ -480,6 +480,16 @@ export class StudyPageMainComponent implements OnInit {
 
     console.log('[System] Moving board page succenss');
   }
+  getNavSubMenu(menu_top_id) {
+    var nav_sub_menu = new Array();
+    var cnt = 0;
+    for (var i = 0; i < this.nav_sub_menu.length; i++) {
+      if (this.nav_sub_menu[i].super == menu_top_id) {
+        nav_sub_menu[cnt++] = this.nav_sub_menu[i];
+      }
+    }
+    return nav_sub_menu;
+  }
   // 주 메뉴 추가
   topMenuAdd() {
     if (this.nav_top_menu_title_input != null && this.nav_top_menu_title_input != '') {

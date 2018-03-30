@@ -64,6 +64,7 @@
 .td_checkbox{width:6em};
 
 
+
 @media(max-width:40em){
 .study-header>.study-nav-button{position:absolute;left:2%;margin-top:3em;display:inherit;}
 .study-page .study-body{padding-left:0;padding-right:0;overflow: visible;}
