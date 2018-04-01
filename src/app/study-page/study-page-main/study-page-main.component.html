@@ -15,6 +15,33 @@
   </div>
 </div>
 <div class="study-body">
+
+<!-- header의 버튼으로 nav를 끄고 키도록 -->
+<div class="study-nav" role="menu" *ngIf="list_button == true">
+  <div style="float:right;">
+  <table id="nav_menu" class="nav_menu_table" summary="블로그의 전체 메뉴를 구성하는 테이블">
+  <tr *ngFor="let menu_top of nav_top_menu; let list_top_i = index">
+      <td class="nav_top_menu">
+          <div class="nav_top_menu_item cp" title="주 메뉴" role="button" tabindex="0" [(ngModel)]="cur_top_menu" (keypress)="topMenu(menu_top, list_top_i)" (click)="topMenu(menu_top, list_top_i)" ngDefaultControl>{{menu_top.title}}</div>
+          <div class="nav_top_menu_delete cp" *ngIf="getSessionIsLogin() == 'master'" title="주 메뉴 삭제 버튼" label="주 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="topMenuDelete(menu_top)" (click)="topMenuDelete(menu_top)">메뉴 삭제</div>
+          <table *ngIf="menu_top.menu_top_btn">
+          <tr *ngFor="let menu_sub of getNavSubMenu(menu_top.id)">
+              <td class="nav_sub_menu" [ngClass]="{'sub_master_mod':getSessionIsLogin() == 'master'}" ngDefaultControl>
+                <div class="nav_sub_menu_item cp" style="width:7.5em;" title="서브 메뉴" role="button" tabindex="0" [(ngModel)]="cur_sub_menu" (keypress)="subMenu(menu_sub)" (click)="subMenu(menu_sub)" ngDefaultControl>{{menu_sub.title}}</div>
+                <div class="nav_sub_menu_delete cp" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" title="서브 메뉴 삭제 버튼" label="서브 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="subMenuDelete(menu_sub)" (click)="subMenuDelete(menu_sub)">메뉴 삭제</div>
+              </td>
+          </tr>
+          </table>
+          <input id="nav_sub_menu_add_{{list_top_i}}" title="서브 메뉴 추가 입력창" type="text" placeholder="서브 메뉴 이름" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" style="margin-left:2.4em;width:9.6em;">
+          <div class="nav_menu_add cp btn" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" title="서브 메뉴 추가 버튼" label="서브 메뉴 추가 버튼" role="button" type="submit" tabindex="0" (keypress)="subMenuAdd(menu_top, list_top_i)" (click)="subMenuAdd(menu_top, list_top_i)" style="display:block;margin-left:2.8em;margin-bottom:0.2em;">메뉴 추가</div>
+      </td>
+  </tr>
+  </table>
+  <input id="nav_top_menu_add" title="주 메뉴 추가 입력창" type="text" placeholder="주 메뉴 이름" *ngIf="getSessionIsLogin() == 'master'" [(ngModel)]="nav_top_menu_title_input">
+  <div class="nav_menu_add cp btn" *ngIf="getSessionIsLogin() == 'master'" title="주 메뉴 추가 버튼" label="주 메뉴 추가 버튼" role="button" tabindex="0" (keypress)="topMenuAdd()" (click)="topMenuAdd()">메뉴 추가</div>
+  </div>
+</div>
+
 <div class="study-main">
   <!--홈 View-->
   <div style="margin:1em;" *ngIf="is_home">
@@ -129,36 +156,15 @@
           </div>
           <div style="text-align:center;font-weight:bold;color:#909090;font-size:0.8em;">Last Page : {{total_page_num}}</div>
       </div>
+      <div>
+        <div style="display:inline;margin:auto;">
+          <input id="" title="글 검색 입력창" type="text" placeholder="검색 단어 입력" [(ngModel)]="nav_top_menu_title_input">
+          <div style="display:inline;" class=" cp btn" role="button" tabindex="0" (keypress)="searchContent()" (click)="searchContent()">검색</div>
+        </div>
+      </div>
   </div>
 </div>
 
-<!-- header의 버튼으로 nav를 끄고 키도록 -->
-<div class="study-nav" role="menu" *ngIf="list_button == true">
-  <div style="float:right;">
-  <table id="nav_menu" class="nav_menu_table" summary="블로그의 전체 메뉴를 구성하는 테이블">
-  <tr *ngFor="let menu_top of nav_top_menu; let list_top_i = index">
-      <td class="nav_top_menu">
-          <div class="nav_top_menu_item cp" title="주 메뉴" role="button" tabindex="0" [(ngModel)]="cur_top_menu" (keypress)="topMenu(menu_top, list_top_i)" (click)="topMenu(menu_top, list_top_i)" ngDefaultControl>{{menu_top.title}}</div>
-          <div class="nav_top_menu_delete cp" *ngIf="getSessionIsLogin() == 'master'" title="주 메뉴 삭제 버튼" label="주 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="topMenuDelete(menu_top)" (click)="topMenuDelete(menu_top)">메뉴 삭제</div>
-          <table *ngIf="menu_top.menu_top_btn">
-          <tr *ngFor="let menu_sub of getNavSubMenu(menu_top.id)">
-              <div *ngIf="menu_top.id == menu_sub.super">
-              <td class="nav_sub_menu" [ngClass]="{'sub_master_mod':getSessionIsLogin() == 'master'}" ngDefaultControl>
-                <div class="nav_sub_menu_item cp" style="width:7.5em;" title="서브 메뉴" role="button" tabindex="0" [(ngModel)]="cur_sub_menu" (keypress)="subMenu(menu_sub)" (click)="subMenu(menu_sub)" ngDefaultControl>{{menu_sub.title}}</div>
-                <div class="nav_sub_menu_delete cp" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" title="서브 메뉴 삭제 버튼" label="서브 메뉴 삭제 버튼" role="button" type="submit" tabindex="0" (keypress)="subMenuDelete(menu_sub)" (click)="subMenuDelete(menu_sub)">메뉴 삭제</div>
-              </td>
-              </div>
-          </tr>
-          </table>
-          <input id="nav_sub_menu_add_{{list_top_i}}" title="서브 메뉴 추가 입력창" type="text" placeholder="서브 메뉴 이름" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" style="margin-left:2.4em;width:9.6em;">
-          <div class="nav_menu_add cp btn" *ngIf="menu_top.menu_top_btn && getSessionIsLogin() == 'master'" title="서브 메뉴 추가 버튼" label="서브 메뉴 추가 버튼" role="button" type="submit" tabindex="0" (keypress)="subMenuAdd(menu_top, list_top_i)" (click)="subMenuAdd(menu_top, list_top_i)" style="display:block;margin-left:2.8em;margin-bottom:0.2em;">메뉴 추가</div>
-      </td>
-  </tr>
-  </table>
-  <input id="nav_top_menu_add" title="주 메뉴 추가 입력창" type="text" placeholder="주 메뉴 이름" *ngIf="getSessionIsLogin() == 'master'" [(ngModel)]="nav_top_menu_title_input">
-  <div class="nav_menu_add cp btn" *ngIf="getSessionIsLogin() == 'master'" title="주 메뉴 추가 버튼" label="주 메뉴 추가 버튼" role="button" tabindex="0" (keypress)="topMenuAdd()" (click)="topMenuAdd()">메뉴 추가</div>
-  </div>
-</div>
 
 <div class="study-ad">
   <p>Ad</p>

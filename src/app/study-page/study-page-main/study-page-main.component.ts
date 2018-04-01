@@ -564,6 +564,9 @@ export class StudyPageMainComponent implements OnInit {
     this.deleteStudySubMenu(obj);
     this.getStudySubMenu(); // sub 메뉴를 재호출
   }
+  searchContent() {
+    
+  }
   // ---------------------------------------------------------
 
   searchGoogle(q) {

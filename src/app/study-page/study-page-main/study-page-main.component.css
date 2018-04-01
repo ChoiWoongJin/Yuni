@@ -12,12 +12,16 @@
 .breadcrumb_search_google:before{color:#404040;font-family:"FontAwesome";content:"\f0d0";margin-right:0.2em;}
 .breadcrumb_search_google>.breadcrumb_search_googl_btn{height:1.7em;margin-left:-0.5em;}
 /* .study-page>.study-body>*{border:5px solid green;} */
-.study-page .study-body{padding-left:200px;padding-right:150px;overflow:hidden;}
+/* .study-page .study-body{padding-left:200px;padding-right:150px;overflow:hidden;} */
 .study-page .study-body>*{float:left;padding-bottom:2500px;margin-bottom:-2500px;}
-.study-page .study-body .study-main{width:100%;}
-.study-page .study-body .study-nav{width:200px;margin-left:-100%;left:-200px;position:relative;}
-.study-page .study-body .study-ad{width:150px;margin-right:-150px;}
-.study-page footer{clear: both;}
+/* .study-page .study-body .study-main{width:100%;} */
+.study-body{display:flex;}
+.study-main{width:100%;}
+/* .study-page .study-body .study-nav{width:200px;margin-left:-100%;left:-200px;position:relative;}
+.study-page .study-body .study-ad{width:150px;margin-right:-150px;} */
+.study-nav, .study-ad{flex-basis:12em;flex-shrink:0;}
+.study-footer{text-align:center;}
+/* .study-page footer{clear: both;text-align:center;} */
 
 .board_content_table{width:100%;color:#777}
 .board_content_table thead tr th{height:2em;color:#fff;font-weight:bold;background:#333;vertical-align:middle;}
