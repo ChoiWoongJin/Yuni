@@ -565,7 +565,7 @@ export class StudyPageMainComponent implements OnInit {
     this.getStudySubMenu(); // sub 메뉴를 재호출
   }
   searchContent() {
-    // take powerful serach function !
+    // take powerful serach function !!
   }
   // ---------------------------------------------------------
 
