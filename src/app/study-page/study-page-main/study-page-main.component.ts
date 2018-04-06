@@ -564,8 +564,23 @@ export class StudyPageMainComponent implements OnInit {
     this.deleteStudySubMenu(obj);
     this.getStudySubMenu(); // sub 메뉴를 재호출
   }
-  searchContent() {
+  searchContent(input) {
     // take powerful serach function !!
+
+    // [요건] input 파라미터를 단순한 단어가 아닌, &, "", -, +와같은 문자열의 조합으로 받아 검색 기능을 갈=ㅇ화
+    //        마치 구글, 네이버 검색창 처럼
+
+    // 1. input 값을 이용해서 db에 데이터를 요청하는 로직
+    //    1.1 단순 단어가 입력된 경우
+    //    this.getBoardContent(super_id, sub_order, page)를 발전시켜서
+    //    this.getBoardContent(super_id, sub_order, page, input)과 같이 검색단어를 이용해서 데이터를 요청
+    //    ?????? mongodb 검색기능이 있는지 확인 필요!
+
+    //    1.2 복합 단어가 입력된 경우
+
+    // 2. db에서 받아온 데이터를 화면에서 볼 수 있도록 조합
+    //    this.board_content 에 받은 데이터를 mapping
+
   }
   // ---------------------------------------------------------
 
