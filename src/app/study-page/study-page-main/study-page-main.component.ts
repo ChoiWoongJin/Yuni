@@ -574,12 +574,14 @@ export class StudyPageMainComponent implements OnInit {
     //    1.1 단순 단어가 입력된 경우
     //    this.getBoardContent(super_id, sub_order, page)를 발전시켜서
     //    this.getBoardContent(super_id, sub_order, page, input)과 같이 검색단어를 이용해서 데이터를 요청
-    //    ?????? mongodb 검색기능이 있는지 확인 필요!
+    //    ???? mongodb 검색기능이 있는지 확인 필요!
+    //    ???? 페이징해서 데이터를 받아 올 것인지, 받아온 데이터를 가지고 페이징 처리 할 것인지
 
     //    1.2 복합 단어가 입력된 경우
 
     // 2. db에서 받아온 데이터를 화면에서 볼 수 있도록 조합
     //    this.board_content 에 받은 데이터를 mapping
+
 
   }
   // ---------------------------------------------------------
