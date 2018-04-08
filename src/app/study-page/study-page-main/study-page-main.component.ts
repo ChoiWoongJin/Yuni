@@ -575,6 +575,7 @@ export class StudyPageMainComponent implements OnInit {
     //    this.getBoardContent(super_id, sub_order, page)를 발전시켜서
     //    this.getBoardContent(super_id, sub_order, page, input)과 같이 검색단어를 이용해서 데이터를 요청
     //    ???? mongodb 검색기능이 있는지 확인 필요!
+    //         검색은 가능하나 한글에 대해 full-text 검색은 지원 안하는듯?
     //    ???? 페이징해서 데이터를 받아 올 것인지, 받아온 데이터를 가지고 페이징 처리 할 것인지
 
     //    1.2 복합 단어가 입력된 경우
