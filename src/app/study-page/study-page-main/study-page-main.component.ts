@@ -577,6 +577,7 @@ export class StudyPageMainComponent implements OnInit {
     //    ???? mongodb 검색기능이 있는지 확인 필요!
     //         검색은 가능하나 한글에 대해 full-text 검색은 지원 안하는듯?
     //    ???? 페이징해서 데이터를 받아 올 것인지, 받아온 데이터를 가지고 페이징 처리 할 것인지
+    //    ???? ???? mongodb에서 검색결과를 페이징해서 가져오는 방법을 최대한 강구!
 
     //    1.2 복합 단어가 입력된 경우
 
