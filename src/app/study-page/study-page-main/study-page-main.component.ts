@@ -565,6 +565,11 @@ export class StudyPageMainComponent implements OnInit {
     this.getStudySubMenu(); // sub 메뉴를 재호출
   }
   searchContent(input) {
+    if (input == null || input == "") {
+    // input값이 입력될 경우에만 검색 실행할 것인지?
+    // 입력 값 없으면 메시지 처리? 아니면 무반응?
+    } else {
+
     // take powerful serach function !!
 
     // [요건] input 파라미터를 단순한 단어가 아닌, &, "", -, +와같은 문자열의 조합으로 받아 검색 기능을 갈=ㅇ화
@@ -583,7 +588,7 @@ export class StudyPageMainComponent implements OnInit {
 
     // 2. db에서 받아온 데이터를 화면에서 볼 수 있도록 조합
     //    this.board_content 에 받은 데이터를 mapping
-
+    }
 
   }
   // ---------------------------------------------------------
