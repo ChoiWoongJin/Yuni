@@ -157,10 +157,12 @@
           <div style="text-align:center;font-weight:bold;color:#909090;font-size:0.8em;">Last Page : {{total_page_num}}</div>
       </div>
       <div>
-        <div style="display:inline;margin:auto;">
-          <input id="" title="글 검색 입력창" type="text" placeholder="검색 단어 입력" [(ngModel)]="nav_top_menu_title_input">
-          <div style="display:inline;" class=" cp btn" role="button" tabindex="0" (keypress)="searchContent()" (click)="searchContent()">검색</div>
-        </div>
+        <table style="margin:auto;">
+        <tr>
+          <td><input style="height:2em;" id="" title="글 검색 입력창" type="text" placeholder="검색 단어 입력" [(ngModel)]="search_word"></td>
+          <td><div style="display:inline;" class="cp btn" role="button" tabindex="0" (keypress)="searchContent(search_word)" (click)="searchContent(search_word)">검색</div></td>
+        </tr>
+        </table>
       </div>
   </div>
 </div>

@@ -569,7 +569,7 @@ export class StudyPageMainComponent implements OnInit {
     // input값이 입력될 경우에만 검색 실행할 것인지?
     // 입력 값 없으면 메시지 처리? 아니면 무반응?
     } else {
-
+      console.log("[System] 검색단어 : ", input);
     // take powerful serach function !!
 
     // [요건] input 파라미터를 단순한 단어가 아닌, &, "", -, +와같은 문자열의 조합으로 받아 검색 기능을 갈=ㅇ화
