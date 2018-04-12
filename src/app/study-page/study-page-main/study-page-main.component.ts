@@ -569,22 +569,34 @@ export class StudyPageMainComponent implements OnInit {
     // input값이 입력될 경우에만 검색 실행할 것인지?
     // 입력 값 없으면 메시지 처리? 아니면 무반응?
     } else {
-      console.log("[System] 검색단어 : ", input);
-    // take powerful serach function !!
+      // take powerful serach function !!
 
-    // [요건] input 파라미터를 단순한 단어가 아닌, &, "", -, +와같은 문자열의 조합으로 받아 검색 기능을 갈=ㅇ화
-    //        마치 구글, 네이버 검색창 처럼
+      // [요건] input 파라미터를 단순한 단어가 아닌, &, "", -, +와같은 문자열의 조합으로 받아 검색 기능을 갈=ㅇ화
+      //        마치 구글, 네이버 검색창 처럼
 
-    // 1. input 값을 이용해서 db에 데이터를 요청하는 로직
-    //    1.1 단순 단어가 입력된 경우
-    //    this.getBoardContent(super_id, sub_order, page)를 발전시켜서
-    //    this.getBoardContent(super_id, sub_order, page, input)과 같이 검색단어를 이용해서 데이터를 요청
-    //    ???? mongodb 검색기능이 있는지 확인 필요!
-    //         검색은 가능하나 한글에 대해 full-text 검색은 지원 안하는듯?
-    //    ???? 페이징해서 데이터를 받아 올 것인지, 받아온 데이터를 가지고 페이징 처리 할 것인지
-    //    ???? ???? mongodb에서 검색결과를 페이징해서 가져오는 방법을 최대한 강구!
+      // 1. input 값을 이용해서 db에 데이터를 요청하는 로직
+      //    1.1 입력값 확인 : 단순 단어인지, 복합 단어인지
+      if (input.split(' ').length == 1) {
+        //    1.2 단순 단어가 입력된 경우
+        console.log("[System] 단순 단어 : ", input);
+        // 단순단어인데 스페이스 1개만 들어가도 복합 단어로 넘어감. 왜?
+        // checkSpace 함수는 필요없지 않나? 필요성 검증 필요
 
-    //    1.2 복합 단어가 입력된 경우
+        //    this.getBoardContent(super_id, sub_order, page)를 발전시켜서
+        //    this.getBoardContent(super_id, sub_order, page, input)과 같이 검색단어를 이용해서 데이터를 요청
+        //    ???? mongodb 검색기능이 있는지 확인 필요!
+        //         검색은 가능하나 한글에 대해 full-text 검색은 지원 안하는듯?
+        //    ???? 페이징해서 데이터를 받아 올 것인지, 받아온 데이터를 가지고 페이징 처리 할 것인지
+        //    ???? ???? mongodb에서 검색결과를 페이징해서 가져오는 방법을 최대한 강구!
+      } else {
+        //    1.3 복합 단어가 입력된 경우
+        if (this.checkSpecial(input)) {
+          console.log("[System] 복합 단어(특수문자 포함) : ", input);
+        } else {
+          console.log("[System] 복합 단어(특수문자 없음) : ", input);
+        }
+
+    }
 
     // 2. db에서 받아온 데이터를 화면에서 볼 수 있도록 조합
     //    this.board_content 에 받은 데이터를 mapping
@@ -613,7 +625,7 @@ export class StudyPageMainComponent implements OnInit {
 
         this.leadingZeros(d.getHours(), 2) + ':' +
         this.leadingZeros(d.getMinutes(), 2) + ':' +
-        this.leadingZeros(d.getSeconds(), 2); // 초단위는 제외하였음
+        this.leadingZeros(d.getSeconds(), 2);
     return s;
   }
   leadingZeros(n, digits) {
@@ -624,6 +636,24 @@ export class StudyPageMainComponent implements OnInit {
             zero += '0';
     }
     return zero + n;
+  }
+  // 공백여부 체크
+  checkSpace(str) {
+    if (str.search(/\s/) != -1) {
+      return false; // 공백 없음
+    } else {
+      return true; // 공백 있음
+    }
+  }
+  // 특수문자 체크
+  checkSpecial(str) {
+    var special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+
+    if (special_pattern.test(str) == true) {
+      return true; // 특수문자 있음
+    } else {
+      return false; // 특수문자 없음
+    }
   }
   // --------------------------------------------------------------
 

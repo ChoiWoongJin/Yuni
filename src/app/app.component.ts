@@ -333,8 +333,8 @@ export class AppComponent implements OnInit {
         this.leadingZeros(d.getDate(), 2) + ' ' +
 
         this.leadingZeros(d.getHours(), 2) + ':' +
-        this.leadingZeros(d.getMinutes(), 2);/* + ':' +
-        leadingZeros(d.getSeconds(), 2)*/ // 초단위는 제외하였음
+        this.leadingZeros(d.getMinutes(), 2) + ':' +
+        this.leadingZeros(d.getSeconds(), 2);
     return s;
   }
   leadingZeros(n, digits) {
