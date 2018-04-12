@@ -576,16 +576,21 @@ export class StudyPageMainComponent implements OnInit {
 
       // 1. input 값을 이용해서 db에 데이터를 요청하는 로직
       //    1.1 입력값 확인 : 단순 단어인지, 복합 단어인지
-      if (input.split(' ').length == 1) {
+      //    1.1.1 trim()으로 양끝 공백 제거
+      input = input.trim();
+      if (this.checkSpace(input)) {
         //    1.2 단순 단어가 입력된 경우
-        console.log("[System] 단순 단어 : ", input);
-        // 단순단어인데 스페이스 1개만 들어가도 복합 단어로 넘어감. 왜?
-        // checkSpace 함수는 필요없지 않나? 필요성 검증 필요
+        if (this.checkSpecial(input)) {
+          console.log("[System] 단순 단어(특수문자 포함) : ", input);
+        } else {
+          console.log("[System] 단순 단어(특수문자 없음) : ", input);
+        }
 
         //    this.getBoardContent(super_id, sub_order, page)를 발전시켜서
         //    this.getBoardContent(super_id, sub_order, page, input)과 같이 검색단어를 이용해서 데이터를 요청
         //    ???? mongodb 검색기능이 있는지 확인 필요!
         //         검색은 가능하나 한글에 대해 full-text 검색은 지원 안하는듯?
+        //         검색시 사용하는 것은 정규식과 $or
         //    ???? 페이징해서 데이터를 받아 올 것인지, 받아온 데이터를 가지고 페이징 처리 할 것인지
         //    ???? ???? mongodb에서 검색결과를 페이징해서 가져오는 방법을 최대한 강구!
       } else {
