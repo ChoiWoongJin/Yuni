@@ -565,9 +565,12 @@ export class StudyPageMainComponent implements OnInit {
     this.getStudySubMenu(); // sub 메뉴를 재호출
   }
   searchContent(input) {
+    // ???? 검색한 결과에 대해서 페이징처리를 하기 위해서는 일반적인 게시글을 보는 경우의 페이징에 대한 처리도 같이 하여야 함
+    // ???? 즉, searchContent의 기능과 일반적으로 게시글의 list를 보는 함수의 기능이 연동되어야 함
     if (input == null || input == "") {
     // input값이 입력될 경우에만 검색 실행할 것인지?
     // 입력 값 없으면 메시지 처리? 아니면 무반응?
+    // ???? 입력값 없는 경우 해당 게시판의 검색하지 않았을 경우의 화면 보여주는게 어떨지?
     } else {
       // take powerful serach function !!
 
