@@ -567,6 +567,7 @@ export class StudyPageMainComponent implements OnInit {
   searchContent(input) {
     // ???? 검색한 결과에 대해서 페이징처리를 하기 위해서는 일반적인 게시글을 보는 경우의 페이징에 대한 처리도 같이 하여야 함
     // ???? 즉, searchContent의 기능과 일반적으로 게시글의 list를 보는 함수의 기능이 연동되어야 함
+    // ???? 기능 구현시, 1) 일반 게시글 확인 모드, 2) 검색결과 확인 모드, 이 2가지로 나누어서 구현을 생각해야 함
     if (input == null || input == "") {
     // input값이 입력될 경우에만 검색 실행할 것인지?
     // 입력 값 없으면 메시지 처리? 아니면 무반응?
