@@ -564,6 +564,7 @@ export class StudyPageMainComponent implements OnInit {
     this.deleteStudySubMenu(obj);
     this.getStudySubMenu(); // sub 메뉴를 재호출
   }
+  // study-page에서 main으로 가는 기능 있었던가...? 없으면 만들어야함
   searchContent(input) {
     // ???? 검색한 결과에 대해서 페이징처리를 하기 위해서는 일반적인 게시글을 보는 경우의 페이징에 대한 처리도 같이 하여야 함
     // ???? 즉, searchContent의 기능과 일반적으로 게시글의 list를 보는 함수의 기능이 연동되어야 함
