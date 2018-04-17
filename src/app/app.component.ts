@@ -328,16 +328,16 @@ export class AppComponent implements OnInit {
   getTimeStamp() {
     var d = new Date();
     var s =
-        this.leadingZeros(d.getFullYear(), 4) + '-' +
-        this.leadingZeros(d.getMonth() + 1, 2) + '-' +
-        this.leadingZeros(d.getDate(), 2) + ' ' +
+        this.readingZeros(d.getFullYear(), 4) + '-' +
+        this.readingZeros(d.getMonth() + 1, 2) + '-' +
+        this.readingZeros(d.getDate(), 2) + ' ' +
 
-        this.leadingZeros(d.getHours(), 2) + ':' +
-        this.leadingZeros(d.getMinutes(), 2) + ':' +
-        this.leadingZeros(d.getSeconds(), 2);
+        this.readingZeros(d.getHours(), 2) + ':' +
+        this.readingZeros(d.getMinutes(), 2) + ':' +
+        this.readingZeros(d.getSeconds(), 2);
     return s;
   }
-  leadingZeros(n, digits) {
+  readingZeros(n, digits) {
     var zero = '';
     n = n.toString();
     if (n.length < digits) {

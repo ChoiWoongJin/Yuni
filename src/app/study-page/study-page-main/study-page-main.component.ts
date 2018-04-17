@@ -62,6 +62,7 @@ export class StudyPageMainComponent implements OnInit {
   cur_sub_menu: string;
   cur_super_id: string;
   cur_sub_order: any;
+  search_word: string;
 
   board_content_menu_input: SubMenu;
   board_content_title_input: string; // 글 작성시 입력된 제목
@@ -570,6 +571,7 @@ export class StudyPageMainComponent implements OnInit {
     // ???? 즉, searchContent의 기능과 일반적으로 게시글의 list를 보는 함수의 기능이 연동되어야 함
     // ???? 기능 구현시, 1) 일반 게시글 확인 모드, 2) 검색결과 확인 모드, 이 2가지로 나누어서 구현을 생각해야 함
     // ???? ???? 위의 기능 구현시 html과 연동하여 1), 2)를 각각 나타낼 수 있도록 key값을 하나 두어야 할 듯?
+    // ???? ???? ???? html과 연동할 필요 없이 switch가 되는 key값 하나 가지고 script 짤 수 있지 않는지?
     // ???? ???? 그리고 1)일 경우 페이징과 연동해서 1)의 글의 몇 번째 페이지를 보고 있는지
     // ???? ????       2)일 경우 페이징과 연동해서 2)의 글을 몇 번째 페이지를 보고 있는지에 대한 값을 유지해야 함
     if (input == null || input == "") {
@@ -577,6 +579,7 @@ export class StudyPageMainComponent implements OnInit {
     // 입력 값 없으면 메시지 처리? 아니면 무반응?
     // ???? 입력값 없는 경우 해당 게시판의 검색하지 않았을 경우의 화면 보여주는게 어떨지?
     } else {
+      this.search_word = input;    // 값을 저장해 두고 페이징에서 사용
       // take powerful serach function !!
 
       // [요건] input 파라미터를 단순한 단어가 아닌, &, "", -, +와같은 문자열의 조합으로 받아 검색 기능을 갈=ㅇ화
@@ -631,16 +634,16 @@ export class StudyPageMainComponent implements OnInit {
   getTimeStamp() {
     var d = new Date();
     var s =
-        this.leadingZeros(d.getFullYear(), 4) + '-' +
-        this.leadingZeros(d.getMonth() + 1, 2) + '-' +
-        this.leadingZeros(d.getDate(), 2) + ' ' +
+        this.readingZeros(d.getFullYear(), 4) + '-' +
+        this.readingZeros(d.getMonth() + 1, 2) + '-' +
+        this.readingZeros(d.getDate(), 2) + ' ' +
 
-        this.leadingZeros(d.getHours(), 2) + ':' +
-        this.leadingZeros(d.getMinutes(), 2) + ':' +
-        this.leadingZeros(d.getSeconds(), 2);
+        this.readingZeros(d.getHours(), 2) + ':' +
+        this.readingZeros(d.getMinutes(), 2) + ':' +
+        this.readingZeros(d.getSeconds(), 2);
     return s;
   }
-  leadingZeros(n, digits) {
+  readingZeros(n, digits) {
     var zero = '';
     n = n.toString();
     if (n.length < digits) {
