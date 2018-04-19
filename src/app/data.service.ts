@@ -24,6 +24,21 @@ export class DataService {
         return this.result;
       });
   }
+  getSearchBoardContent(super_id, sub_order, page, page_cnt, board_content_search_word) {
+    var search_page_info = {
+      super_id: super_id,
+      sub_order: sub_order,
+      page: page,
+      page_cnt: page_cnt,
+      board_content_search_word: board_content_search_word
+    }
+    return this._http.post("/api/boardContent/search_contents", search_page_info)
+      .map(result => {
+        this.result = result.json().data;
+        this.result.total = result.json().total;
+        return this.result;
+      });
+  }
   deleteBoardContent(del_content) {
     return this._http.patch("/api/boardContent/content/isDeleted", del_content)
       .map(result => this.result = result.json().data);

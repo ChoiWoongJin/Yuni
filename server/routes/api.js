@@ -86,6 +86,59 @@ router.post('/boardContent/contents', (req, res) => {
     });
   }
 })
+// Get search boardContent As Paging
+// 아래의 코드 완전 수정해야 함. 위의 코드 그대로 따온거에 불과
+router.post('/boardContent/search_contents', (req, res) => {
+  if (req.body.sub_order == "no") {
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id } )
+      .count()
+      .then((item_size) => {
+        response.total = item_size;
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
+
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id } )
+      .sort( { "index": -1, "date": -1 } )
+      .skip((req.body.page-1)*req.body.page_cnt)
+      .limit(req.body.page_cnt)
+      .toArray()
+      .then((boardContent) => {
+          response.data = boardContent;
+          res.json(response);
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
+  } else {
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order } )
+      .count()
+      .then((item_size) => {
+        response.total = item_size;
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
+
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order } )
+      .sort( { "index": -1, "date": -1 } )
+      .skip((req.body.page-1)*req.body.page_cnt)
+      .limit(req.body.page_cnt)
+      .toArray()
+      .then((boardContent) => {
+          response.data = boardContent;
+          res.json(response);
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
+  }
+})
 // Delete boardContent document
 router.patch('/boardContent/content/isDeleted', (req, res) => {
   mongodb.collection('boardContent')

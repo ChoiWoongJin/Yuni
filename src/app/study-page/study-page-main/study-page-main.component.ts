@@ -62,7 +62,15 @@ export class StudyPageMainComponent implements OnInit {
   cur_sub_menu: string;
   cur_super_id: string;
   cur_sub_order: any;
-  search_word: string;
+  board_content_search_word: string;
+  board_content_search_selected_option: number;
+  board_content_search_option = [
+    {name:"검색 종류 선택", value:null},
+    {name:"제목", value:0},
+    {name:"내용", value:1},
+    {name:"제목+내용", value:2},
+    {name:"작성자", value:3}
+  ];
 
   board_content_menu_input: SubMenu;
   board_content_title_input: string; // 글 작성시 입력된 제목
@@ -567,6 +575,20 @@ export class StudyPageMainComponent implements OnInit {
   }
   // study-page에서 main으로 가는 기능 있었던가...? 없으면 만들어야함
   searchContent(input) {
+    // 검색 방법을 제목, 본문, 제목+본문 3가지로 나누자
+    if (this.board_content_search_selected_option == null) {
+      console.log("[System] 검색 방법 : null");
+    } else if (this.board_content_search_selected_option == 0) {
+      console.log("[System] 검색 방법 : 제목");
+    } else if (this.board_content_search_selected_option == 1) {
+      console.log("[System] 검색 방법 : 내용");
+    } else if (this.board_content_search_selected_option == 2) {
+      console.log("[System] 검색 방법 : 제목+내용");
+    } else if (this.board_content_search_selected_option == 3) {
+      console.log("[System] 검색 방법 : 작성자");
+    }
+    // ???? 그리고 이에 따른 검색 결과(DB 탐색, 페이징 처리)를 가지고 오기
+
     // ???? 검색한 결과에 대해서 페이징처리를 하기 위해서는 일반적인 게시글을 보는 경우의 페이징에 대한 처리도 같이 하여야 함
     // ???? 즉, searchContent의 기능과 일반적으로 게시글의 list를 보는 함수의 기능이 연동되어야 함
     // ???? 기능 구현시, 1) 일반 게시글 확인 모드, 2) 검색결과 확인 모드, 이 2가지로 나누어서 구현을 생각해야 함
@@ -579,7 +601,7 @@ export class StudyPageMainComponent implements OnInit {
     // 입력 값 없으면 메시지 처리? 아니면 무반응?
     // ???? 입력값 없는 경우 해당 게시판의 검색하지 않았을 경우의 화면 보여주는게 어떨지?
     } else {
-      this.search_word = input;    // 값을 저장해 두고 페이징에서 사용
+      this.board_content_search_word = input;    // 값을 저장해 두고 페이징에서 사용
       // take powerful serach function !!
 
       // [요건] input 파라미터를 단순한 단어가 아닌, &, "", -, +와같은 문자열의 조합으로 받아 검색 기능을 갈=ㅇ화

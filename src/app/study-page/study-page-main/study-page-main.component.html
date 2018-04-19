@@ -159,6 +159,11 @@
       <div>
         <table style="margin:auto;">
         <tr>
+          <td>
+            <select style="height:2em;" name="select_search_option" [(ngModel)]="board_content_search_selected_option">
+              <option *ngFor="let search_option of board_content_search_option" [ngValue]="search_option.value">{{search_option.name}}</option>
+            </select>
+          </td>
           <td><input style="height:2em;" id="" title="글 검색 입력창" type="text" placeholder="검색 단어 입력" [(ngModel)]="search_word"></td>
           <td><div style="display:inline;" class="cp btn" role="button" tabindex="0" (keypress)="searchContent(search_word)" (click)="searchContent(search_word)">검색</div></td>
         </tr>
