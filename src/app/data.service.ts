@@ -24,13 +24,14 @@ export class DataService {
         return this.result;
       });
   }
-  getSearchBoardContent(super_id, sub_order, page, page_cnt, board_content_search_word) {
+  getSearchBoardContent(super_id, sub_order, page, page_cnt, board_content_search_word, board_content_search_selected_option) {
     var search_page_info = {
       super_id: super_id,
       sub_order: sub_order,
       page: page,
       page_cnt: page_cnt,
-      board_content_search_word: board_content_search_word
+      board_content_search_word: board_content_search_word,
+      board_content_search_selected_option: board_content_search_selected_option
     }
     return this._http.post("/api/boardContent/search_contents", search_page_info)
       .map(result => {
