@@ -599,10 +599,6 @@ export class StudyPageMainComponent implements OnInit {
       console.log("[System] 검색 방법 : 제목+내용");
     } else if (this.board_content_search_selected_option == 3) {
       console.log("[System] 검색 방법 : 작성자");
-      this.board_content = new Array();
-      await this.getSearchBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page, input, this.board_content_search_selected_option);
-      // 뒤에 페이징 처리도 해줘야 함
-      // subMenu() 함수와 같은 처리, 현재 page 변경, 현재 search 결과 보기 모드로 변경 등
     }
     // ???? 그리고 이에 따른 검색 결과(DB 탐색, 페이징 처리)를 가지고 오기
     // ???? ???? (X)검색 방법에 따라 여러개의 dao를 만들 것인지?
@@ -635,6 +631,10 @@ export class StudyPageMainComponent implements OnInit {
         if (this.checkSpecial(input)) {
           console.log("[System] 단순 단어(특수문자 포함) : ", input);
         } else {
+          this.board_content = new Array();
+          await this.getSearchBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page, input, this.board_content_search_selected_option);
+          // 뒤에 페이징 처리도 해줘야 함
+          // subMenu() 함수와 같은 처리, 현재 page 변경, 현재 search 결과 보기 모드로 변경 등
           console.log("[System] 단순 단어(특수문자 없음) : ", input);
         }
 

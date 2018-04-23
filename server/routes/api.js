@@ -91,11 +91,74 @@ router.post('/boardContent/contents', (req, res) => {
 router.post('/boardContent/search_contents', (req, res) => {
   var option = req.body.board_content_search_selected_option;
   if (option == 0) { // 제목
-
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order, "title": { $regex: req.body.board_content_search_word } } )
+      .count()
+      .then((item_size) => {
+        response.total = item_size;
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order, "title": { $regex: req.body.board_content_search_word } } )
+      .sort( { "index": -1, "date": -1 } )
+      .skip((req.body.page-1)*req.body.page_cnt)
+      .limit(req.body.page_cnt)
+      .toArray()
+      .then((boardContent) => {
+          response.data = boardContent;
+          res.json(response);
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
   } else if (option == 1) { // 내용
-
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order, "contents": { $regex: req.body.board_content_search_word } } )
+      .count()
+      .then((item_size) => {
+        response.total = item_size;
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order, "contents": { $regex: req.body.board_content_search_word } } )
+      .sort( { "index": -1, "date": -1 } )
+      .skip((req.body.page-1)*req.body.page_cnt)
+      .limit(req.body.page_cnt)
+      .toArray()
+      .then((boardContent) => {
+          response.data = boardContent;
+          res.json(response);
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
   } else if (option == 2) { // 제목+내용
-
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order, $or: [ { "title": { $regex: req.body.board_content_search_word } }, { "contents": { $regex: req.body.board_content_search_word } } ] } )
+      .count()
+      .then((item_size) => {
+        response.total = item_size;
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
+    mongodb.collection('boardContent')
+      .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order, $or: [ { "title": { $regex: req.body.board_content_search_word } }, { "contents": { $regex: req.body.board_content_search_word } } ] } )
+      .sort( { "index": -1, "date": -1 } )
+      .skip((req.body.page-1)*req.body.page_cnt)
+      .limit(req.body.page_cnt)
+      .toArray()
+      .then((boardContent) => {
+          response.data = boardContent;
+          res.json(response);
+      })
+      .catch((err) => {
+          sendError(err, res);
+    });
   } else if (option == 3) { // 작성자
     mongodb.collection('boardContent')
       .find( { "isDeleted": false, "super_id": req.body.super_id, "sub_order": req.body.sub_order, "author": { $regex: req.body.board_content_search_word } } )
