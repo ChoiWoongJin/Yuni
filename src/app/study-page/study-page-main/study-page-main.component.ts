@@ -611,10 +611,11 @@ export class StudyPageMainComponent implements OnInit {
     // ???? ???? ???? html과 연동할 필요 없이 switch가 되는 key값 하나 가지고 script 짤 수 있지 않는지?
     // ???? ???? 그리고 1)일 경우 페이징과 연동해서 1)의 글의 몇 번째 페이지를 보고 있는지
     // ???? ????       2)일 경우 페이징과 연동해서 2)의 글을 몇 번째 페이지를 보고 있는지에 대한 값을 유지해야 함
-    if (input == null || input == "") {
-    // input값이 입력될 경우에만 검색 실행할 것인지?
-    // 입력 값 없으면 메시지 처리? 아니면 무반응?
-    // ???? 입력값 없는 경우 해당 게시판의 검색하지 않았을 경우의 화면 보여주는게 어떨지?
+    if (this.board_content_search_selected_option == null || input == null || input == "") {
+      console.log("[System] 검색 입력값 부족");
+      // input값이 입력될 경우에만 검색 실행할 것인지?
+      // 입력 값 없으면 메시지 처리? 아니면 무반응?
+      // ???? 입력값 없는 경우 해당 게시판의 검색하지 않았을 경우의 화면 보여주는게 어떨지?
     } else {
       this.board_content_search_word = input;    // 값을 저장해 두고 페이징에서 사용
       // take powerful serach function !!
