@@ -62,6 +62,7 @@ export class StudyPageMainComponent implements OnInit {
   cur_sub_menu: string;
   cur_super_id: string;
   cur_sub_order: any;
+  board_content_kind: number; // 자료 종류 : 0(일반), 1(검색)
   board_content_search_word: string;
   board_content_search_selected_option: number;
   board_content_search_option = [
@@ -406,12 +407,11 @@ export class StudyPageMainComponent implements OnInit {
     this.is_write = false; // 글쓰기 화면이 아님을 알림
     this.is_modify = false; // 글 수정이 아님을 알림
     this.cur_page = 1; // 페이지 번호를 1로 초기화
-    this.board_content_menu_input = obj;
     this.cur_sub_menu = obj.title;
     this.cur_super_id = obj.super;
     this.cur_sub_order = obj.order;
     this.board_content = new Array();
-    // search 가 아닌, 일반 list 라는 것을 의미하는 값 설정
+    this.board_content_kind = 0;// search 가 아닌, 일반 list 라는 것을 의미하는 값 설정
     await this.getBoardContent(obj.super, obj.order, this.cur_page);
 
     for (var i = 0; i < this.nav_top_menu.length; i++) {
@@ -437,19 +437,20 @@ export class StudyPageMainComponent implements OnInit {
   }
   // content 검색
   async searchContent(input) {
-    // 일반 list 가 아닌, search 라는 것을 의미하는 값 설정
+    this.board_content_kind = 1;// 일반 list 가 아닌, search 라는 것을 의미하는 값 설정
+    this.cur_page = 1; // 페이지 번호를 1로 초기화
 
     // 검색 방법을 제목, 본문, 제목+본문 3가지로 나누자
     if (this.board_content_search_selected_option == null) {
-      console.log("[System] 검색 방법 : null");
+        console.log("[System] 검색 방법 : null");
     } else if (this.board_content_search_selected_option == 0) {
-      console.log("[System] 검색 방법 : 제목");
+        console.log("[System] 검색 방법 : 제목");
     } else if (this.board_content_search_selected_option == 1) {
-      console.log("[System] 검색 방법 : 내용");
+        console.log("[System] 검색 방법 : 내용");
     } else if (this.board_content_search_selected_option == 2) {
-      console.log("[System] 검색 방법 : 제목+내용");
+        console.log("[System] 검색 방법 : 제목+내용");
     } else if (this.board_content_search_selected_option == 3) {
-      console.log("[System] 검색 방법 : 작성자");
+        console.log("[System] 검색 방법 : 작성자");
     }
     // ???? 그리고 이에 따른 검색 결과(DB 탐색, 페이징 처리)를 가지고 오기
     // ???? ???? (X)검색 방법에 따라 여러개의 dao를 만들 것인지?
@@ -464,125 +465,199 @@ export class StudyPageMainComponent implements OnInit {
     // ???? ???? 그리고 1)일 경우 페이징과 연동해서 1)의 글의 몇 번째 페이지를 보고 있는지
     // ???? ????       2)일 경우 페이징과 연동해서 2)의 글을 몇 번째 페이지를 보고 있는지에 대한 값을 유지해야 함
     if (this.board_content_search_selected_option == null || input == null || input == "") {
-      console.log("[System] 검색 입력값 부족");
-      // input값이 입력될 경우에만 검색 실행할 것인지?
-      // 입력 값 없으면 메시지 처리? 아니면 무반응?
-      // ???? 입력값 없는 경우 해당 게시판의 검색하지 않았을 경우의 화면 보여주는게 어떨지?
+        console.log("[System] 검색 입력값 부족");
+        // input값이 입력될 경우에만 검색 실행할 것인지?
+        // 입력 값 없으면 메시지 처리? 아니면 무반응?
+        // ???? 입력값 없는 경우 해당 게시판의 검색하지 않았을 경우의 화면 보여주는게 어떨지?
     } else {
-      this.board_content_search_word = input;    // 값을 저장해 두고 페이징에서 사용
-      // take powerful serach function !!
+        this.board_content_search_word = input;    // 값을 저장해 두고 페이징에서 사용
+        // take powerful serach function !!
 
-      // [요건] input 파라미터를 단순한 단어가 아닌, &, "", -, +와같은 문자열의 조합으로 받아 검색 기능을 갈=ㅇ화
-      //        마치 구글, 네이버 검색창 처럼
+        // [요건] input 파라미터를 단순한 단어가 아닌, &, "", -, +와같은 문자열의 조합으로 받아 검색 기능을 갈=ㅇ화
+        //        마치 구글, 네이버 검색창 처럼
 
-      // 1. input 값을 이용해서 db에 데이터를 요청하는 로직
-      //    1.1 입력값 확인 : 단순 단어인지, 복합 단어인지
-      //    1.1.1 trim()으로 양끝 공백 제거
-      input = input.trim();
-      if (this.checkSpace(input)) {
-        //    1.2 단순 단어가 입력된 경우
-        if (this.checkSpecial(input)) {
-          console.log("[System] 단순 단어(특수문자 포함) : ", input);
+        // 1. input 값을 이용해서 db에 데이터를 요청하는 로직
+        //    1.1 입력값 확인 : 단순 단어인지, 복합 단어인지
+        //    1.1.1 trim()으로 양끝 공백 제거
+        input = input.trim();
+        if (this.checkSpace(input)) {
+            //    1.2 단순 단어가 입력된 경우
+            if (this.checkSpecial(input)) {
+              console.log("[System] 단순 단어(특수문자 포함) : ", input);
+            } else {
+              this.board_content = new Array();
+              await this.getSearchBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page, input, this.board_content_search_selected_option);
+              // subMenu() 함수와 같은 처리, 현재 page 변경, 현재 search 결과 보기 모드로 변경 등
+              console.log("[System] 단순 단어(특수문자 없음) : ", input);
+            }
+
+            //    this.getBoardContent(super_id, sub_order, page)를 발전시켜서
+            //    this.getBoardContent(super_id, sub_order, page, input)과 같이 검색단어를 이용해서 데이터를 요청
+            //    ???? mongodb 검색기능이 있는지 확인 필요!
+            //         검색은 가능하나 한글에 대해 full-text 검색은 지원 안하는듯?
+            //         검색시 /찾는단어/ 로 하면 SQL의 like와 같은 효과
+            //             ㄴ 추가로 index를 지정해서 사용하면 비용을 줄일 수 있다
+            //                 ㄴ title, contents, author를 index 지정해서 사용하는건 어떰?        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //         복합 단어 검색시 사용하는 것은 정규식과 $or
+            //    ???? 페이징해서 데이터를 받아 올 것인지, 받아온 데이터를 가지고 페이징 처리 할 것인지
+            //    ???? ???? mongodb에서 검색결과를 페이징해서 가져오는 방법을 최대한 강구!
         } else {
-          this.board_content = new Array();
-          await this.getSearchBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page, input, this.board_content_search_selected_option);
-          // 뒤에 페이징 처리도 해줘야 함
-          // subMenu() 함수와 같은 처리, 현재 page 변경, 현재 search 결과 보기 모드로 변경 등
-          console.log("[System] 단순 단어(특수문자 없음) : ", input);
+            //    1.3 복합 단어가 입력된 경우
+            if (this.checkSpecial(input)) {
+              console.log("[System] 복합 단어(특수문자 포함) : ", input);
+            } else {
+              console.log("[System] 복합 단어(특수문자 없음) : ", input);
+            }
         }
-
-        //    this.getBoardContent(super_id, sub_order, page)를 발전시켜서
-        //    this.getBoardContent(super_id, sub_order, page, input)과 같이 검색단어를 이용해서 데이터를 요청
-        //    ???? mongodb 검색기능이 있는지 확인 필요!
-        //         검색은 가능하나 한글에 대해 full-text 검색은 지원 안하는듯?
-        //         검색시 /찾는단어/ 로 하면 SQL의 like와 같은 효과
-        //             ㄴ 추가로 index를 지정해서 사용하면 비용을 줄일 수 있다
-        //                 ㄴ title, contents, author를 index 지정해서 사용하는건 어떰?        !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //         복합 단어 검색시 사용하는 것은 정규식과 $or
-        //    ???? 페이징해서 데이터를 받아 올 것인지, 받아온 데이터를 가지고 페이징 처리 할 것인지
-        //    ???? ???? mongodb에서 검색결과를 페이징해서 가져오는 방법을 최대한 강구!
-      } else {
-        //    1.3 복합 단어가 입력된 경우
-        if (this.checkSpecial(input)) {
-          console.log("[System] 복합 단어(특수문자 포함) : ", input);
+        // 2. db에서 받아온 데이터를 화면에서 볼 수 있도록 조합
+        //    this.board_content 에 받은 데이터를 mapping
+        // 페이징 처리는 단순, 복합 단어 구분 없이, 이곳에서 한꺼번에 처리하도록 함
+        // 페이지 넘버링 처리
+        this.cur_page_list = new Array();
+        this.total_page_num =  Math.ceil(this.total_content_num / this.cur_page_cnt);
+        if (this.total_page_num > this.max_show_page_num) { // 전체 페이지 수가 maxShowPageNum의 개수보다 클 경우
+            for (var i = 1; i <= this.max_show_page_num; i++) {
+                this.cur_page_list[i-1] = i;
+            }
         } else {
-          console.log("[System] 복합 단어(특수문자 없음) : ", input);
+            for (var i = 1; i <= this.total_page_num; i++) { // 전체 페이지 수가 maxShowPageNum의 개수보다 작을 경우
+                this.cur_page_list[i-1] = i;
+            }
         }
-
-    }
-
-    // 2. db에서 받아온 데이터를 화면에서 볼 수 있도록 조합
-    //    this.board_content 에 받은 데이터를 mapping
     }
   }
   // 페이지 이동 이벤트
   async boardContentPageMove(obj) {
     // 처음부터, search중인지, 아니면 일반 list인지 검증을 먹고 들어가야 할 듯
-    this.total_page_num =  Math.ceil(this.total_content_num / this.cur_page_cnt);
-    if (obj == 'first') {
-        this.cur_page = 1;
-    } else if (obj == 'back') {
-        if (this.cur_page > 1) {
-            this.cur_page = this.cur_page - 1;
+    if (this.board_content_kind == 0) { // normal content list
+        if (obj == 'first') {
+            this.cur_page = 1;
+        } else if (obj == 'back') {
+            if (this.cur_page > 1) {
+                this.cur_page = this.cur_page - 1;
+            }
+        } else if (obj == 'next') {
+            if (this.cur_page < this.total_page_num) {
+                this.cur_page = this.cur_page + 1;
+            }
+        } else if (obj == 'last') {
+            this.cur_page = this.total_page_num;
+        } else {
+            this.cur_page = obj;
         }
-    } else if (obj == 'next') {
-        if (this.cur_page < this.total_page_num) {
-            this.cur_page = this.cur_page + 1;
-        }
-    } else if (obj == 'last') {
-        this.cur_page = this.total_page_num;
-    } else {
-        this.cur_page = obj;
-    }
 
-    // view에 뿌릴 게시판 item의 목록을 수정
-    this.board_content = new Array();
-    await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
-    console.log("게시판 내용 : ", this.board_content);
+        // view에 뿌릴 게시판 item의 목록을 수정
+        this.board_content = new Array();
+        await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
+        console.log("게시판 내용 : ", this.board_content);
 
-    // 페이지 넘버링 처리
-    this.cur_page_list = new Array();
-    var cnt = 0;
-    var half_max_show_page_num = Math.ceil(this.max_show_page_num/2);
-    if (this.cur_page > half_max_show_page_num) {
-        for (var i = 0; i < this.max_show_page_num/2; i++) {
-            this.cur_page_list[cnt] = this.cur_page - half_max_show_page_num + i;
-            cnt++;
-        }
-        if (this.total_page_num >= this.cur_page + half_max_show_page_num - 1) {
-            for (var i = 0; i <= half_max_show_page_num - 1; i++) {
-                this.cur_page_list[cnt] = this.cur_page + i;
+        // 페이지 넘버링 처리
+        this.cur_page_list = new Array();
+        var cnt = 0;
+        var half_max_show_page_num = Math.ceil(this.max_show_page_num/2);
+        if (this.cur_page > half_max_show_page_num) {
+            for (var i = 0; i < this.max_show_page_num/2; i++) {
+                this.cur_page_list[cnt] = this.cur_page - half_max_show_page_num + i;
                 cnt++;
+            }
+            if (this.total_page_num >= this.cur_page + half_max_show_page_num - 1) {
+                for (var i = 0; i <= half_max_show_page_num - 1; i++) {
+                    this.cur_page_list[cnt] = this.cur_page + i;
+                    cnt++;
+                }
+            } else {
+                for (var i = 0; i <= (this.total_page_num - this.cur_page); i++) {
+                    this.cur_page_list[cnt] = this.cur_page + i ;
+                    cnt++;
+                }
             }
         } else {
-            for (var i = 0; i <= (this.total_page_num - this.cur_page); i++) {
-                this.cur_page_list[cnt] = this.cur_page + i ;
-                cnt++;
-            }
-        }
-    } else {
-        for (var i = 0; i < this.cur_page ; i++) {
-            this.cur_page_list[cnt] = cnt + 1;
-            cnt++;
-        }
-        if (this.total_page_num >= this.cur_page + half_max_show_page_num - 1) {
-            var curPagingNum = cnt;
-            if (this.max_show_page_num > this.total_page_num) {
-                curPagingNum = curPagingNum + (this.max_show_page_num - this.total_page_num);
-            }
-            for (var i = 0; i < this.max_show_page_num - curPagingNum; i++) {
+            for (var i = 0; i < this.cur_page ; i++) {
                 this.cur_page_list[cnt] = cnt + 1;
                 cnt++;
             }
+            if (this.total_page_num >= this.cur_page + half_max_show_page_num - 1) {
+                var curPagingNum = cnt;
+                if (this.max_show_page_num > this.total_page_num) {
+                    curPagingNum = curPagingNum + (this.max_show_page_num - this.total_page_num);
+                }
+                for (var i = 0; i < this.max_show_page_num - curPagingNum; i++) {
+                    this.cur_page_list[cnt] = cnt + 1;
+                    cnt++;
+                }
+            } else {
+                for (var i = 0; i < (this.total_page_num - this.cur_page); i++) {
+                    this.cur_page_list[cnt] = cnt + 1;
+                    cnt++;
+                }
+            }
+        }
+        console.log('[System] Moving normal content board page success');
+    } else if (this.board_content_kind == 1) { // search content list
+        if (obj == 'first') {
+            this.cur_page = 1;
+        } else if (obj == 'back') {
+            if (this.cur_page > 1) {
+                this.cur_page = this.cur_page - 1;
+            }
+        } else if (obj == 'next') {
+            if (this.cur_page < this.total_page_num) {
+                this.cur_page = this.cur_page + 1;
+            }
+        } else if (obj == 'last') {
+            this.cur_page = this.total_page_num;
         } else {
-            for (var i = 0; i < (this.total_page_num - this.cur_page); i++) {
+            this.cur_page = obj;
+        }
+
+        // view에 뿌릴 게시판 item의 목록을 수정
+        this.board_content = new Array();
+        await this.getSearchBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page, input, this.board_content_search_selected_option);
+        console.log("게시판 내용 : ", this.board_content);
+
+        // 페이지 넘버링 처리
+        this.cur_page_list = new Array();
+        var cnt = 0;
+        var half_max_show_page_num = Math.ceil(this.max_show_page_num/2);
+        if (this.cur_page > half_max_show_page_num) {
+            for (var i = 0; i < this.max_show_page_num/2; i++) {
+                this.cur_page_list[cnt] = this.cur_page - half_max_show_page_num + i;
+                cnt++;
+            }
+            if (this.total_page_num >= this.cur_page + half_max_show_page_num - 1) {
+                for (var i = 0; i <= half_max_show_page_num - 1; i++) {
+                    this.cur_page_list[cnt] = this.cur_page + i;
+                    cnt++;
+                }
+            } else {
+                for (var i = 0; i <= (this.total_page_num - this.cur_page); i++) {
+                    this.cur_page_list[cnt] = this.cur_page + i ;
+                    cnt++;
+                }
+            }
+        } else {
+            for (var i = 0; i < this.cur_page ; i++) {
                 this.cur_page_list[cnt] = cnt + 1;
                 cnt++;
             }
+            if (this.total_page_num >= this.cur_page + half_max_show_page_num - 1) {
+                var curPagingNum = cnt;
+                if (this.max_show_page_num > this.total_page_num) {
+                    curPagingNum = curPagingNum + (this.max_show_page_num - this.total_page_num);
+                }
+                for (var i = 0; i < this.max_show_page_num - curPagingNum; i++) {
+                    this.cur_page_list[cnt] = cnt + 1;
+                    cnt++;
+                }
+            } else {
+                for (var i = 0; i < (this.total_page_num - this.cur_page); i++) {
+                    this.cur_page_list[cnt] = cnt + 1;
+                    cnt++;
+                }
+            }
         }
+        console.log('[System] Moving search content board page success');
     }
-
-    console.log('[System] Moving board page succenss');
   }
   getNavSubMenu(menu_top_id) {
     var nav_sub_menu = new Array();
