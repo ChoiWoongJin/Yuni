@@ -318,10 +318,14 @@ export class StudyPageMainComponent implements OnInit {
   }
   // ---------------------------------------------------------------
   // +++++++++++++++++++++++ 글 읽기 관련 함수 +++++++++++++++++++++++
-  async boardContentViewCancelBtn() {
+  async boardContentViewCancelBtn() { // 나가기
     this.is_view = false;
     this.is_modify = false; // 글 수정이 아님을 알림
-    await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
+    if (this.board_content_kind == 0) {
+      await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
+    } else if (this.board_content_kind == 1){
+      await this.getSearchBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page, this.board_content_search_word, this.board_content_search_selected_option);
+    }
   }
   boardContentViewRewriteBtn() {
     this.is_view = false;
@@ -423,7 +427,7 @@ export class StudyPageMainComponent implements OnInit {
 
     // 페이지 넘버링 처리
     this.cur_page_list = new Array();
-    this.total_page_num =  Math.ceil(this.total_content_num / this.cur_page_cnt);
+    this.total_page_num = Math.ceil(this.total_content_num / this.cur_page_cnt);
     if (this.total_page_num > this.max_show_page_num) { // 전체 페이지 수가 maxShowPageNum의 개수보다 클 경우
         for (var i = 1; i <= this.max_show_page_num; i++) {
             this.cur_page_list[i-1] = i;
@@ -514,7 +518,7 @@ export class StudyPageMainComponent implements OnInit {
         // 페이징 처리는 단순, 복합 단어 구분 없이, 이곳에서 한꺼번에 처리하도록 함
         // 페이지 넘버링 처리
         this.cur_page_list = new Array();
-        this.total_page_num =  Math.ceil(this.total_content_num / this.cur_page_cnt);
+        this.total_page_num = Math.ceil(this.total_content_num / this.cur_page_cnt);
         if (this.total_page_num > this.max_show_page_num) { // 전체 페이지 수가 maxShowPageNum의 개수보다 클 경우
             for (var i = 1; i <= this.max_show_page_num; i++) {
                 this.cur_page_list[i-1] = i;
@@ -612,7 +616,7 @@ export class StudyPageMainComponent implements OnInit {
 
         // view에 뿌릴 게시판 item의 목록을 수정
         this.board_content = new Array();
-        await this.getSearchBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page, input, this.board_content_search_selected_option);
+        await this.getSearchBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page, this.board_content_search_word, this.board_content_search_selected_option);
         console.log("게시판 내용 : ", this.board_content);
 
         // 페이지 넘버링 처리
