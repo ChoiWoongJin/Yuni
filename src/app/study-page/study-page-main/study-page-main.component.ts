@@ -321,9 +321,9 @@ export class StudyPageMainComponent implements OnInit {
   async boardContentViewCancelBtn() { // 나가기
     this.is_view = false;
     this.is_modify = false; // 글 수정이 아님을 알림
-    if (this.board_content_kind == 0) {
+    if (this.board_content_kind == 0) { // 일반 게시글
       await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
-    } else if (this.board_content_kind == 1){
+    } else if (this.board_content_kind == 1){ // 검색 게시글
       await this.getSearchBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page, this.board_content_search_word, this.board_content_search_selected_option);
     }
   }
@@ -458,8 +458,7 @@ export class StudyPageMainComponent implements OnInit {
     }
     // ???? 그리고 이에 따른 검색 결과(DB 탐색, 페이징 처리)를 가지고 오기
     // ???? ???? (X)검색 방법에 따라 여러개의 dao를 만들 것인지?
-    // ???? ???? (O)아니면 하나의 dao로 다양한 상황에 대응하도록 할 것인지?    <- 이 방법을 일단 채택
-    // ???? ???? ???? api.js 수정할 필요 있음
+    // !!!! !!!! (O)아니면 하나의 dao로 다양한 상황에 대응하도록 할 것인지?    <- 이 방법을 일단 채택
 
     // ???? 검색한 결과에 대해서 페이징처리를 하기 위해서는 일반적인 게시글을 보는 경우의 페이징에 대한 처리도 같이 하여야 함
     // ???? 즉, searchContent의 기능과 일반적으로 게시글의 list를 보는 함수의 기능이 연동되어야 함
@@ -468,11 +467,16 @@ export class StudyPageMainComponent implements OnInit {
     // ???? ???? ???? html과 연동할 필요 없이 switch가 되는 key값 하나 가지고 script 짤 수 있지 않는지?
     // ???? ???? 그리고 1)일 경우 페이징과 연동해서 1)의 글의 몇 번째 페이지를 보고 있는지
     // ???? ????       2)일 경우 페이징과 연동해서 2)의 글을 몇 번째 페이지를 보고 있는지에 대한 값을 유지해야 함
+    // !!!! !!!! !!!! paging에 대해서만 구분하도록 처리함
+    // !!!! !!!! !!!! 1) sub menu 클릭 -> 일반 게시글 확인, 2) 검색 기능 사용 -> 검색 게시글 확인, 3) 다시 다른 sub menu를 누르면, 일반 게시글 확인 모드로 변경
     if (this.board_content_search_selected_option == null || input == null || input == "") {
         console.log("[System] 검색 입력값 부족");
         // input값이 입력될 경우에만 검색 실행할 것인지?
         // 입력 값 없으면 메시지 처리? 아니면 무반응?
         // ???? 입력값 없는 경우 해당 게시판의 검색하지 않았을 경우의 화면 보여주는게 어떨지?
+        // !!!! !!!! 입력값 없는 경우, 전체 게시글이 나오도록 설정
+        await this.getBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page);
+        this.board_content_kind = 0;
     } else {
         this.board_content_search_word = input;    // 값을 저장해 두고 페이징에서 사용
         // take powerful serach function !!
@@ -490,6 +494,9 @@ export class StudyPageMainComponent implements OnInit {
               console.log("[System] 단순 단어(특수문자 포함) : ", input);
             } else {
               this.board_content = new Array();
+              /**
+                * this.board_content 에 받은 데이터를 mapping
+                */
               await this.getSearchBoardContent(this.cur_super_id, this.cur_sub_order, this.cur_page, input, this.board_content_search_selected_option);
               // subMenu() 함수와 같은 처리, 현재 page 변경, 현재 search 결과 보기 모드로 변경 등
               console.log("[System] 단순 단어(특수문자 없음) : ", input);
@@ -505,6 +512,7 @@ export class StudyPageMainComponent implements OnInit {
             //         복합 단어 검색시 사용하는 것은 정규식과 $or
             //    ???? 페이징해서 데이터를 받아 올 것인지, 받아온 데이터를 가지고 페이징 처리 할 것인지
             //    ???? ???? mongodb에서 검색결과를 페이징해서 가져오는 방법을 최대한 강구!
+            //    !!!! !!!! !!!! 페이징해서 데이터를 받는 방식으로 일단 처리함
         } else {
             //    1.3 복합 단어가 입력된 경우
             if (this.checkSpecial(input)) {
@@ -513,21 +521,21 @@ export class StudyPageMainComponent implements OnInit {
               console.log("[System] 복합 단어(특수문자 없음) : ", input);
             }
         }
-        // 2. db에서 받아온 데이터를 화면에서 볼 수 있도록 조합
-        //    this.board_content 에 받은 데이터를 mapping
-        // 페이징 처리는 단순, 복합 단어 구분 없이, 이곳에서 한꺼번에 처리하도록 함
-        // 페이지 넘버링 처리
-        this.cur_page_list = new Array();
-        this.total_page_num = Math.ceil(this.total_content_num / this.cur_page_cnt);
-        if (this.total_page_num > this.max_show_page_num) { // 전체 페이지 수가 maxShowPageNum의 개수보다 클 경우
-            for (var i = 1; i <= this.max_show_page_num; i++) {
-                this.cur_page_list[i-1] = i;
-            }
-        } else {
-            for (var i = 1; i <= this.total_page_num; i++) { // 전체 페이지 수가 maxShowPageNum의 개수보다 작을 경우
-                this.cur_page_list[i-1] = i;
-            }
-        }
+    }
+    /**
+    * 2. db에서 받아온 데이터를 화면에서 볼 수 있도록 조합
+    * 페이징 처리는 단순, 복합 단어 구분 없이, 이곳에서 한꺼번에 처리하도록 함
+    */
+    this.cur_page_list = new Array();
+    this.total_page_num = Math.ceil(this.total_content_num / this.cur_page_cnt);
+    if (this.total_page_num > this.max_show_page_num) { // 전체 페이지 수가 maxShowPageNum의 개수보다 클 경우
+      for (var i = 1; i <= this.max_show_page_num; i++) {
+        this.cur_page_list[i-1] = i;
+      }
+    } else {
+      for (var i = 1; i <= this.total_page_num; i++) { // 전체 페이지 수가 maxShowPageNum의 개수보다 작을 경우
+        this.cur_page_list[i-1] = i;
+      }
     }
   }
   // 페이지 이동 이벤트
