@@ -517,6 +517,7 @@ export class StudyPageMainComponent implements OnInit {
             //    1.3 복합 단어가 입력된 경우
             //    ???? 어떤 특수문자를 허용할 것인지에 대해 먼저 정하도록 하자
             //    ???? ???? - : 문자 앞에 이 특수문자가 있으면, 해당 문자는 제외한 검색
+            //    ???? ???? OR : 문자 사이에 대문자 OR 이 들어가면, OR 검색을 실시
             if (this.checkSpecial(input)) {
               console.log("[System] 복합 단어(특수문자 포함) : ", input);
             } else {
