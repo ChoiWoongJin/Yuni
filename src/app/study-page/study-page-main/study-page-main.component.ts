@@ -318,6 +318,10 @@ export class StudyPageMainComponent implements OnInit {
   }
   // ---------------------------------------------------------------
   // +++++++++++++++++++++++ 글 읽기 관련 함수 +++++++++++++++++++++++
+  goHomeBtn() { // 홈 화면으로 이동
+    // 홈 화면으로 이동할 때 변경해야 할 parameter를 잘 설정해야 함
+  }
+
   async boardContentViewCancelBtn() { // 나가기
     this.is_view = false;
     this.is_modify = false; // 글 수정이 아님을 알림
