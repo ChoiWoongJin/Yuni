@@ -1,7 +1,7 @@
 <div class="study-page">
 <div class="study-header">
   <div class="study-nav-button cp" title="리스트 버튼" role="button" tabindex="0" [(ngModel)]="list_button" (keypress)="listMenu()" (click)="listMenu()" ngDefaultControl><img src="../../assets/images/list_icon.svg" alt="리스트 아이콘"></div>
-  <div class="sh_banner"><img src="../../assets/images/study_banner.png" alt="배너 아이콘"></div>
+  <div class="sh_banner"><img class="cp" src="../../assets/images/study_banner.png" alt="배너 아이콘" (click)="goHomeBtn()"></div>
 </div>
 <h2>브레드크럼</h2>
 <div class="study-breadcrumb">
