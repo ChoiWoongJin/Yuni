@@ -328,6 +328,7 @@ export class StudyPageMainComponent implements OnInit {
     this.board_content = new Array();
     this.board_content_kind = 0; // 일반 글 보기
     this.cur_page_list = new Array();
+    // ???? ???? 홈 화면 관련해서 더 필요한 parameter나 필요 없는 parameter는 없는지 확인 필요
   }
 
   async boardContentViewCancelBtn() { // 나가기
