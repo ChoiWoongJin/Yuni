@@ -328,7 +328,9 @@ export class StudyPageMainComponent implements OnInit {
     this.board_content = new Array();
     this.board_content_kind = 0; // 일반 글 보기
     this.cur_page_list = new Array();
-    // ???? ???? 홈 화면 관련해서 더 필요한 parameter나 필요 없는 parameter는 없는지 확인 필요
+    // ???? 홈 화면 관련해서 더 필요한 parameter나 필요 없는 parameter는 없는지 확인 필요
+    // ???? 홈 화면 이동 시, 필요 없는 데이터는 없애는 것이? ( new 등을 이용 )
+    // ???? ???? 홈 화면 이외에도 필요 없는 데이터 삭제 로직 필요? ( 성능 차이 있는지 확인 )
   }
 
   async boardContentViewCancelBtn() { // 나가기
