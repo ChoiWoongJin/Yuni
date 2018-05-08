@@ -485,7 +485,7 @@ export class StudyPageMainComponent implements OnInit {
     // !!!! !!!! !!!! paging에 대해서만 구분하도록 처리함
     // !!!! !!!! !!!! 1) sub menu 클릭 -> 일반 게시글 확인, 2) 검색 기능 사용 -> 검색 게시글 확인, 3) 다시 다른 sub menu를 누르면, 일반 게시글 확인 모드로 변경
     if (this.board_content_search_selected_option == null || input == null || input == "") {
-        console.log("[System] 검색 입력값 부족");
+        // console.log("[System] 검색 입력값 부족");
         // input값이 입력될 경우에만 검색 실행할 것인지?
         // 입력 값 없으면 메시지 처리? 아니면 무반응?
         // ???? 입력값 없는 경우 해당 게시판의 검색하지 않았을 경우의 화면 보여주는게 어떨지?
@@ -533,6 +533,7 @@ export class StudyPageMainComponent implements OnInit {
             //    ???? 어떤 특수문자를 허용할 것인지에 대해 먼저 정하도록 하자
             //    ???? ???? - : 문자 앞에 이 특수문자가 있으면, 해당 문자는 제외한 검색
             //    ???? ???? OR : 문자 사이에 대문자 OR 이 들어가면, OR 검색을 실시
+            //    ???? ???? 복합 단어를 처리하는 별도의 로직을 만들어야만 함
             if (this.checkSpecial(input)) {
               console.log("[System] 복합 단어(특수문자 포함) : ", input);
             } else {
