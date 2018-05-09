@@ -34,6 +34,9 @@ interface BoardContent {
   isDeleted: boolean;
 }
 
+// mongodb의 collection에 입력되는 data에 대해서도 한번 정리할 필요가 있음
+// ???? mongodb도 일반 sql을 사용하는 db의 query처럼 컬럼 순서에 따라서, 조회 성능이 바뀌는지?
+
 @Component({
   selector: 'app-study-page-main',
   templateUrl: './study-page-main.component.html',
