@@ -37,7 +37,8 @@ interface BoardContent {
 // mongodb의 collection에 입력되는 data에 대해서도 한번 정리할 필요가 있음
 // ???? mongodb도 일반 sql을 사용하는 db의 query처럼 컬럼 순서에 따라서, 조회 성능이 바뀌는지?
 // 각 function마다 기능에 대한 주석을 한국어, 영어, 일본어로 작성할 필요가 있음
-// 다국어 처리 하도록 할까?
+// 다국어 처리 하도록 하자
+// 회원가입시 개인정보를 수집, 관리할 것인지? 만약 할 것이면 동의를 받아야 함
 
 @Component({
   selector: 'app-study-page-main',
