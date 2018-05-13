@@ -40,6 +40,7 @@ interface BoardContent {
 // 다국어 처리 하도록 하자
 // 회원가입시 개인정보를 수집, 관리할 것인지? 만약 할 것이면 동의를 받아야 함
 // 좀 더 각 function마다 기능을 세분화하여, 공통적으로 사용할 부분은 따로 common 영역으로 두도록 고안하자
+// 홈 화면 어떻게 꾸밀지 구상
 
 @Component({
   selector: 'app-study-page-main',
