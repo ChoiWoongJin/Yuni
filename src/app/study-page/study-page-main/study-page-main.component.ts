@@ -42,6 +42,7 @@ interface BoardContent {
 // 좀 더 각 function마다 기능을 세분화하여, 공통적으로 사용할 부분은 따로 common 영역으로 두도록 고안하자
 // 홈 화면 어떻게 꾸밀지 구상
 // 모바일 환경에 맞게 CSS 보강
+// 게시글 댓글 기능 추가할 것
 
 @Component({
   selector: 'app-study-page-main',
