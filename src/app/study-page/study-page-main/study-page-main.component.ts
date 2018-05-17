@@ -43,6 +43,8 @@ interface BoardContent {
 // 홈 화면 어떻게 꾸밀지 구상
 // 모바일 환경에 맞게 CSS 보강
 // 게시글 댓글 기능 추가할 것
+// ???? 대댓글 같은 경우 가능 하도록 할 것인지?
+// 자유게시판 만들 것인지 구상
 
 @Component({
   selector: 'app-study-page-main',
