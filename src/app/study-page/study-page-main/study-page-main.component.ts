@@ -45,6 +45,8 @@ interface BoardContent {
 // 게시글 댓글 기능 추가할 것
 // ???? 대댓글 같은 경우 가능 하도록 할 것인지?
 // 자유게시판 만들 것인지 구상
+// 시스템 공통 테이블 만들 것인지?
+// 쿼리, 버튼모양 등 주요 코드는 저장
 
 @Component({
   selector: 'app-study-page-main',
