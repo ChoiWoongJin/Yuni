@@ -65,6 +65,7 @@ interface BoardContent {
 // ???? 광고 + 조회수는 스크롤 아래로 내리면 보이기 시작하고 고정하도록 구성
 // Study Page 뿐 아니라, 다른 페이지도 어떻게 구성할 것인지 생각
 // ???? Life Page : 일상 생활에 대한 페이지
+// ???? ???? 일기도 포함..?
 
 @Component({
   selector: 'app-study-page-main',
