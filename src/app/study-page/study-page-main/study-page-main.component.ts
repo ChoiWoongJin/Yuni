@@ -66,6 +66,7 @@ interface BoardContent {
 // Study Page 뿐 아니라, 다른 페이지도 어떻게 구성할 것인지 생각
 // ???? Life Page : 일상 생활에 대한 페이지
 // ???? ???? 일기도 포함..?
+// 코딩 스타일 통일할 필요가 있음
 
 @Component({
   selector: 'app-study-page-main',
