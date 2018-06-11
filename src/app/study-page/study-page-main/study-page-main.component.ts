@@ -90,6 +90,8 @@ interface BoardContent {
 // ???? 추가로 개발시 사용될 수 있는 성능 체크 방법을 생각해 볼 것
 // ???? ???? 크롬 개발모드 등을 활용하는것도 한 방법.
 
+// 테스트 도구는 어떤 것을 사용할 것인지?
+
 @Component({
   selector: 'app-study-page-main',
   templateUrl: './study-page-main.component.html',
