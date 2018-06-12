@@ -91,6 +91,7 @@ interface BoardContent {
 // ???? ???? 크롬 개발모드 등을 활용하는것도 한 방법.
 
 // 테스트 도구는 어떤 것을 사용할 것인지?
+// ???? 어떤 테스트를 할 것인지에 대해서도 생각
 
 @Component({
   selector: 'app-study-page-main',
