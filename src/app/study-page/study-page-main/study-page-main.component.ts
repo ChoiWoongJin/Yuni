@@ -73,6 +73,7 @@ interface BoardContent {
 
 // 웹표준, 웹접근성 지키고 있는지 확인
 // ???? html 포맷 등 확인
+// ???? Http 통신을 RESTful 하게 하고 있는지
 
 // 자유게시판 만들 것인지 구상
 
