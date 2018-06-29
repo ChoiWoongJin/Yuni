@@ -117,6 +117,8 @@ interface BoardContent {
 // ???? 3. 모듈 처리 속도 테스트
 // ???? 4. 불필요, 중복 여부 테스트
 
+// 라이브러리 제작 구상
+
 @Component({
   selector: 'app-study-page-main',
   templateUrl: './study-page-main.component.html',
