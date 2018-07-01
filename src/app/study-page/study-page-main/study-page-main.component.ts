@@ -118,6 +118,9 @@ interface BoardContent {
 // ???? 4. 불필요, 중복 여부 테스트
 
 // 라이브러리 제작 구상
+// ???? 공통 컴퍼넌트 등 재사용 가능한 코드들
+// ???? 같은 성격을 가진 것은 한곳으로 모으자
+// ???? 선분류 후구현
 
 @Component({
   selector: 'app-study-page-main',
