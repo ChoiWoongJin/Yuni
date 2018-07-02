@@ -122,6 +122,8 @@ interface BoardContent {
 // ???? 같은 성격을 가진 것은 한곳으로 모으자
 // ???? 선분류 후구현
 
+// 공통 CSS 따로 제대로 구분할 것
+
 @Component({
   selector: 'app-study-page-main',
   templateUrl: './study-page-main.component.html',
