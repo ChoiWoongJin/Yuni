@@ -129,6 +129,7 @@ interface BoardContent {
 // ???? 선분류 후구현
 
 // 공통 CSS 따로 제대로 구분할 것
+// ???? 공통 CSS만 아니라, CSS+ts를 묶은 공통 영역도 필요
 
 @Component({
   selector: 'app-study-page-main',
