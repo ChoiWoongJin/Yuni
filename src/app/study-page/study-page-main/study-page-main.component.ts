@@ -155,6 +155,8 @@ interface BoardContent {
 // 공통 CSS 따로 제대로 구분할 것
 // ???? 공통 CSS만 아니라, CSS+ts를 묶은 공통 영역도 필요
 
+// 내 페이지만의 특장점 기획, 개발, 적용하기!
+
 @Component({
   selector: 'app-study-page-main',
   templateUrl: './study-page-main.component.html',
