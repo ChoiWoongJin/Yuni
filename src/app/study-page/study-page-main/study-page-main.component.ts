@@ -156,6 +156,7 @@ interface BoardContent {
 // ???? 공통 CSS만 아니라, CSS+ts를 묶은 공통 영역도 필요
 
 // 내 페이지만의 특장점 기획, 개발, 적용하기!
+// ???? 1. 통계 관련 처리 모듈을 만들까?
 
 @Component({
   selector: 'app-study-page-main',
