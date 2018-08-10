@@ -157,6 +157,8 @@ interface BoardContent {
 
 // 내 페이지만의 특장점 기획, 개발, 적용하기!
 // ???? 1. 통계 관련 처리 모듈을 만들까?
+// ???? 2. AI 관련 모듈을 만들까?
+// ???? ???? 능동학습 관련
 
 @Component({
   selector: 'app-study-page-main',
