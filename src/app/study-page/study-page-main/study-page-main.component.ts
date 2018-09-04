@@ -176,6 +176,10 @@ interface BoardContent {
 // ???? 8. API 같은 것은?
 // ???? ???? 위에서 언급한 것들을 개발하고 API화
 
+// 데이터베이스 효율 극대화 방안 모색
+// ???? NoSQL의 장점은?
+// ???? MongoDB의 장점은?
+
 @Component({
   selector: 'app-study-page-main',
   templateUrl: './study-page-main.component.html',
