@@ -179,6 +179,7 @@ interface BoardContent {
 // 데이터베이스 효율 극대화 방안 모색
 // ???? NoSQL의 장점은?
 // ???? MongoDB의 장점은?
+// ???? 데이터구조는 어떻게 하는 편이 좋은지?
 
 @Component({
   selector: 'app-study-page-main',
