@@ -181,6 +181,8 @@ interface BoardContent {
 // ???? MongoDB의 장점은?
 // ???? 데이터구조는 어떻게 하는 편이 좋은지?
 
+// 각 기능을 좀 더 독립적으로 세분화 할 수 없는지 생각
+
 @Component({
   selector: 'app-study-page-main',
   templateUrl: './study-page-main.component.html',
