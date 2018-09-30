@@ -188,6 +188,7 @@ interface BoardContent {
 // 1. Angular2+의 특징
 // ====================
 // 컴포넌트 등
+// Angular2+ 구조 등
 
 @Component({
   selector: 'app-study-page-main',
