@@ -190,6 +190,7 @@ interface BoardContent {
 // 컴포넌트 등
 // Angular2+ 구조 등
 // 효율적으로 프로젝트를 구현하는 방법 등
+// 필수적으로 알아야 하는 단어 등
 
 @Component({
   selector: 'app-study-page-main',
