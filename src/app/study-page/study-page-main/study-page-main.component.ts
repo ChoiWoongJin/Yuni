@@ -193,6 +193,7 @@ interface BoardContent {
 // 필수적으로 알아야 하는 단어 등
 // Angular2+를 주로 사용하는 업체를 알아 보는 것도 재밌을 듯?
 // Angular2+ 기초~고급 기술 목록화 정리
+// typescript, javascript, css, html도 다시 공부해보자
 
 @Component({
   selector: 'app-study-page-main',
